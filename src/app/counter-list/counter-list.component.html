@@ -1,0 +1,5 @@
+<div>
+  <button (click)="inc($event)">+</button>
+  <button (click)="dec($event)">-</button>
+</div>
+<app-counter *ngFor="let counter of counters$ | async" [counter]="counter"></app-counter>
