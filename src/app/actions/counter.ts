@@ -1,4 +1,4 @@
-import { Action, ActionCreator } from 'redux';
+import { Action } from 'redux';
 
 export interface ICounterAction extends Action {
   id?: number;
