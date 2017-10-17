@@ -1,5 +1,5 @@
 import { CounterActionService } from './actions/counter';
-import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,6 +8,7 @@ import { AppCounterListComponent } from './counter-list/counter-list.component';
 import { AppCounterComponent } from './counter/counter.component';
 import { rootReducer } from './reducers';
 import { IAppState, initialState } from './state';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,22 @@ import { IAppState, initialState } from './state';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(store: NgRedux<IAppState>) {
-    store.configureStore(rootReducer, initialState);
+  constructor(
+    private store: NgRedux<IAppState>,
+    private devTools: DevToolsExtension
+  ) {
+    const middlewares = [];
+
+    let enchancers = [];
+    if (!environment.production) {
+      enchancers = [...enchancers, devTools.enhancer()];
+    }
+
+    store.configureStore(
+      rootReducer,
+      initialState,
+      middlewares,
+      enchancers
+    );
   }
 }
