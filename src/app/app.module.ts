@@ -2,6 +2,7 @@ import { CounterActionService } from './actions/counter';
 import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { createLogger } from 'redux-logger';
 
 import { AppComponent } from './app.component';
 import { AppCounterListComponent } from './counter-list/counter-list.component';
@@ -29,9 +30,12 @@ export class AppModule {
     private devTools: DevToolsExtension
   ) {
     const middlewares = [];
+    if (!environment.production) {
+      middlewares.push(createLogger());
+    }
 
     let enchancers = [];
-    if (!environment.production) {
+    if (!environment.production && window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']) {
       enchancers = [...enchancers, devTools.enhancer()];
     }
 
