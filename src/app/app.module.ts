@@ -10,6 +10,7 @@ import { AppCounterComponent } from './counter/counter.component';
 import { rootReducer } from './reducers';
 import { IAppState, initialState } from './state';
 import { environment } from '../environments/environment';
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
-    NgReduxModule
+    NgReduxModule,
+    AppRoutingModule
   ],
   providers: [CounterActionService],
   bootstrap: [AppComponent]
