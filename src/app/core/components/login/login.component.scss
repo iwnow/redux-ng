@@ -1,0 +1,29 @@
+:host {
+	display: block;
+	height: 100%;
+	background-color: lavender;
+	position: relative;
+}
+
+.login-container {
+	position: absolute;
+	left: 0;
+	right: 0;    
+    top: 12em;
+}
+
+mat-card {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.login-header-image {
+	background: url(/assets/core/login/logologin.r.png) no-repeat;
+	background-size: auto 40px;
+	background-position-x: 8px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}

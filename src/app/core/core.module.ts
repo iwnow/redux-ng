@@ -6,16 +6,27 @@ import { FacadeComponent } from './components/facade/facade.component';
 import { ReduxModule } from './redux/redux.module';
 import { CoreRouteModule } from './/core-route.module';
 
+import { MatCardModule, MatButtonModule, MatFormFieldModule,
+  MatInputModule, MatCheckboxModule
+} from '@angular/material';
+import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
+
 @NgModule({
   imports: [
     CommonModule,
     ReduxModule,
     CoreRouteModule,
-    FormsModule
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule
   ],
   declarations: [LoginComponent, FacadeComponent],
   exports: [
     CoreRouteModule
-  ]
+  ],
+  providers: [IsAuthenticatedGuard]
 })
 export class CoreModule { }
