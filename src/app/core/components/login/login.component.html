@@ -1,30 +1,45 @@
 <div class="login-container">
 
-<mat-card layout-align="center center">
-  <mat-card-header>
-    <div mat-card-avatar class="login-header-image"></div>
-    <mat-card-title>Первая Форма</mat-card-title>
-    <mat-card-subtitle>Вход</mat-card-subtitle>
-  </mat-card-header>
-    <form>
+  <mat-card layout-align="center center">
+    <mat-card-header>
+      <div mat-card-avatar
+           class="login-header-image"></div>
+      <mat-card-title>Первая Форма</mat-card-title>
+      <mat-card-subtitle>Вход</mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="loginForm"
+          novalidate>
       <mat-form-field>
-          <input matInput placeholder="Логин">
+        <input matInput
+               required
+               formControlName="email"
+               placeholder="Логин"
+               type="email">
+        <mat-error *ngIf="cEmail.invalid">Заполните логин!</mat-error>
       </mat-form-field>
       <mat-form-field>
-          <input matInput placeholder="Пароль">
+        <input matInput
+               required
+               formControlName="password"
+               placeholder="Пароль"
+               type="password">
+        <mat-error *ngIf="cPassword.invalid">Заполните пароль!</mat-error>
       </mat-form-field>
-      <mat-checkbox>Не выходить из системы</mat-checkbox>
+      <mat-checkbox formControlName="stay">Не выходить из системы</mat-checkbox>
     </form>
-  <mat-card-content>
-    
-  </mat-card-content>
+    <mat-card-content>
 
-  <button mat-raised-button color="primary">Войти</button>
-  
-  <!-- align="end" -->
-  <!-- <mat-card-actions>
+    </mat-card-content>
+
+    <button mat-raised-button
+            [disabled]="loginForm.invalid"
+            (click)="onLogin()"
+            color="primary">Войти</button>
+
+    <!-- align="end" -->
+    <!-- <mat-card-actions>
     <button mat-raised-button color="primary">Войти</button>
   </mat-card-actions> -->
-</mat-card>
+  </mat-card>
 
 </div>
