@@ -17,7 +17,7 @@ export class IsAuthenticatedGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.store
-      .select(s => !!s.appUser)
+      .select(s => !!s.core.appUser)
       .map(isUserDefined => {
         !isUserDefined && this.router.navigate([this.loginUrl]);
         return isUserDefined;

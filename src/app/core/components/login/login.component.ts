@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgRedux } from '@angular-redux/store/lib/src/components/ng-redux';
+import { IAppState } from '../../redux/models/state';
+import { actionCreators } from '../../redux/ducks/login-form';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +18,9 @@ export class LoginComponent implements OnInit {
 
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store: NgRedux<IAppState>,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -23,10 +29,20 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       stay: false
     });
+    this.store
+      .select(s => !!s.core.appUser)
+      .subscribe(isUserAuthenticated => {
+        isUserAuthenticated && this.router.navigate(['/']);
+      });
   }
 
   onLogin() {
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
+    this.store.dispatch(actionCreators.loginFormRequest({
+      isLoginRequest: true,
+      login: this.cEmail.value,
+      password: this.cPassword.value
+    }));
   }
 
 }

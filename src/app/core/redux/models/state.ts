@@ -1,18 +1,24 @@
 import { IAppUserState } from './app-user';
 import { ILoginFormState } from './login-form';
 
-export interface IAppState {
+export interface ICoreState {
 	authToken?: string;
 	appUser?: IAppUserState;
 	loginForm: ILoginFormState;
+}
+
+export interface IAppState {
+	core: ICoreState;
 	[key: string]: any;
 }
 
 export const initialState: IAppState = {
-	appUser: null,
-	loginForm: {
-		isLoginRequest: false,
-		loginError: null
+	core: {
+		appUser: null,
+		loginForm: {
+			isLoginRequest: false,
+			loginError: null
+		}
 	}
 };
 

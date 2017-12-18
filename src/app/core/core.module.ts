@@ -11,6 +11,7 @@ import {
   MatInputModule, MatCheckboxModule
 } from '@angular/material';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
+import { ReduxEpicService } from './services/redux-epic.service';
 
 @NgModule({
   imports: [
@@ -29,6 +30,6 @@ import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
   exports: [
     CoreRouteModule
   ],
-  providers: [IsAuthenticatedGuard]
+  providers: [IsAuthenticatedGuard, ReduxEpicService]
 })
 export class CoreModule { }
