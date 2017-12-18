@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { select } from '@angular-redux/store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-facade',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./facade.component.scss']
 })
 export class FacadeComponent implements OnInit {
+  @select(['core', 'appUser', 'name'])
+  userName$: Observable<string>;
 
   constructor() { }
 

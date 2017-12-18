@@ -98,7 +98,7 @@ const loginRequestEpic = (action$: ActionsObservable<any>) => {
 		.mergeMap(action => {
 			// имитируем запрос на бакенд
 			return Observable.of({ login: action.login, name: '1F' })
-				.delay(100)
+				.delay(1000)
 				.map(result => actionCreators.loginFormRequestSuccess(result))
 				.catch(error => Observable.of(actionCreators.loginFormRequestFail(error)));
 		});

@@ -14,7 +14,8 @@
                required
                formControlName="email"
                placeholder="Логин"
-               type="email">
+               type="email"
+               (keyup.enter)="onLogin()">
         <mat-error *ngIf="cEmail.invalid">Заполните логин!</mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -22,7 +23,8 @@
                required
                formControlName="password"
                placeholder="Пароль"
-               type="password">
+               type="password"
+               (keyup.enter)="onLogin()">
         <mat-error *ngIf="cPassword.invalid">Заполните пароль!</mat-error>
       </mat-form-field>
       <mat-checkbox formControlName="stay">Не выходить из системы</mat-checkbox>
@@ -34,7 +36,11 @@
     <button mat-raised-button
             [disabled]="loginForm.invalid"
             (click)="onLogin()"
-            color="primary">Войти</button>
+            color="primary">
+      <mat-icon *ngIf="!(isRequesting$ | async)">home</mat-icon>
+      <i *ngIf="isRequesting$ | async" class="fa fa-spinner fa-pulse"></i>
+      Войти
+    </button>
 
     <!-- align="end" -->
     <!-- <mat-card-actions>

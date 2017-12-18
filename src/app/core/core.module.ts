@@ -8,7 +8,7 @@ import { CoreRouteModule } from './/core-route.module';
 
 import {
   MatCardModule, MatButtonModule, MatFormFieldModule,
-  MatInputModule, MatCheckboxModule
+  MatInputModule, MatCheckboxModule, MatIconModule
 } from '@angular/material';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { ReduxEpicService } from './services/redux-epic.service';
@@ -24,7 +24,8 @@ import { ReduxEpicService } from './services/redux-epic.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   declarations: [LoginComponent, FacadeComponent],
   exports: [
