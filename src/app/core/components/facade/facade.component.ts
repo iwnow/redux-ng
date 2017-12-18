@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class FacadeComponent implements OnInit {
   @select(['core', 'appUser', 'name'])
-  userName$: Observable<string>;
+  appUserName$: Observable<string>;
 
   constructor() { }
 

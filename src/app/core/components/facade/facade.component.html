@@ -1,3 +1,27 @@
-<p>
-  Hello {{userName$ | async}}
-</p>
+<mat-toolbar color="primary" class="core-toolbar">
+  1F Demo
+
+  <span fxFlex></span>
+  {{appUserName$ | async}}
+  <mat-menu #rootMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="subMenu">Меню</button>
+    <button mat-menu-item>Выход</button>
+  </mat-menu>
+  <mat-menu #subMenu="matMenu">
+    <button mat-menu-item>Меню 1</button>
+    <button mat-menu-item>Меню 2</button>
+    <button mat-menu-item>Меню 3</button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="rootMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [opened]="true">
+    Sidenav content
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    content
+  </mat-sidenav-content>
+</mat-sidenav-container>

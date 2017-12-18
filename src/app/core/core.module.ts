@@ -8,8 +8,10 @@ import { CoreRouteModule } from './/core-route.module';
 
 import {
   MatCardModule, MatButtonModule, MatFormFieldModule,
-  MatInputModule, MatCheckboxModule, MatIconModule
+  MatInputModule, MatCheckboxModule, MatIconModule,
+  MatToolbarModule, MatSidenavModule, MatMenuModule
 } from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { ReduxEpicService } from './services/redux-epic.service';
 
@@ -25,7 +27,11 @@ import { ReduxEpicService } from './services/redux-epic.service';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
+    FlexLayoutModule
   ],
   declarations: [LoginComponent, FacadeComponent],
   exports: [

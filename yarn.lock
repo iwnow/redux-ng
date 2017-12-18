@@ -134,6 +134,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/flex-layout@^2.0.0-beta.12":
+  version "2.0.0-beta.12"
+  resolved "http://nuget-01.1forma.net:4873/@angular%2fflex-layout/-/flex-layout-2.0.0-beta.12.tgz#80970dc1d60f27fa41537659926f3238f759f343"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/forms@^5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.1.1.tgz#e38858a44e7b57b61f375087b76a79d6e2679b14"
