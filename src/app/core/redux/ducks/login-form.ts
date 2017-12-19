@@ -93,7 +93,6 @@ const reducer: Reducer<ILoginFormState> = (state: ILoginFormState, action) => {
 
 /**epics */
 const loginRequestEpic = (action$: ActionsObservable<any>) => {
-	console.log('loginRequestEpic');
 	return action$.ofType(actions.LOGIN_FORM_REQUEST)
 		.mergeMap(action => {
 			// имитируем запрос на бакенд
@@ -105,7 +104,6 @@ const loginRequestEpic = (action$: ActionsObservable<any>) => {
 };
 
 const loginRequestSuccessEpic = (action$: ActionsObservable<any>) => {
-	console.log('loginRequestSuccessEpic');
 	return action$.ofType(actions.LOGIN_FORM_REQUEST_SUCCESS)
 		.map(action => appUserDuck.actionCreators.appUserLogin({
 			login: action.login,
