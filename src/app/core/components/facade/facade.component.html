@@ -16,12 +16,26 @@
     <mat-icon>more_vert</mat-icon>
   </button>
 </mat-toolbar>
-<mat-sidenav-container class="example-container">
+<mat-sidenav-container class="core-nav-container">
   <mat-sidenav #sidenav mode="side" [opened]="true">
-    Sidenav content
+    <nav class="side-nav-menu">
+      <h3>Core menu</h3>
+      <ul>
+        <li>
+          <a>
+            Feature 1
+          </a>
+        </li>
+        <li>
+          <a>
+            Feature 2
+          </a>
+        </li>
+      </ul>
+    </nav>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    content
+    content + router
   </mat-sidenav-content>
 </mat-sidenav-container>

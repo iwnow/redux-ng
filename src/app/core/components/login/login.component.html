@@ -8,14 +8,14 @@
       <mat-card-subtitle>Вход</mat-card-subtitle>
     </mat-card-header>
     <form [formGroup]="loginForm"
+    (keyup.enter)="onLogin()"
           novalidate>
       <mat-form-field>
         <input matInput
                required
                formControlName="email"
                placeholder="Логин"
-               type="email"
-               (keyup.enter)="onLogin()">
+               type="email">
         <mat-error *ngIf="cEmail.invalid">Заполните логин!</mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -23,8 +23,7 @@
                required
                formControlName="password"
                placeholder="Пароль"
-               type="password"
-               (keyup.enter)="onLogin()">
+               type="password">
         <mat-error *ngIf="cPassword.invalid">Заполните пароль!</mat-error>
       </mat-form-field>
       <mat-checkbox formControlName="stay">Не выходить из системы</mat-checkbox>
