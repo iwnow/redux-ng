@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ReduxEpicService } from './redux-epic.service';
+import { ReduxEpicCoreService } from './redux-epic-core.service';
 
 describe('ReduxEpicService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ReduxEpicService]
+      providers: [ReduxEpicCoreService]
     });
   });
 
-  it('should be created', inject([ReduxEpicService], (service: ReduxEpicService) => {
+  it('should be created', inject([ReduxEpicCoreService], (service: ReduxEpicCoreService) => {
     expect(service).toBeTruthy();
   }));
 });

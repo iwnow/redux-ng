@@ -3,7 +3,7 @@ import { select, NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { IAppState } from '../../redux/models/state';
-import { actionCreators } from '../../redux/ducks/app-user';
+import { AppUserDuckCoreService } from '../../redux/services/app-user-duck-core.service';
 
 @Component({
   selector: 'app-facade',
@@ -17,14 +17,15 @@ export class FacadeComponent implements OnInit {
 
   constructor(
     private store: NgRedux<IAppState>,
-    private router: Router
+    private router: Router,
+    private appUserDuck: AppUserDuckCoreService
   ) { }
 
   ngOnInit() {
   }
 
   logoutUser() {
-    this.store.dispatch(actionCreators.appUserLogout());
+    this.store.dispatch(this.appUserDuck.createActionAppUserLogout());
     this.router.navigate(['/login']);
   }
 

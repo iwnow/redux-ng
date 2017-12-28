@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { FacadeComponent } from './components/facade/facade.component';
-import { ReduxModule } from './redux/redux.module';
+import { ReduxCoreModule } from './redux/redux.module';
 import { CoreRouteModule } from './/core-route.module';
 
 import {
@@ -13,14 +13,14 @@ import {
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
-import { ReduxEpicService } from './services/redux-epic.service';
-import { LocalStorageReduxService } from './services/local-storage-redux.service';
-import { LoggerService } from './services/logger.service';
+import { LoggerCoreService } from './services/logger-core.service';
+
+import tokens from './core.di-tokens';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReduxModule,
+    ReduxCoreModule,
     CoreRouteModule,
     FormsModule,
     ReactiveFormsModule,
@@ -39,6 +39,10 @@ import { LoggerService } from './services/logger.service';
   exports: [
     CoreRouteModule
   ],
-  providers: [IsAuthenticatedGuard, ReduxEpicService, LocalStorageReduxService, LoggerService]
+  providers: [
+    IsAuthenticatedGuard,
+    LoggerCoreService,
+    { provide: tokens.CORE_MODULE_NAME, useValue: 'app/core' }
+  ]
 })
 export class CoreModule { }

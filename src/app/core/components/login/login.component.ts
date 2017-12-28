@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../redux/models/state';
-import { actionCreators } from '../../redux/ducks/login-form';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { LoginFormDuckCoreService } from '../../redux/services/login-form-duck-core.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: NgRedux<IAppState>,
-    private router: Router
+    private router: Router,
+    private loginFormDuckService: LoginFormDuckCoreService
   ) { }
 
   ngOnInit() {
@@ -33,11 +34,6 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       stay: false
     });
-    this.store
-      .select(s => !!s.core.appUser)
-      .subscribe(isUserAuthenticated => {
-        isUserAuthenticated && this.router.navigate(['/']);
-      });
   }
 
   onLogin() {
@@ -45,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     if (this.store.getState().core.loginForm.isLoginRequest) return;
 
-    this.store.dispatch(actionCreators.loginFormRequest({
+    this.store.dispatch(this.loginFormDuckService.createActionLoginFormRequest({
       isLoginRequest: true,
       login: this.cEmail.value,
       password: this.cPassword.value

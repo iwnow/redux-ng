@@ -5,22 +5,33 @@ import { environment } from '../../../environments/environment';
 import { IAppState, initialState, ICoreState } from './models/state';
 import { combineReducers } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
-import * as ducks from './ducks';
-import { ReduxEpicService } from '../services/redux-epic.service';
-import { LocalStorageReduxService } from '../services/local-storage-redux.service';
+import { ReduxEpicCoreService } from './services/redux-epic-core.service';
+import { ReduxLocalStorageCoreService } from './services/redux-local-storage-core.service';
+import { AppUserDuckCoreService } from './services/app-user-duck-core.service';
+import { ReduxActionsCoreService } from './services/redux-actions-core.service';
+import { LoginFormDuckCoreService } from './services/login-form-duck-core.service';
 
 @NgModule({
   imports: [
     NgReduxModule
+  ],
+  providers: [
+    ReduxEpicCoreService,
+    ReduxLocalStorageCoreService,
+    AppUserDuckCoreService,
+    ReduxActionsCoreService,
+    LoginFormDuckCoreService
   ]
 })
-export class ReduxModule {
+export class ReduxCoreModule {
 
   constructor(
     private store: NgRedux<IAppState>,
     private devTools: DevToolsExtension,
-    private epicService: ReduxEpicService,
-    private localStorage: LocalStorageReduxService
+    private epicService: ReduxEpicCoreService,
+    private localStorage: ReduxLocalStorageCoreService,
+    private appUserDuckService: AppUserDuckCoreService,
+    private loginFormDuckService: LoginFormDuckCoreService
   ) {
     this.configure();
   }
@@ -40,8 +51,8 @@ export class ReduxModule {
     }
 
     const coreReducer = combineReducers<ICoreState>({
-      appUser: ducks.appUser.reducer,
-      loginForm: ducks.loginForm.reducer
+      appUser: this.appUserDuckService.reducer,
+      loginForm: this.loginFormDuckService.reducer
     });
 
     const rootReducer = combineReducers<IAppState>({
