@@ -1,8 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Action } from 'redux';
+import { ActionsObservable } from 'redux-observable';
+import 'rxjs/add/operator/ignoreElements';
+import 'rxjs/add/operator/do';
+
 import { ReduxActionsCoreService, IActionFabric } from './redux-actions-core.service';
 import { IAppUserState } from '../models/app-user';
-
 import tokens from '../../core.di-tokens';
 import { DuckCoreBase } from './duck-core-base';
 
@@ -22,23 +26,23 @@ export class AppUserDuckCoreService extends DuckCoreBase {
 
   constructor(
     actionService: ReduxActionsCoreService,
-    @Inject(tokens.CORE_MODULE_NAME)
-    coreModuleName: string
+    @Inject(tokens.CORE_MODULE_NAME) coreModuleName: string,
+    private router: Router
   ) {
     super(actionService, `${coreModuleName}/app-user`);
   }
 
   createActionAppUserLogin(user: IAppUserState): IAppUserLoginAction {
-		return {
-			type: this.actions.APP_USER_LOGIN,
-			user: user
-		};
+    return {
+      type: this.actions.APP_USER_LOGIN,
+      user: user
+    };
   }
 
-	createActionAppUserLogout(): IAppUserLogoutAction {
-		return {
-			type: this.actions.APP_USER_LOGOUT
-		};
+  createActionAppUserLogout(): IAppUserLogoutAction {
+    return {
+      type: this.actions.APP_USER_LOGOUT
+    };
   }
 
   getActions(): string[] {
@@ -49,7 +53,9 @@ export class AppUserDuckCoreService extends DuckCoreBase {
   }
 
   getEpics() {
-    return [];
+    return [
+      this.logoutRequestEpic
+    ];
   }
 
   readonly reducer = (state: IAppUserState = null, action) => {
@@ -62,6 +68,13 @@ export class AppUserDuckCoreService extends DuckCoreBase {
         break;
     }
     return state;
+  }
+
+  /**epics */
+  readonly logoutRequestEpic = (action$: ActionsObservable<any>) => {
+    return action$.ofType(this.actions.APP_USER_LOGOUT)
+      .do(action => this.router.navigate(['/login']))
+      .ignoreElements();
   }
 
 }

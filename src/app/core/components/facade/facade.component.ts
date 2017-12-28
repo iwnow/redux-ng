@@ -26,7 +26,6 @@ export class FacadeComponent implements OnInit {
 
   logoutUser() {
     this.store.dispatch(this.appUserDuck.createActionAppUserLogout());
-    this.router.navigate(['/login']);
   }
 
 }

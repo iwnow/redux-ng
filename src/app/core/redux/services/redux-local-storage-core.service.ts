@@ -7,7 +7,7 @@ import 'rxjs/add/operator/debounceTime';
 @Injectable()
 export class ReduxLocalStorageCoreService {
   readonly stateKey = 'redux-state';
-  readonly saveStream: BehaviorSubject<any>;
+  readonly saveState$: BehaviorSubject<any>;
 
   private readonly logger: ILog;
 
@@ -15,10 +15,20 @@ export class ReduxLocalStorageCoreService {
     private loggerSrv: LoggerCoreService
   ) {
     this.logger = this.loggerSrv.createLogger(ReduxLocalStorageCoreService.name);
-    this.saveStream = new BehaviorSubject(this.loadState());
-    this.saveStream
+    this.saveState$ = new BehaviorSubject(this.loadState());
+    this.saveState$
       .debounceTime(1000)
-      .subscribe(state => this.saveState(state));
+      .subscribe(state => this.save(state));
+  }
+
+  private save(state) {
+    try {
+      const serializedState = JSON.stringify(state);
+      localStorage && localStorage.setItem(this.stateKey, serializedState);
+      this.logger.log(LogType.info, 'saveState');
+    } catch (err) {
+      this.logger.log(LogType.error, err);
+    }
   }
 
   loadState() {
@@ -35,17 +45,7 @@ export class ReduxLocalStorageCoreService {
   }
 
   saveState(state) {
-    try {
-      const serializedState = JSON.stringify(state);
-      localStorage && localStorage.setItem(this.stateKey, serializedState);
-      this.logger.log(LogType.info, 'saveState');
-    } catch (err) {
-      this.logger.log(LogType.error, err);
-    }
-  }
-
-  saveStateDebounce(state) {
-    this.saveStream.next(state);
+    this.saveState$.next(state);
   }
 
 }

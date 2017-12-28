@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SkipSelf, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
@@ -11,9 +11,9 @@ import {
   MatInputModule, MatCheckboxModule, MatIconModule,
   MatToolbarModule, MatSidenavModule, MatMenuModule
 } from '@angular/material';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
-import { LoggerCoreService } from './services/logger-core.service';
+import { LoggerCoreService, ILog, LogType } from './services/logger-core.service';
 
 import tokens from './core.di-tokens';
 
@@ -45,4 +45,19 @@ import tokens from './core.di-tokens';
     { provide: tokens.CORE_MODULE_NAME, useValue: 'app/core' }
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+  private logger: ILog;
+
+  constructor(
+    // import CoreModule only one time in app module
+    @Optional() @SkipSelf() parentModule: CoreModule,
+    private loggerService: LoggerCoreService
+  ) {
+    this.logger = loggerService.createLogger(CoreModule.name);
+    if (parentModule) {
+      const err = new Error('duplicate import of CoreModule!');
+      this.logger.log(LogType.error, err);
+      throw err;
+    }
+  }
+}

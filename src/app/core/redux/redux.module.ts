@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
 import { createLogger } from 'redux-logger';
 import { environment } from '../../../environments/environment';
@@ -10,6 +10,7 @@ import { ReduxLocalStorageCoreService } from './services/redux-local-storage-cor
 import { AppUserDuckCoreService } from './services/app-user-duck-core.service';
 import { ReduxActionsCoreService } from './services/redux-actions-core.service';
 import { LoginFormDuckCoreService } from './services/login-form-duck-core.service';
+import { LoggerCoreService, ILog, LogType } from '../services/logger-core.service';
 
 @NgModule({
   imports: [
@@ -24,15 +25,25 @@ import { LoginFormDuckCoreService } from './services/login-form-duck-core.servic
   ]
 })
 export class ReduxCoreModule {
+  private logger: ILog;
 
   constructor(
+    // import ReduxCoreModule only one time in app/core module
+    @Optional() @SkipSelf() parentModule: ReduxCoreModule,
     private store: NgRedux<IAppState>,
     private devTools: DevToolsExtension,
     private epicService: ReduxEpicCoreService,
+    private loggerService: LoggerCoreService,
     private localStorage: ReduxLocalStorageCoreService,
     private appUserDuckService: AppUserDuckCoreService,
     private loginFormDuckService: LoginFormDuckCoreService
   ) {
+    this.logger = loggerService.createLogger(ReduxCoreModule.name);
+    if (parentModule) {
+      const err = new Error('duplicate import of ReduxCoreModule!');
+      this.logger.log(LogType.error, err);
+      throw err;
+    }
     this.configure();
   }
 
@@ -71,7 +82,7 @@ export class ReduxCoreModule {
       enchancers
     );
 
-    this.store.subscribe(() => this.localStorage.saveStateDebounce({
+    this.store.subscribe(() => this.localStorage.saveState({
       core: this.store.getState().core
     }));
   }
