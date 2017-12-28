@@ -14,6 +14,8 @@ import {
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { ReduxEpicService } from './services/redux-epic.service';
+import { LocalStorageReduxService } from './services/local-storage-redux.service';
+import { LoggerService } from './services/logger.service';
 
 @NgModule({
   imports: [
@@ -37,6 +39,6 @@ import { ReduxEpicService } from './services/redux-epic.service';
   exports: [
     CoreRouteModule
   ],
-  providers: [IsAuthenticatedGuard, ReduxEpicService]
+  providers: [IsAuthenticatedGuard, ReduxEpicService, LocalStorageReduxService, LoggerService]
 })
 export class CoreModule { }

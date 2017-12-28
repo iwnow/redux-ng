@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { select } from '@angular-redux/store';
+import { select, NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import { IAppState } from '../../redux/models/state';
+import { actionCreators } from '../../redux/ducks/app-user';
 
 @Component({
   selector: 'app-facade',
@@ -12,9 +15,17 @@ export class FacadeComponent implements OnInit {
   @select(['core', 'appUser', 'name'])
   appUserName$: Observable<string>;
 
-  constructor() { }
+  constructor(
+    private store: NgRedux<IAppState>,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  logoutUser() {
+    this.store.dispatch(actionCreators.appUserLogout());
+    this.router.navigate(['/login']);
   }
 
 }

@@ -7,6 +7,7 @@ import { combineReducers } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import * as ducks from './ducks';
 import { ReduxEpicService } from '../services/redux-epic.service';
+import { LocalStorageReduxService } from '../services/local-storage-redux.service';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ export class ReduxModule {
   constructor(
     private store: NgRedux<IAppState>,
     private devTools: DevToolsExtension,
-    private epicService: ReduxEpicService
+    private epicService: ReduxEpicService,
+    private localStorage: LocalStorageReduxService
   ) {
     this.configure();
   }
@@ -46,11 +48,20 @@ export class ReduxModule {
       core: coreReducer
     });
 
+    const initialStateWithLocalStorage = {
+      ...initialState,
+      ...this.localStorage.loadState()
+    };
+
     this.store.configureStore(
       rootReducer,
-      initialState,
+      initialStateWithLocalStorage,
       middlewares,
       enchancers
     );
+
+    this.store.subscribe(() => this.localStorage.saveStateDebounce({
+      core: this.store.getState().core
+    }));
   }
 }

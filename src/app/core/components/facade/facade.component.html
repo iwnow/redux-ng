@@ -5,7 +5,9 @@
   {{appUserName$ | async}}
   <mat-menu #rootMenu="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="subMenu">Меню</button>
-    <button mat-menu-item>Выход</button>
+    <button mat-menu-item (click)="logoutUser()">
+      Выход
+    </button>
   </mat-menu>
   <mat-menu #subMenu="matMenu">
     <button mat-menu-item>Меню 1</button>
