@@ -9,6 +9,7 @@ export interface ICoreState {
 
 export interface IAppState {
 	core: ICoreState;
+	router?: string;
 	[key: string]: any;
 }
 

@@ -7,7 +7,7 @@ import 'rxjs/add/operator/do';
 
 import { ReduxActionsCoreService, IActionFabric } from './redux-actions-core.service';
 import { IAppUserState } from '../models/app-user';
-import tokens from '../../core.di-tokens';
+import * as tokens from '../../core.di-tokens';
 import { DuckCoreBase } from './duck-core-base';
 
 export type IAppUserLoginAction = Action & {

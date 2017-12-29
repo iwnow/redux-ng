@@ -15,13 +15,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { LoggerCoreService, ILog, LogType } from './services/logger-core.service';
 
-import tokens from './core.di-tokens';
+import * as tokens from './core.di-tokens';
+import { AppSettingsCoreService } from './services/app-settings-core.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReduxCoreModule,
     CoreRouteModule,
+    ReduxCoreModule,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
@@ -40,9 +41,10 @@ import tokens from './core.di-tokens';
     CoreRouteModule
   ],
   providers: [
+    { provide: tokens.CORE_MODULE_NAME, useValue: 'app/core' },
     IsAuthenticatedGuard,
     LoggerCoreService,
-    { provide: tokens.CORE_MODULE_NAME, useValue: 'app/core' }
+    AppSettingsCoreService
   ]
 })
 export class CoreModule {

@@ -6,7 +6,7 @@ import { ILoginFormState } from '../models/login-form';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 
-import tokens from '../../core.di-tokens';
+import * as tokens from '../../core.di-tokens';
 import { DuckCoreBase } from './duck-core-base';
 import { AppUserDuckCoreService } from './app-user-duck-core.service';
 
