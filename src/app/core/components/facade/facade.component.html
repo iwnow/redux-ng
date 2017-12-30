@@ -1,18 +1,22 @@
-<mat-toolbar color="primary" class="core-toolbar">
+<mat-toolbar color="primary"
+             class="core-toolbar">
   1F Demo
 
   <span fxFlex></span>
   {{appUserName$ | async}}
   <mat-menu #rootMenu="matMenu">
-    <button mat-menu-item disabled>
+    <button mat-menu-item
+            disabled>
       <mat-icon>voicemail</mat-icon>
       <span>Check voicemail</span>
-    </button>  
-    <button mat-menu-item [matMenuTriggerFor]="subMenu">
-        <mat-icon>settings</mat-icon>
-        <span>Settings</span>
     </button>
-    <button mat-menu-item (click)="logoutUser()">
+    <button mat-menu-item
+            [matMenuTriggerFor]="subMenu">
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button>
+    <button mat-menu-item
+            (click)="logoutUser()">
       <mat-icon>sentiment_dissatisfied</mat-icon>
       <span>Logout</span>
     </button>
@@ -27,18 +31,22 @@
       <span>Profile</span>
     </button>
   </mat-menu>
-  <button mat-icon-button [matMenuTriggerFor]="rootMenu">
+  <button mat-icon-button
+          [matMenuTriggerFor]="rootMenu">
     <mat-icon>more_vert</mat-icon>
   </button>
 </mat-toolbar>
 <mat-sidenav-container class="core-nav-container">
-  <mat-sidenav #sidenav mode="side" [opened]="true">
+  <mat-sidenav #sidenav
+               mode="side"
+               [opened]="true">
     <nav class="side-nav-menu">
       <h3>Core menu</h3>
       <ul>
         <li>
-          <a>
-            Feature 1
+          <a routerLink="counter"
+             routerLinkActive="active">
+            Counter App
           </a>
         </li>
         <li>
@@ -51,6 +59,6 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    content + router
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

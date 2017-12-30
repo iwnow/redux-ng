@@ -5,16 +5,18 @@ import { FacadeComponent } from './components/facade/facade.component';
 import { LoginComponent } from './components/login/login.component';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: FacadeComponent,
-    pathMatch: 'full',
-    canActivate: [IsAuthenticatedGuard]
-  }, {
-    path: 'login',
-    component: LoginComponent
-  }
+const routes: Routes = [{
+  path: '',
+  component: FacadeComponent,
+  canActivate: [IsAuthenticatedGuard],
+  children: [{
+    path: 'counter',
+    loadChildren: 'app/features/counter/counter.module#CounterModule'
+  }]
+}, {
+  path: 'login',
+  component: LoginComponent
+}
 ];
 
 @NgModule({

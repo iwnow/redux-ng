@@ -1,0 +1,1 @@
+export { CounterModule } from './counter.module';

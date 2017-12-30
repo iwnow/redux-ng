@@ -42,6 +42,7 @@ import { AppSettingsCoreService } from './services/app-settings-core.service';
   ],
   providers: [
     { provide: tokens.CORE_MODULE_NAME, useValue: 'app/core' },
+    { provide: tokens.REDUX_DYNAMIC_STATE_PATH, useValue: 'dynamic' },
     IsAuthenticatedGuard,
     LoggerCoreService,
     AppSettingsCoreService

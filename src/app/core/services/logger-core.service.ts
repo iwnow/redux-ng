@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppSettingsCoreService } from './app-settings-core.service';
 
 export enum LogType {
   error = 'error',
@@ -14,7 +15,9 @@ export class LoggerCoreService {
     warning: LogType.warning
   });
 
-  constructor() { }
+  constructor(
+    private appSettings: AppSettingsCoreService
+  ) { }
 
   createLogger(moduleName: string) {
     return {
@@ -42,7 +45,9 @@ export class LoggerCoreService {
   }
 
   infoLog(...data) {
-    console && console.log(...data);
+    !this.appSettings.isProductionMode()
+      && console
+      && console.log(...data);
   }
 
   warnLog(...data) {

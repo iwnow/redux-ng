@@ -46,10 +46,7 @@ export class AppUserDuckCoreService extends DuckCoreBase {
   }
 
   getActions(): string[] {
-    return [
-      this.actions.APP_USER_LOGIN,
-      this.actions.APP_USER_LOGOUT
-    ];
+    return Object.values(this.actions);
   }
 
   getEpics() {

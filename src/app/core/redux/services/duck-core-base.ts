@@ -1,6 +1,6 @@
 import { ReduxActionsCoreService, IActionFabric } from './redux-actions-core.service';
 
-export class DuckCoreBase {
+export abstract class DuckCoreBase {
 	protected readonly actionFabric: IActionFabric;
 
 	constructor(
@@ -9,4 +9,7 @@ export class DuckCoreBase {
 	) {
 		this.actionFabric = actionService.createActionFabric(scopeName);
 	}
+
+	abstract getActions(): string[];
+	abstract getEpics(): any[];
 }

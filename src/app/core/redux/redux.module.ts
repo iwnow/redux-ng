@@ -75,7 +75,8 @@ export class ReduxCoreModule {
 
     const rootReducer = combineReducers<IAppState>({
       router: routerReducer,
-      core: coreReducer
+      core: coreReducer,
+      dynamic: (state = {}) => ({ ...state })
     });
 
     const initialStateWithLocalStorage = {
