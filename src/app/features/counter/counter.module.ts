@@ -20,7 +20,7 @@ import { CounterStoreService } from './redux/counter-store.service';
 		CounterListComponent
 	],
 	providers: [
-		{ provide: tokens.COUNTER_MODULE_NAME, useValue: 'feature/counter' },
+		{ provide: tokens.COUNTER_MODULE_NAME, useValue: 'counterModule' },
 		CounterDuckService,
 		CounterStoreService
 	]

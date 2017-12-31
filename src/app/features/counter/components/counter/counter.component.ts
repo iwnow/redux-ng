@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ICounter } from '../../redux/model';
 import { CounterDuckService } from '../../redux/counter-duck.service';
 import { CounterStoreService } from '../../redux/counter-store.service';
 
 @Component({
 	selector: 'app-counter',
-	templateUrl: 'counter.component.html'
+	templateUrl: 'counter.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CounterComponent {
 	@Input()

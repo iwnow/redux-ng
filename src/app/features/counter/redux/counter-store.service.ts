@@ -1,22 +1,23 @@
 import { Injectable, Inject } from '@angular/core';
 import { IStoreCounters } from './model';
 import { NgRedux, ObservableStore } from '@angular-redux/store';
-import { IAppState, REDUX_DYNAMIC_STATE_PATH } from '../../../core';
+import { IAppState, AppSettingsCoreService } from '../../../core';
 import { CounterDuckService } from './counter-duck.service';
+import { COUNTER_MODULE_NAME } from '../counter.di-tokens';
 
 @Injectable()
 export class CounterStoreService {
 
   readonly store: ObservableStore<IStoreCounters>;
-  readonly pathName = 'counterModule';
 
   constructor(
     private rootStore: NgRedux<IAppState>,
     private counterDuck: CounterDuckService,
-    @Inject(REDUX_DYNAMIC_STATE_PATH) dynamicPath: string
+    private appSettings: AppSettingsCoreService,
+    @Inject(COUNTER_MODULE_NAME) moduleName
   ) {
     this.store = rootStore.configureSubStore(
-      [dynamicPath, this.pathName],
+      [appSettings.getReduxLazyPath(), moduleName],
       this.counterDuck.reducer
     );
   }

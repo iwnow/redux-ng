@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf, Injector } from '@angular/core';
+import { NgModule, Optional, SkipSelf, Injector, Inject } from '@angular/core';
 import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
 import { routerReducer, NgReduxRouterModule, NgReduxRouter } from '@angular-redux/router';
 import { createLogger } from 'redux-logger';
@@ -13,6 +13,7 @@ import { LoginFormDuckCoreService } from './services/login-form-duck-core.servic
 import { LoggerCoreService, ILog, LogType } from '../services/logger-core.service';
 import { Router } from '@angular/router';
 import { AppSettingsCoreService } from '../services/app-settings-core.service';
+import { REDUX_LAZY_BASE_PATH } from '../core.di-tokens';
 
 @NgModule({
   imports: [
@@ -35,6 +36,8 @@ export class ReduxCoreModule {
     @Optional() @SkipSelf() parentModule: ReduxCoreModule,
     private store: NgRedux<IAppState>,
     private reduxRouter: NgReduxRouter,
+    @Inject(REDUX_LAZY_BASE_PATH)
+    private reduxLazyBasePath,
     private router: Router,
     private injector: Injector,
     private appSettings: AppSettingsCoreService,
@@ -76,7 +79,7 @@ export class ReduxCoreModule {
     const rootReducer = combineReducers<IAppState>({
       router: routerReducer,
       core: coreReducer,
-      dynamic: (state = {}) => ({ ...state })
+      [this.reduxLazyBasePath]: (state = {}) => ({ ...state })
     });
 
     const initialStateWithLocalStorage = {

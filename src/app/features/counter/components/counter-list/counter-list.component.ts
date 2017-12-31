@@ -1,12 +1,13 @@
 import { Observable } from 'rxjs/Rx';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CounterDuckService } from '../../redux/counter-duck.service';
 import { ICounter } from '../../redux/model';
 import { CounterStoreService } from '../../redux/counter-store.service';
 
 @Component({
 	selector: 'app-counter-list',
-	templateUrl: 'counter-list.component.html'
+	templateUrl: 'counter-list.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CounterListComponent {
 	counters$: Observable<ICounter[]>;
@@ -15,10 +16,7 @@ export class CounterListComponent {
 		private counterDuck: CounterDuckService,
 		private storeService: CounterStoreService
 	) {
-		this.counters$ = this.storeService.store.select(state => {
-			console.log(this.storeService);
-			return state.counters || [];
-		});
+		this.counters$ = this.storeService.store.select(state => state && state.counters);
 	}
 
 	inc(e) {
