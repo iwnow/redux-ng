@@ -17,6 +17,7 @@ import { LoggerCoreService, ILog, LogType } from './services/logger-core.service
 
 import * as tokens from './core.di-tokens';
 import { AppSettingsCoreService } from './services/app-settings-core.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,7 @@ import { AppSettingsCoreService } from './services/app-settings-core.service';
     MatMenuModule,
     FlexLayoutModule
   ],
-  declarations: [LoginComponent, FacadeComponent],
+  declarations: [LoginComponent, FacadeComponent, DashboardComponent],
   exports: [
     CoreRouteModule
   ],
