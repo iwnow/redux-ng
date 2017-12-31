@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { ICounter } from '../../redux/model';
 import { CounterDuckService } from '../../redux/counter-duck.service';
 import { CounterStoreService } from '../../redux/counter-store.service';
@@ -12,18 +12,17 @@ export class CounterComponent {
 	@Input()
 	counter: ICounter;
 
-	constructor(
-		private counterDuck: CounterDuckService,
-		private storeService: CounterStoreService
-	) { }
+	@Output()
+	increment: EventEmitter<number> = new EventEmitter();
+
+	@Output()
+	decrement: EventEmitter<number> = new EventEmitter();
 
 	inc(e) {
-		this.storeService.store
-			.dispatch(this.counterDuck.createActionIncrement(this.counter.id));
+		this.increment.emit(this.counter.id);
 	}
 
 	dec(e) {
-		this.storeService.store
-			.dispatch(this.counterDuck.createActionDecrement(this.counter.id));
+		this.decrement.emit(this.counter.id);
 	}
 }

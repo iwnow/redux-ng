@@ -26,4 +26,12 @@ export class CounterListComponent {
 	dec(e) {
 		this.storeService.store.dispatch(this.counterDuck.createActionDecrementList());
 	}
+
+	incCounter(id) {
+		this.storeService.store.dispatch(this.counterDuck.createActionIncrement(id))
+	}
+
+	decCounter(id) {
+		this.storeService.store.dispatch(this.counterDuck.createActionDecrement(id))
+	}
 }
