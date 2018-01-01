@@ -1,0 +1,23 @@
+<h3>
+  Angular redux forms
+</h3>
+
+<form class="ng-redux-form"
+      novalidate
+      [formGroup]="formGroup"
+      [connect]="connectPath">
+  <mat-form-field class="example-full-width">
+    <input type="text"
+           placeholder="Autocomplete form"
+           aria-label="Number"
+           matInput
+           formControlName="autocomplete"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async"
+                  [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

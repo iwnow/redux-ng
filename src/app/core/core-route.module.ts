@@ -20,6 +20,9 @@ const routes: Routes = [{
   }, {
     path: 'lazy-epic',
     loadChildren: 'app/features/lazy-epic/lazy-epic.module#LazyEpicModule'
+  }, {
+    path: 'ngr-forms',
+    loadChildren: 'app/features/ngr-forms/ngr-forms.module#NgrFormsModule'
   }]
 }, {
   path: 'login',
@@ -28,7 +31,6 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-    CommonModule,
     RouterModule.forRoot(routes)
   ],
   exports: [
