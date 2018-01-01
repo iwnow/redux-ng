@@ -2,7 +2,6 @@ export { CoreModule } from './core.module';
 
 export { AppSettingsCoreService } from './services/app-settings-core.service';
 export { LoggerCoreService, ILog, LogType } from './services/logger-core.service';
-export { MarkdownService } from './services/markdown.service';
 
 export {
 	DuckCoreBase, IActionFabric, ReduxActionsCoreService,

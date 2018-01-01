@@ -17,7 +17,7 @@ export class FacadeComponent implements OnInit {
 
   constructor(
     private store: NgRedux<IAppState>,
-    private router: Router,
+    public router: Router,
     private appUserDuck: AppUserDuckCoreService
   ) { }
 

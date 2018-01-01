@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MarkdownService } from '../../services/markdown.service';
 
 @Component({
   selector: 'app-dashboard',
