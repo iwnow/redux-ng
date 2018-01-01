@@ -18,6 +18,7 @@ import { LoggerCoreService, ILog, LogType } from './services/logger-core.service
 import * as tokens from './core.di-tokens';
 import { AppSettingsCoreService } from './services/app-settings-core.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MarkdownService } from './services/markdown.service';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     { provide: tokens.REDUX_LAZY_BASE_PATH, useValue: 'lazy' },
     IsAuthenticatedGuard,
     LoggerCoreService,
-    AppSettingsCoreService
+    AppSettingsCoreService,
+    MarkdownService
   ]
 })
 export class CoreModule {

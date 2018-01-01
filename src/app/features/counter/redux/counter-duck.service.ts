@@ -3,7 +3,7 @@ import { Action, Reducer } from 'redux';
 
 import { DuckCoreBase, ReduxActionsCoreService } from '../../../core';
 import { COUNTER_MODULE_NAME } from '../counter.di-tokens';
-import { ICounter, IStoreCounters } from './model';
+import { ICounter, ICounterModuleStore } from './model';
 
 export interface ICounterAction extends Action {
   id?: number;
@@ -59,7 +59,7 @@ export class CounterDuckService extends DuckCoreBase {
     }
   }
 
-  readonly reducer: Reducer<IStoreCounters>
+  readonly reducer: Reducer<ICounterModuleStore>
     = (state = { counters: [] }, action) => {
       const { increment, decrement,
         incrementList, decrementList } = this.actions;

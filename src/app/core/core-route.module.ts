@@ -17,12 +17,14 @@ const routes: Routes = [{
   }, {
     path: 'counter',
     loadChildren: 'app/features/counter/counter.module#CounterModule'
+  }, {
+    path: 'lazy-epic',
+    loadChildren: 'app/features/lazy-epic/lazy-epic.module#LazyEpicModule'
   }]
 }, {
   path: 'login',
   component: LoginComponent
-}
-];
+}];
 
 @NgModule({
   imports: [

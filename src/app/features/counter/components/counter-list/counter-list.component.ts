@@ -19,11 +19,11 @@ export class CounterListComponent {
 		this.counters$ = this.storeService.store.select(state => state && state.counters);
 	}
 
-	inc(e) {
+	addCounter(e) {
 		this.storeService.store.dispatch(this.counterDuck.createActionIncrementList());
 	}
 
-	dec(e) {
+	removeCounter(e) {
 		this.storeService.store.dispatch(this.counterDuck.createActionDecrementList());
 	}
 

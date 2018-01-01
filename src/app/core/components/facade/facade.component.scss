@@ -20,11 +20,9 @@ $toolBarHeight: 54px;
 
 	mat-sidenav-content {
 		padding-left: 20px;
-		margin-left: 240px;
 	}
 
 	.side-nav-menu {
-		width: 240px;
 		h3 {
 			border: none;
 			font-size: 10px;
@@ -62,6 +60,10 @@ $toolBarHeight: 54px;
 					position: relative;
 					color: rgba(0, 0, 0, 0.54);
 					cursor: pointer;
+
+					&.active {
+						color: crimson;
+					}
 				}
 			}
 

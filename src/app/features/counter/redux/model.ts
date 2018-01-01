@@ -4,6 +4,6 @@ export interface ICounter {
 	count: number;
 }
 
-export interface IStoreCounters {
+export interface ICounterModuleStore {
 	counters: ICounter[];
 }

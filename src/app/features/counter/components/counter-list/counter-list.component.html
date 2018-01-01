@@ -1,7 +1,7 @@
 <p>Counter App Module</p>
 <div>
-  <button (click)="inc($event)">+</button>
-  <button (click)="dec($event)">-</button>
+  <button (click)="addCounter($event)">+</button>
+  <button (click)="removeCounter($event)">-</button>
 </div>
 <br>
 <app-counter *ngFor="let counter of counters$ | async"

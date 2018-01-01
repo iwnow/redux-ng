@@ -1,4 +1,4 @@
- ##Demo for app that uses
+ ## Demo for app that uses
  - angular-redux/store
  - angular-redux/router
  - angular-redux/forms

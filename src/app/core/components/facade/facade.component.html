@@ -1,6 +1,7 @@
 <mat-toolbar color="primary"
              class="core-toolbar">
-  1F Demo
+  <span style="cursor:pointer"
+        (click)="router.navigate(['/'])"> 1F Demo </span>
 
   <span fxFlex></span>
   {{appUserName$ | async}}
@@ -44,14 +45,15 @@
       <h3>Core menu</h3>
       <ul>
         <li>
-          <a routerLink="counter"
+          <a routerLink="/counter"
              routerLinkActive="active">
-            Counter App
+            Counter App (Reducer/fractals demo)
           </a>
         </li>
         <li>
-          <a>
-            Feature 2
+          <a routerLink="/lazy-epic"
+             routerLinkActive="active">
+            Lazy epic demo
           </a>
         </li>
       </ul>

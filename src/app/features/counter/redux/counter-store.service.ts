@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { IStoreCounters } from './model';
+import { ICounterModuleStore } from './model';
 import { NgRedux, ObservableStore } from '@angular-redux/store';
 import { IAppState, AppSettingsCoreService } from '../../../core';
 import { CounterDuckService } from './counter-duck.service';
@@ -8,7 +8,7 @@ import { COUNTER_MODULE_NAME } from '../counter.di-tokens';
 @Injectable()
 export class CounterStoreService {
 
-  readonly store: ObservableStore<IStoreCounters>;
+  readonly store: ObservableStore<ICounterModuleStore>;
 
   constructor(
     private rootStore: NgRedux<IAppState>,
