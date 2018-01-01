@@ -37,9 +37,9 @@
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@angular-redux/router/-/router-7.0.0.tgz#98266dfc27b19a2011d43ee7dda32fd104be316b"
 
-"@angular-redux/store@^6.5.7":
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/@angular-redux/store/-/store-6.6.0.tgz#02b67c091ed9c1bdae48c05a5d5d0041c87577aa"
+"@angular-redux/store@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-redux/store/-/store-7.0.2.tgz#cd2d7f4a2de883631a290c32ab03db931f158682"
 
 "@angular/animations@^5.1.1":
   version "5.1.2"
