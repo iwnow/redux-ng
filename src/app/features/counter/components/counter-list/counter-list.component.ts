@@ -4,6 +4,8 @@ import { CounterDuckService } from '../../redux/counter-duck.service';
 import { ICounter } from '../../redux/model';
 import { CounterStoreService } from '../../redux/counter-store.service';
 
+import { ActionCreators } from 'redux-undo';
+
 @Component({
 	selector: 'app-counter-list',
 	templateUrl: 'counter-list.component.html',
@@ -16,7 +18,8 @@ export class CounterListComponent {
 		private counterDuck: CounterDuckService,
 		private storeService: CounterStoreService
 	) {
-		this.counters$ = this.storeService.store.select(state => state && state.counters);
+		this.counters$ = this.storeService.store
+			.select(state => state && state['present'] && state['present'].counters);
 	}
 
 	addCounter(e) {
@@ -33,5 +36,13 @@ export class CounterListComponent {
 
 	decCounter(id) {
 		this.storeService.store.dispatch(this.counterDuck.createActionDecrement(id))
+	}
+
+	undo(e) {
+		this.storeService.store.dispatch(ActionCreators.undo());
+	}
+
+	redo(e) {
+		this.storeService.store.dispatch(ActionCreators.redo());
 	}
 }

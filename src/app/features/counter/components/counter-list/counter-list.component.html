@@ -1,5 +1,12 @@
 <p>Counter App Module</p>
 <div>
+  <button type="button"
+          (click)="undo($event)">Undo</button>
+  <button type="button"
+          (click)="redo($event)">Redo</button>
+</div>
+<div>
+  Add/Remove counter:
   <button (click)="addCounter($event)">+</button>
   <button (click)="removeCounter($event)">-</button>
 </div>

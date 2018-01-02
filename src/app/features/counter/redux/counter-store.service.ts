@@ -5,6 +5,8 @@ import { IAppState, AppSettingsCoreService } from '../../../core';
 import { CounterDuckService } from './counter-duck.service';
 import { MODULE_NAME } from '../../../core';
 
+import undoable from 'redux-undo';
+
 @Injectable()
 export class CounterStoreService {
 
@@ -16,9 +18,9 @@ export class CounterStoreService {
     private appSettings: AppSettingsCoreService,
     @Inject(MODULE_NAME) moduleName
   ) {
-    this.store = rootStore.configureSubStore(
+    this.store = <any>rootStore.configureSubStore(
       [appSettings.getReduxLazyPath(), moduleName],
-      this.counterDuck.reducer
+      undoable(this.counterDuck.reducer, { limit: 10 })
     );
   }
 
