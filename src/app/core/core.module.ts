@@ -9,7 +9,7 @@ import { CoreRouteModule } from './/core-route.module';
 import {
   MatCardModule, MatButtonModule, MatFormFieldModule,
   MatInputModule, MatCheckboxModule, MatIconModule,
-  MatToolbarModule, MatSidenavModule, MatMenuModule
+  MatToolbarModule, MatSidenavModule, MatMenuModule, MatSliderModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
@@ -35,7 +35,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatToolbarModule,
     MatSidenavModule,
     MatMenuModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatSliderModule
   ],
   declarations: [
     LoginComponent,
@@ -44,7 +45,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   ],
   exports: [
     CoreRouteModule,
-    ReduxCoreModule
+    ReduxCoreModule,
+    MatSliderModule // hack angular material in lazy module for animation slider
   ],
   providers: [
     { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },

@@ -5,13 +5,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core';
 
+import 'hammerjs';
+import { MatSliderModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    BrowserModule,
+    //BrowserModule,
     BrowserAnimationsModule,
+    //MatSliderModule,
     CoreModule
   ],
   bootstrap: [AppComponent]

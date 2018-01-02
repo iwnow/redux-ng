@@ -38,6 +38,10 @@ export class NgReduxFormsComponent implements OnInit {
       check2: [''],
       textarea: [''],
       input: [''],
+      date: [null],
+      select: [''],
+      slider: [''],
+      toggle: [''],
     });
     this.filteredOptions = this.cAuto.valueChanges
       .pipe(

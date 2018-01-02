@@ -7,7 +7,7 @@ import {
   MatDialogModule, MatIconModule, MatExpansionModule, MatFormFieldModule,
   MatGridListModule, MatInputModule, MatLineModule, MatListModule, MatMenuModule,
   MatTabsModule, MatProgressBarModule, MatSelectModule, MatToolbarModule,
-  MatRadioModule, MatSliderModule, MatSlideToggleModule
+  MatRadioModule, MatSliderModule, MatSlideToggleModule, MatNativeDateModule
 } from '@angular/material';
 
 @NgModule({
@@ -17,6 +17,7 @@ import {
     MatAutocompleteModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatFormFieldModule,
     MatRadioModule,
     MatSelectModule,
@@ -31,6 +32,7 @@ import {
     MatAutocompleteModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatFormFieldModule,
     MatRadioModule,
     MatSelectModule,
