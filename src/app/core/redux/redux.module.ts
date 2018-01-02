@@ -1,7 +1,6 @@
 import { NgModule, Optional, SkipSelf, Injector, Inject } from '@angular/core';
 import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
 import { routerReducer, NgReduxRouterModule, NgReduxRouter } from '@angular-redux/router';
-import { NgReduxFormModule } from '@angular-redux/form';
 import { createLogger } from 'redux-logger';
 import { IAppState, initialState, ICoreState } from './models/state';
 import { combineReducers } from 'redux';
@@ -19,8 +18,7 @@ import { REDUX_LAZY_BASE_PATH } from '../core.di-tokens';
 @NgModule({
   imports: [
     NgReduxModule,
-    NgReduxRouterModule.forRoot(),
-    NgReduxFormModule
+    NgReduxRouterModule.forRoot()
   ],
   providers: [
     ReduxEpicCoreService,
@@ -28,6 +26,12 @@ import { REDUX_LAZY_BASE_PATH } from '../core.di-tokens';
     AppUserDuckCoreService,
     ReduxActionsCoreService,
     LoginFormDuckCoreService
+  ],
+  declarations: [
+
+  ],
+  exports: [
+
   ]
 })
 export class ReduxCoreModule {

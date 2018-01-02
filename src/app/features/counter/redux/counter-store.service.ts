@@ -3,7 +3,7 @@ import { ICounterModuleStore } from './model';
 import { NgRedux, ObservableStore } from '@angular-redux/store';
 import { IAppState, AppSettingsCoreService } from '../../../core';
 import { CounterDuckService } from './counter-duck.service';
-import { COUNTER_MODULE_NAME } from '../counter.di-tokens';
+import { MODULE_NAME } from '../../../core';
 
 @Injectable()
 export class CounterStoreService {
@@ -14,7 +14,7 @@ export class CounterStoreService {
     private rootStore: NgRedux<IAppState>,
     private counterDuck: CounterDuckService,
     private appSettings: AppSettingsCoreService,
-    @Inject(COUNTER_MODULE_NAME) moduleName
+    @Inject(MODULE_NAME) moduleName
   ) {
     this.store = rootStore.configureSubStore(
       [appSettings.getReduxLazyPath(), moduleName],

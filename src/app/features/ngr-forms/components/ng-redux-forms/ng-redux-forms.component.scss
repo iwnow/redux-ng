@@ -7,4 +7,15 @@ form.ng-redux-form {
 	mat-form-field {
 		// width: 100%;
 	}
+
+	.section {
+		display: flex;
+		align-content: center;
+		align-items: center;
+		height: 60px;
+
+		.section-item {
+			margin: 0 10px;
+		}
+	}
 }

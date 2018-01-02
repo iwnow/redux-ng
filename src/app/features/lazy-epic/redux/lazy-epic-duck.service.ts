@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { ReduxActionsCoreService, DuckCoreBase } from '../../../core';
-import { LAZY_EPIC_MODULE_NAME } from '../lazy-epic.di-tokens';
+import { MODULE_NAME } from '../../../core';
 import { Action, Reducer } from 'redux';
 import { ILazyEpicModuleStore } from './model';
 import { ActionsObservable } from 'redux-observable';
@@ -16,7 +16,7 @@ export class LazyEpicDuckService extends DuckCoreBase {
 
   constructor(
     actionService: ReduxActionsCoreService,
-    @Inject(LAZY_EPIC_MODULE_NAME) moduleName,
+    @Inject(MODULE_NAME) moduleName,
     private logger: LoggerCoreService
   ) {
     super(actionService, moduleName);

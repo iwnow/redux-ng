@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Action, Reducer } from 'redux';
 
 import { DuckCoreBase, ReduxActionsCoreService } from '../../../core';
-import { COUNTER_MODULE_NAME } from '../counter.di-tokens';
+import { MODULE_NAME } from '../../../core';
 import { ICounter, ICounterModuleStore } from './model';
 
 export interface ICounterAction extends Action {
@@ -21,7 +21,7 @@ export class CounterDuckService extends DuckCoreBase {
 
   constructor(
     actionService: ReduxActionsCoreService,
-    @Inject(COUNTER_MODULE_NAME) moduleName
+    @Inject(MODULE_NAME) moduleName
   ) {
     super(actionService, `${moduleName}/counter`);
   }

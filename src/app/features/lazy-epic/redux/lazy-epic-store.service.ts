@@ -3,7 +3,7 @@ import { ObservableStore, NgRedux } from '@angular-redux/store';
 import { ILazyEpicModuleStore } from './model';
 import { LazyEpicDuckService } from './lazy-epic-duck.service';
 import { AppSettingsCoreService, ReduxEpicCoreService } from '../../../core';
-import { LAZY_EPIC_MODULE_NAME } from '../lazy-epic.di-tokens';
+import { MODULE_NAME } from '../../../core';
 
 @Injectable()
 export class LazyEpicStoreService {
@@ -15,7 +15,7 @@ export class LazyEpicStoreService {
     private rootEpic: ReduxEpicCoreService,
     private lazyEpicDuck: LazyEpicDuckService,
     private appSettings: AppSettingsCoreService,
-    @Inject(LAZY_EPIC_MODULE_NAME) moduleName
+    @Inject(MODULE_NAME) moduleName
   ) {
     this.store = rootStore.configureSubStore(
       [appSettings.getReduxLazyPath(), moduleName],

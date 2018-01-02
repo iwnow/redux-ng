@@ -16,18 +16,18 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 export interface ILoginFormRequestAction extends Action {
-	isLoginRequest: boolean;
-	login: string;
-	password: string;
+  isLoginRequest: boolean;
+  login: string;
+  password: string;
 }
 
 export interface ILoginFormRequestFailAction extends Action {
-	loginError: string;
+  loginError: string;
 }
 
 export interface ILoginFormRequestSuccessAction extends Action {
-	login: string;
-	name: string;
+  login: string;
+  name: string;
 }
 
 @Injectable()
@@ -40,35 +40,35 @@ export class LoginFormDuckCoreService extends DuckCoreBase {
 
   constructor(
     actionService: ReduxActionsCoreService,
-    @Inject(tokens.CORE_MODULE_NAME) coreModuleName: string,
+    @Inject(tokens.MODULE_NAME) coreModuleName: string,
     private appUserDuckService: AppUserDuckCoreService,
     private router: Router
   ) {
     super(actionService, `${coreModuleName}/login-form`);
   }
 
-  createActionLoginFormRequest({isLoginRequest, login, password}): ILoginFormRequestAction {
-		return {
-			type: this.actions.LOGIN_FORM_REQUEST,
-			isLoginRequest,
-			login,
-			password
-		};
+  createActionLoginFormRequest({ isLoginRequest, login, password }): ILoginFormRequestAction {
+    return {
+      type: this.actions.LOGIN_FORM_REQUEST,
+      isLoginRequest,
+      login,
+      password
+    };
   }
 
-	createActionLoginFormRequestFail(error: string): ILoginFormRequestFailAction {
-		return {
-			type: this.actions.LOGIN_FORM_REQUEST_FAIL,
-			loginError: error
-		};
+  createActionLoginFormRequestFail(error: string): ILoginFormRequestFailAction {
+    return {
+      type: this.actions.LOGIN_FORM_REQUEST_FAIL,
+      loginError: error
+    };
   }
 
-	createActionLoginFormRequestSuccess({login, name}): ILoginFormRequestSuccessAction {
-		return {
-			type: this.actions.LOGIN_FORM_REQUEST_SUCCESS,
-			login,
-			name
-		};
+  createActionLoginFormRequestSuccess({ login, name }): ILoginFormRequestSuccessAction {
+    return {
+      type: this.actions.LOGIN_FORM_REQUEST_SUCCESS,
+      login,
+      name
+    };
   }
 
   getActions() {
@@ -119,29 +119,29 @@ export class LoginFormDuckCoreService extends DuckCoreBase {
       };
     }
 
-    /**epics */
-    readonly loginRequestEpic = (action$: ActionsObservable<any>) => {
-      return action$.ofType(this.actions.LOGIN_FORM_REQUEST)
-        .mergeMap(action => {
-          // имитируем запрос на бакенд
-          const fakeUserData = { login: action.login, name: '1F' };
-          return Observable.of(fakeUserData)
-            .delay(100)
-            .map(result => {
-              this.router.navigate(['/']);
-              return this.createActionLoginFormRequestSuccess(result);
-            })
-            .catch(error => Observable.of(this.createActionLoginFormRequestFail(error)));
-        });
-    }
+  /**epics */
+  readonly loginRequestEpic = (action$: ActionsObservable<any>) => {
+    return action$.ofType(this.actions.LOGIN_FORM_REQUEST)
+      .mergeMap(action => {
+        // имитируем запрос на бакенд
+        const fakeUserData = { login: action.login, name: '1F' };
+        return Observable.of(fakeUserData)
+          .delay(100)
+          .map(result => {
+            this.router.navigate(['/']);
+            return this.createActionLoginFormRequestSuccess(result);
+          })
+          .catch(error => Observable.of(this.createActionLoginFormRequestFail(error)));
+      });
+  }
 
-    readonly loginRequestSuccessEpic = (action$: ActionsObservable<any>) => {
-      return action$.ofType(this.actions.LOGIN_FORM_REQUEST_SUCCESS)
-        // переводим стрим
-        .map(action => this.appUserDuckService.createActionAppUserLogin({
-          login: action.login,
-          name: action.login
-        }));
-    }
+  readonly loginRequestSuccessEpic = (action$: ActionsObservable<any>) => {
+    return action$.ofType(this.actions.LOGIN_FORM_REQUEST_SUCCESS)
+      // переводим стрим
+      .map(action => this.appUserDuckService.createActionAppUserLogin({
+        login: action.login,
+        name: action.login
+      }));
+  }
 
 }

@@ -21,7 +21,9 @@ import {
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatButtonToggleModule
   ],
   exports: [
     CommonModule,
@@ -33,7 +35,9 @@ import {
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatButtonToggleModule
   ]
 })
 export class MaterialModule { }

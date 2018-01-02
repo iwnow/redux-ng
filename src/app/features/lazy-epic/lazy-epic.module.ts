@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LazyEpicRoutingModule } from './lazy-epic-routing.module';
 import { LazyEpicDemoComponent } from './components/lazy-epic-demo/lazy-epic-demo.component';
 import { LazyEpicStoreService } from './redux/lazy-epic-store.service';
-import * as tokens from './lazy-epic.di-tokens';
+import { MODULE_NAME } from '../../core';
 import { LazyEpicDuckService } from './redux/lazy-epic-duck.service';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { LazyEpicDuckService } from './redux/lazy-epic-duck.service';
   ],
   declarations: [LazyEpicDemoComponent],
   providers: [
-    { provide: tokens.LAZY_EPIC_MODULE_NAME, useValue: 'lazyEpicModule' },
+    { provide: MODULE_NAME, useValue: 'LazyEpicModule' },
     LazyEpicStoreService,
     LazyEpicDuckService
   ]

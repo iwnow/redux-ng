@@ -26,7 +26,7 @@ export class AppUserDuckCoreService extends DuckCoreBase {
 
   constructor(
     actionService: ReduxActionsCoreService,
-    @Inject(tokens.CORE_MODULE_NAME) coreModuleName: string,
+    @Inject(tokens.MODULE_NAME) coreModuleName: string,
     private router: Router
   ) {
     super(actionService, `${coreModuleName}/app-user`);

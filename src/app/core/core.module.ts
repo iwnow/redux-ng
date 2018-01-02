@@ -37,12 +37,17 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatMenuModule,
     FlexLayoutModule
   ],
-  declarations: [LoginComponent, FacadeComponent, DashboardComponent],
+  declarations: [
+    LoginComponent,
+    FacadeComponent,
+    DashboardComponent
+  ],
   exports: [
-    CoreRouteModule
+    CoreRouteModule,
+    ReduxCoreModule
   ],
   providers: [
-    { provide: tokens.CORE_MODULE_NAME, useValue: 'app/core' },
+    { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },
     { provide: tokens.REDUX_LAZY_BASE_PATH, useValue: 'lazy' },
     IsAuthenticatedGuard,
     LoggerCoreService,
