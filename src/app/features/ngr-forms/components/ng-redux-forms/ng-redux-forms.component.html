@@ -1,89 +1,109 @@
 <h3>
   Angular redux forms
 </h3>
+
+<mat-card>
+  <p>
+    <button type="button"
+            mat-raised-button
+            color="primary"
+            (click)="formGroup.reset()">Clear values</button>
+  </p>
+
+  <form class="ng-redux-form"
+        novalidate
+        [connectReduxStore]="'testForm'"
+        [store]="storeSrv.store"
+        [formGroup]="formGroup">
+
+    <div>
+      <mat-form-field>
+        <input formControlName="input"
+               matInput
+               placeholder="Input">
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input type="text"
+               placeholder="Autocomplete"
+               aria-label="Number"
+               matInput
+               formControlName="autocomplete"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async"
+                      [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <textarea formControlName="textarea"
+                  matInput
+                  placeholder="Textarea"></textarea>
+      </mat-form-field>
+    </div>
+
+    <section class="section">
+      <mat-checkbox class="section-item"
+                    formControlName="check1">Check 1</mat-checkbox>
+      <mat-checkbox class="section-item"
+                    formControlName="check2">Check 2</mat-checkbox>
+    </section>
+
+    <section class="section">
+      <mat-radio-group formControlName="radio">
+        <label class="">Radio:</label>
+        <mat-radio-button class="section-item"
+                          value="start">Start</mat-radio-button>
+        <mat-radio-button class="section-item"
+                          value="end">End</mat-radio-button>
+      </mat-radio-group>
+    </section>
+  </form>
+</mat-card>
+
 <p>
-  <button type="button"
-          mat-raised-button
-          color="primary"
-          (click)="formGroup.reset()">Clear form values</button>
+  <mat-card>
+    <p>
+      <button type="button"
+              mat-raised-button
+              color="primary"
+              (click)="form2Group.reset()">Clear values</button>
+    </p>
+    <form class="ng-redux-form"
+          novalidate
+          [connectReduxStore]="'testForm2'"
+          [store]="storeSrv.store"
+          [formGroup]="form2Group">
+      <div>
+        <mat-form-field>
+          <input formControlName="date"
+                 matInput
+                 [matDatepicker]="picker"
+                 placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix
+                                 [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-select formControlName="select"
+                      placeholder="Select">
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <mat-slide-toggle formControlName="toggle">Toggle</mat-slide-toggle>
+      <mat-slider formControlName="slider"></mat-slider>
+    </form>
+  </mat-card>
 </p>
-
-<form class="ng-redux-form"
-      novalidate
-      [connectReduxStore]="'testForm'"
-      [store]="storeSrv.store"
-      [formGroup]="formGroup">
-
-  <div>
-    <mat-form-field>
-      <input formControlName="input"
-             matInput
-             placeholder="Input">
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-form-field>
-      <input type="text"
-             placeholder="Autocomplete"
-             aria-label="Number"
-             matInput
-             formControlName="autocomplete"
-             [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async"
-                    [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-form-field>
-      <textarea formControlName="textarea"
-                matInput
-                placeholder="Textarea"></textarea>
-    </mat-form-field>
-  </div>
-
-  <section class="section">
-    <mat-checkbox class="section-item"
-                  formControlName="check1">Check 1</mat-checkbox>
-    <mat-checkbox class="section-item"
-                  formControlName="check2">Check 2</mat-checkbox>
-  </section>
-
-  <section class="section">
-    <mat-radio-group formControlName="radio">
-      <label class="">Radio:</label>
-      <mat-radio-button class="section-item"
-                        value="start">Start</mat-radio-button>
-      <mat-radio-button class="section-item"
-                        value="end">End</mat-radio-button>
-    </mat-radio-group>
-  </section>
-  <div>
-    <mat-form-field>
-      <input formControlName="date"
-             matInput
-             [matDatepicker]="picker"
-             placeholder="Choose a date">
-      <mat-datepicker-toggle matSuffix
-                             [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field>
-      <mat-select formControlName="select"
-                  placeholder="Select">
-        <mat-option value="1">1</mat-option>
-        <mat-option value="2">2</mat-option>
-        <mat-option value="3">3</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <mat-slide-toggle formControlName="toggle">Toggle</mat-slide-toggle>
-  <mat-slider formControlName="slider"></mat-slider>
-</form>

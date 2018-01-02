@@ -24,7 +24,8 @@ import {
     MatSliderModule,
     MatSlideToggleModule,
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatCardModule
   ],
   exports: [
     CommonModule,
@@ -39,7 +40,8 @@ import {
     MatSliderModule,
     MatSlideToggleModule,
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatCardModule
   ]
 })
 export class MaterialModule { }

@@ -20,6 +20,7 @@ export class NgReduxFormsComponent implements OnInit {
 
   filteredOptions: Observable<string[]>;
   formGroup: FormGroup;
+  form2Group: FormGroup;
 
   get cAuto() {
     return this.formGroup.get('autocomplete');
@@ -38,6 +39,8 @@ export class NgReduxFormsComponent implements OnInit {
       check2: [''],
       textarea: [''],
       input: [''],
+    });
+    this.form2Group = this.fb.group({
       date: [null],
       select: [''],
       slider: [''],
@@ -48,7 +51,6 @@ export class NgReduxFormsComponent implements OnInit {
       startWith(''),
       map(val => this.filter(val))
       );
-    //this.storeSrv.store.select(s => s && s.testForm).subscribe(console.log);
   }
 
   filter(val: string): string[] {

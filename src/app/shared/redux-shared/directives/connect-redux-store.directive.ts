@@ -28,6 +28,9 @@ export class ConnectReduxStoreDirective implements OnInit, OnDestroy {
   readonly subs = [];
 
   ngOnInit() {
+    if (!this.formGroup) throw new Error('Set the [formGroup] property to connectReduxStore directive');
+    if (!this.path) throw new Error('Set the path to [connectReduxStore]="\'pathToPropertyStore\'" property to connectReduxStore directive');
+
     let fullPath = this.store.basePath
       ? this.store.basePath.concat(this.path)
       : this.path;
@@ -52,7 +55,7 @@ export class ConnectReduxStoreDirective implements OnInit, OnDestroy {
 
     const formStore: IAbstractStore = ConnectReduxStoreDirective.mapStores[fullPath];
 
-    let fromSelect = false;
+    let fromSelect = false, fromGroup = false;
     this.subs.push(
       this.formGroup.valueChanges.pipe(
         debounceTime(500)
@@ -61,6 +64,7 @@ export class ConnectReduxStoreDirective implements OnInit, OnDestroy {
           fromSelect = false;
           return;
         }
+        fromGroup = true;
 
         formStore.dispatch({
           type: this.actionFormUpdate,
@@ -72,6 +76,10 @@ export class ConnectReduxStoreDirective implements OnInit, OnDestroy {
       this.store.select(this.path)
         .subscribe(value => {
           if (!value) return;
+          if (fromGroup) {
+            fromGroup = false;
+            return;
+          }
           fromSelect = true;
           this.formGroup.patchValue(value)
         })
