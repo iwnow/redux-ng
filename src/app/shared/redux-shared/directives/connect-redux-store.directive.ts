@@ -9,6 +9,7 @@ interface IAbstractStore {
   replaceReducer: (reducer) => any;
   select: (...args) => any;
   getState: () => any;
+  rootStore?: any;
 }
 
 @Directive({
@@ -51,16 +52,30 @@ export class ConnectReduxStoreDirective implements OnInit, OnDestroy {
 
     const formStore: IAbstractStore = ConnectReduxStoreDirective.mapStores[fullPath];
 
-
+    let fromSelect = false;
     this.subs.push(
       this.formGroup.valueChanges.pipe(
         debounceTime(500)
-      ).subscribe(v => formStore.dispatch({
-        type: this.actionFormUpdate,
-        payload: v
-      }))
+      ).subscribe(v => {
+        if (fromSelect) {
+          fromSelect = false;
+          return;
+        }
+
+        formStore.dispatch({
+          type: this.actionFormUpdate,
+          payload: v
+        })
+      })
     );
-    this.formGroup.patchValue(formStore.getState() || {});
+    this.subs.push(
+      this.store.select(this.path)
+        .subscribe(value => {
+          if (!value) return;
+          fromSelect = true;
+          this.formGroup.patchValue(value)
+        })
+    );
   }
 
   log(o) {
