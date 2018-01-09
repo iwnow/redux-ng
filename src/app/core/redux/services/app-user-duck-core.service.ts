@@ -14,6 +14,10 @@ export type IAppUserLoginAction = Action & {
   user: IAppUserState
 };
 
+export type IAppUserSetThemeAction = Action & {
+  theme: string
+};
+
 export type IAppUserLogoutAction = Action;
 
 @Injectable()
@@ -21,7 +25,8 @@ export class AppUserDuckCoreService extends DuckCoreBase {
 
   private actions = Object.freeze({
     APP_USER_LOGIN: this.actionFabric('APP_USER_LOGIN'),
-    APP_USER_LOGOUT: this.actionFabric('APP_USER_LOGOUT')
+    APP_USER_LOGOUT: this.actionFabric('APP_USER_LOGOUT'),
+    APP_USER_SET_THEME: this.actionFabric('APP_USER_SET_THEME'),
   });
 
   constructor(
@@ -45,6 +50,13 @@ export class AppUserDuckCoreService extends DuckCoreBase {
     };
   }
 
+  createActionAppUserSetTheme(theme: string): IAppUserSetThemeAction {
+    return {
+      type: this.actions.APP_USER_SET_THEME,
+      theme
+    };
+  }
+
   getActions(): string[] {
     return Object.values(this.actions);
   }
@@ -61,6 +73,11 @@ export class AppUserDuckCoreService extends DuckCoreBase {
         return action.user;
       case this.actions.APP_USER_LOGOUT:
         return null;
+      case this.actions.APP_USER_SET_THEME:
+        return {
+          ...state,
+          appTheme: action.theme
+        };
       default:
         break;
     }

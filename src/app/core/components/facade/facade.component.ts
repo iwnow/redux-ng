@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { IAppState } from '../../redux/models/state';
 import { AppUserDuckCoreService } from '../../redux/services/app-user-duck-core.service';
+import { AppSettingsCoreService } from '../../services/app-settings-core.service';
 
 @Component({
   selector: 'app-facade',
@@ -18,7 +19,8 @@ export class FacadeComponent implements OnInit {
   constructor(
     private store: NgRedux<IAppState>,
     public router: Router,
-    private appUserDuck: AppUserDuckCoreService
+    private appUserDuck: AppUserDuckCoreService,
+    private appSettings: AppSettingsCoreService
   ) { }
 
   ngOnInit() {
@@ -26,6 +28,14 @@ export class FacadeComponent implements OnInit {
 
   logoutUser() {
     this.store.dispatch(this.appUserDuck.createActionAppUserLogout());
+  }
+
+  defaultTheme() {
+    this.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(this.appSettings.themes.default));
+  }
+
+  darkTheme() {
+    this.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(this.appSettings.themes.dark));
   }
 
 }

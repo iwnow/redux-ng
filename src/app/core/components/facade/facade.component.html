@@ -23,13 +23,13 @@
     </button>
   </mat-menu>
   <mat-menu #subMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>notifications_off</mat-icon>
-      <span>Disable alerts</span>
+    <button mat-menu-item type="button" (click)="defaultTheme()">
+      <mat-icon>color_lens</mat-icon>
+      <span>Default Theme</span>
     </button>
-    <button mat-menu-item>
-      <mat-icon>person_outline</mat-icon>
-      <span>Profile</span>
+    <button mat-menu-item type="button" (click)="darkTheme()">
+      <mat-icon>color_lens</mat-icon>
+      <span>Dark Theme</span>
     </button>
   </mat-menu>
   <button mat-icon-button
