@@ -20,7 +20,7 @@ export class FacadeComponent implements OnInit {
     private store: NgRedux<IAppState>,
     public router: Router,
     private appUserDuck: AppUserDuckCoreService,
-    private appSettings: AppSettingsCoreService
+    public appSettings: AppSettingsCoreService
   ) { }
 
   ngOnInit() {
@@ -30,12 +30,7 @@ export class FacadeComponent implements OnInit {
     this.store.dispatch(this.appUserDuck.createActionAppUserLogout());
   }
 
-  defaultTheme() {
-    this.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(this.appSettings.themes.default));
+  setTheme(theme) {
+    this.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(theme));
   }
-
-  darkTheme() {
-    this.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(this.appSettings.themes.dark));
-  }
-
 }

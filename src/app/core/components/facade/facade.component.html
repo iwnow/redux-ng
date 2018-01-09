@@ -23,13 +23,17 @@
     </button>
   </mat-menu>
   <mat-menu #subMenu="matMenu">
-    <button mat-menu-item type="button" (click)="defaultTheme()">
+    <button mat-menu-item type="button" (click)="setTheme(appSettings.themes.default)">
       <mat-icon>color_lens</mat-icon>
-      <span>Default Theme</span>
+      <span>Theme 1</span>
     </button>
-    <button mat-menu-item type="button" (click)="darkTheme()">
+    <button mat-menu-item type="button" (click)="setTheme(appSettings.themes.dark)">
       <mat-icon>color_lens</mat-icon>
-      <span>Dark Theme</span>
+      <span>Theme 2</span>
+    </button>
+    <button mat-menu-item type="button" (click)="setTheme(appSettings.themes.theme3)">
+      <mat-icon>color_lens</mat-icon>
+      <span>Theme 3</span>
     </button>
   </mat-menu>
   <button mat-icon-button

@@ -9,7 +9,8 @@ export class AppSettingsCoreService {
 
   readonly themes = Object.freeze({
     default: 'default-theme',
-    dark: 'dark-theme'
+    dark: 'dark-theme',
+    theme3: 'theme3'
   });
 
   constructor(
