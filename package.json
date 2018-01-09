@@ -5,11 +5,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "preserve": "yarn build-prod",
+    "preserve": "NODE_ENV=production yarn build-prod",
     "serve": "cd dist && live-server --port=8090",
     "build": "ng build",
     "prebuild-prod": "ng -v",
     "build-prod": "ng build --prod --aot",
+    
+    "build-for-apache": "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
+    "start-c9": "NODE_ENV=production ng serve --host $IP --port $PORT --public $C9_HOSTNAME",
+    
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
