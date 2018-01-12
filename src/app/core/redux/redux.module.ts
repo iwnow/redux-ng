@@ -45,7 +45,6 @@ export class ReduxCoreModule {
     @Inject(REDUX_LAZY_BASE_PATH)
     private reduxLazyBasePath,
     private router: Router,
-    private injector: Injector,
     private appSettings: AppSettingsCoreService,
     private devTools: DevToolsExtension,
     private epicService: ReduxEpicCoreService,

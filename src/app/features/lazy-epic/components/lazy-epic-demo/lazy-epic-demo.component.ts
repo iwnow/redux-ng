@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LazyEpicStoreService } from '../../redux/lazy-epic-store.service';
 import { LazyEpicDuckService } from '../../redux/lazy-epic-duck.service';
 import { Observable } from 'rxjs/Observable';
+import { NgRedux } from '@angular-redux/store';
 
 @Component({
   selector: 'app-lazy-epic-demo',
