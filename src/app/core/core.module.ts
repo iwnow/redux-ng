@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { FacadeComponent } from './components/facade/facade.component';
 import { ReduxCoreModule } from './redux/redux.module';
-import { CoreRouteModule } from './/core-route.module';
+import { CoreRouteModule } from './core-route.module';
 
 import {
   MatCardModule, MatButtonModule, MatFormFieldModule,
