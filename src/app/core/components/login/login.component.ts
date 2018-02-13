@@ -14,19 +14,25 @@ import { LoginFormDuckCoreService } from '../../redux/services/login-form-duck-c
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  get cEmail() { return this.loginForm.get('email'); }
-  get cPassword() { return this.loginForm.get('password'); }
+  get emailControl() {
+    return this.loginForm.controls.email;
+  }
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
+  get state() {
+    return this.store.getState().core.loginForm;
+  }
 
   @select(s => s.core.loginForm.isLoginRequest)
   isRequesting$: Observable<boolean>;
-
 
   constructor(
     private fb: FormBuilder,
     private store: NgRedux<IAppState>,
     private router: Router,
     private loginFormDuckService: LoginFormDuckCoreService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -39,13 +45,13 @@ export class LoginComponent implements OnInit {
   onLogin() {
     if (!this.loginForm.valid) return;
 
-    if (this.store.getState().core.loginForm.isLoginRequest) return;
+    if (this.state.isLoginRequest) return;
 
-    this.store.dispatch(this.loginFormDuckService.createActionLoginFormRequest({
-      isLoginRequest: true,
-      login: this.cEmail.value,
-      password: this.cPassword.value
-    }));
+    this.store.dispatch(
+      this.loginFormDuckService.createActionLoginFormRequest({
+        login: this.emailControl.value,
+        password: this.passwordControl.value
+      })
+    );
   }
-
 }

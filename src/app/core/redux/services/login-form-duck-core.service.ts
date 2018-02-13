@@ -1,7 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Reducer } from 'redux';
-import { ReduxActionsCoreService, IActionFabric } from './redux-actions-core.service';
+import {
+  ReduxActionsCoreService,
+  IActionFabric
+} from './redux-actions-core.service';
 import { ILoginFormState } from '../models/login-form';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
@@ -16,7 +19,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 export interface ILoginFormRequestAction extends Action {
-  isLoginRequest: boolean;
   login: string;
   password: string;
 }
@@ -47,10 +49,9 @@ export class LoginFormDuckCoreService extends DuckCoreBase {
     super(actionService, `${coreModuleName}/login-form`);
   }
 
-  createActionLoginFormRequest({ isLoginRequest, login, password }): ILoginFormRequestAction {
+  createActionLoginFormRequest({ login, password }): ILoginFormRequestAction {
     return {
       type: this.actions.LOGIN_FORM_REQUEST,
-      isLoginRequest,
       login,
       password
     };
@@ -63,7 +64,10 @@ export class LoginFormDuckCoreService extends DuckCoreBase {
     };
   }
 
-  createActionLoginFormRequestSuccess({ login, name }): ILoginFormRequestSuccessAction {
+  createActionLoginFormRequestSuccess({
+    login,
+    name
+  }): ILoginFormRequestSuccessAction {
     return {
       type: this.actions.LOGIN_FORM_REQUEST_SUCCESS,
       login,
@@ -80,68 +84,74 @@ export class LoginFormDuckCoreService extends DuckCoreBase {
   }
 
   getEpics() {
-    return [
-      this.loginRequestEpic,
-      this.loginRequestSuccessEpic
-    ];
+    return [this.loginRequestEpic, this.loginRequestSuccessEpic];
   }
 
-  readonly reducer: Reducer<ILoginFormState>
-    = (state: ILoginFormState = {
+  readonly reducer: Reducer<ILoginFormState> = (
+    state: ILoginFormState = {
       isLoginRequest: false,
       loginError: null
-    }, action) => {
-      switch (action.type) {
-        case this.actions.LOGIN_FORM_REQUEST:
-          return {
-            ...state,
-            isLoginRequest: action.isLoginRequest,
-            loginError: null
-          };
-        case this.actions.LOGIN_FORM_REQUEST_FAIL:
-          return {
-            ...state,
-            loginError: action.loginError,
-            isLoginRequest: false
-          };
-        case this.actions.LOGIN_FORM_REQUEST_SUCCESS:
-          return {
-            ...state,
-            loginError: null,
-            isLoginRequest: false
-          };
-        default:
-          break;
-      }
-      return state || {
+    },
+    action
+  ) => {
+    switch (action.type) {
+      case this.actions.LOGIN_FORM_REQUEST:
+        return {
+          ...state,
+          isLoginRequest: true,
+          loginError: null
+        };
+      case this.actions.LOGIN_FORM_REQUEST_FAIL:
+        return {
+          ...state,
+          loginError: action.loginError,
+          isLoginRequest: false
+        };
+      case this.actions.LOGIN_FORM_REQUEST_SUCCESS:
+        return {
+          ...state,
+          loginError: null,
+          isLoginRequest: false
+        };
+      default:
+        break;
+    }
+    return (
+      state || {
         isLoginRequest: false,
         loginError: null
-      };
-    }
+      }
+    );
+  };
 
   /**epics */
   readonly loginRequestEpic = (action$: ActionsObservable<any>) => {
-    return action$.ofType(this.actions.LOGIN_FORM_REQUEST)
-      .mergeMap(action => {
-        // имитируем запрос на бакенд
-        const fakeUserData = { login: action.login, name: '1F' };
-        return Observable.of(fakeUserData)
-          .delay(100)
-          .map(result => {
-            this.router.navigate(['/']);
-            return this.createActionLoginFormRequestSuccess(result);
-          })
-          .catch(error => Observable.of(this.createActionLoginFormRequestFail(error)));
-      });
-  }
+    return action$.ofType(this.actions.LOGIN_FORM_REQUEST).mergeMap(action => {
+      // имитируем запрос на бакенд
+      const fakeUserData = { login: action.login, name: '1F' };
+      return Observable.of(fakeUserData)
+        .delay(100)
+        .map(result => {
+          this.router.navigate(['/']);
+          return this.createActionLoginFormRequestSuccess(result);
+        })
+        .catch(error =>
+          Observable.of(this.createActionLoginFormRequestFail(error))
+        );
+    });
+  };
 
   readonly loginRequestSuccessEpic = (action$: ActionsObservable<any>) => {
-    return action$.ofType(this.actions.LOGIN_FORM_REQUEST_SUCCESS)
-      // переводим стрим
-      .map(action => this.appUserDuckService.createActionAppUserLogin({
-        login: action.login,
-        name: action.login
-      }));
-  }
-
+    return (
+      action$
+        .ofType(this.actions.LOGIN_FORM_REQUEST_SUCCESS)
+        // переводим стрим
+        .map(action =>
+          this.appUserDuckService.createActionAppUserLogin({
+            login: action.login,
+            name: action.login
+          })
+        )
+    );
+  };
 }

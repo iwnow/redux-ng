@@ -8,7 +8,7 @@
       <mat-card-subtitle>Вход</mat-card-subtitle>
     </mat-card-header>
     <form [formGroup]="loginForm"
-    (keyup.enter)="onLogin()"
+          (keyup.enter)="onLogin()"
           novalidate>
       <mat-form-field>
         <input matInput
@@ -16,7 +16,7 @@
                formControlName="email"
                placeholder="Логин"
                type="email">
-        <mat-error *ngIf="cEmail.invalid">Заполните логин!</mat-error>
+        <mat-error *ngIf="emailControl.invalid">Заполните логин!</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput
@@ -24,7 +24,7 @@
                formControlName="password"
                placeholder="Пароль"
                type="password">
-        <mat-error *ngIf="cPassword.invalid">Заполните пароль!</mat-error>
+        <mat-error *ngIf="passwordControl.invalid">Заполните пароль!</mat-error>
       </mat-form-field>
       <mat-checkbox formControlName="stay">Не выходить из системы</mat-checkbox>
     </form>
@@ -37,14 +37,10 @@
             (click)="onLogin()"
             color="primary">
       <mat-icon *ngIf="!(isRequesting$ | async)">home</mat-icon>
-      <i *ngIf="isRequesting$ | async" class="fa fa-spinner fa-pulse"></i>
+      <i *ngIf="isRequesting$ | async"
+         class="fa fa-spinner fa-pulse"></i>
       Войти
     </button>
-
-    <!-- align="end" -->
-    <!-- <mat-card-actions>
-    <button mat-raised-button color="primary">Войти</button>
-  </mat-card-actions> -->
   </mat-card>
 
 </div>
