@@ -1,4 +1,4 @@
-import { NgModule, SkipSelf, Optional } from '@angular/core';
+import { NgModule, SkipSelf, Optional, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
@@ -7,17 +7,29 @@ import { ReduxCoreModule } from './redux/redux.module';
 import { CoreRouteModule } from './core-route.module';
 
 import {
-  MatCardModule, MatButtonModule, MatFormFieldModule,
-  MatInputModule, MatCheckboxModule, MatIconModule,
-  MatToolbarModule, MatSidenavModule, MatMenuModule, MatSliderModule
+  MatCardModule,
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatMenuModule,
+  MatSliderModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
-import { LoggerCoreService, ILog, LogType } from './services/logger-core.service';
+import {
+  LoggerCoreService,
+  ILog,
+  LogType
+} from './services/logger-core.service';
 
 import * as tokens from './core.di-tokens';
 import { AppSettingsCoreService } from './services/app-settings-core.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
 
 @NgModule({
   imports: [
@@ -38,11 +50,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     FlexLayoutModule,
     MatSliderModule
   ],
-  declarations: [
-    LoginComponent,
-    FacadeComponent,
-    DashboardComponent
-  ],
+  declarations: [LoginComponent, FacadeComponent, DashboardComponent],
   exports: [
     CoreRouteModule,
     ReduxCoreModule,
@@ -51,9 +59,14 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   providers: [
     { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },
     { provide: tokens.REDUX_LAZY_BASE_PATH, useValue: 'lazy' },
+    {
+      provide: ErrorHandler,
+      useClass: ExceptionHandlerCoreService
+    },
     IsAuthenticatedGuard,
     LoggerCoreService,
-    AppSettingsCoreService
+    AppSettingsCoreService,
+    ExceptionHandlerCoreService
   ]
 })
 export class CoreModule {
@@ -61,7 +74,9 @@ export class CoreModule {
 
   constructor(
     // import CoreModule only one time in app module
-    @Optional() @SkipSelf() parentModule: CoreModule,
+    @Optional()
+    @SkipSelf()
+    parentModule: CoreModule,
     private loggerService: LoggerCoreService
   ) {
     this.logger = loggerService.createLogger(CoreModule.name);

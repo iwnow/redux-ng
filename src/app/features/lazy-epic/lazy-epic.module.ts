@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LazyEpicRoutingModule } from './lazy-epic-routing.module';
@@ -6,17 +6,17 @@ import { LazyEpicDemoComponent } from './components/lazy-epic-demo/lazy-epic-dem
 import { LazyEpicStoreService } from './redux/lazy-epic-store.service';
 import { MODULE_NAME } from '../../core';
 import { LazyEpicDuckService } from './redux/lazy-epic-duck.service';
+import { ExceptionHandlerService } from './services/exception-handler.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    LazyEpicRoutingModule
-  ],
+  imports: [CommonModule, LazyEpicRoutingModule],
   declarations: [LazyEpicDemoComponent],
   providers: [
     { provide: MODULE_NAME, useValue: 'LazyEpicModule' },
+    { provide: ErrorHandler, useClass: ExceptionHandlerService },
     LazyEpicStoreService,
-    LazyEpicDuckService
+    LazyEpicDuckService,
+    ExceptionHandlerService
   ]
 })
-export class LazyEpicModule { }
+export class LazyEpicModule {}

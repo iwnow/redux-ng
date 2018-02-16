@@ -10,7 +10,7 @@ import { NgRedux } from '@angular-redux/store';
   styleUrls: ['./lazy-epic-demo.component.scss']
 })
 export class LazyEpicDemoComponent implements OnInit {
-  state$: Observable<string>
+  state$: Observable<string>;
 
   constructor(
     private store: LazyEpicStoreService,
@@ -19,11 +19,13 @@ export class LazyEpicDemoComponent implements OnInit {
     this.state$ = store.store.select(s => s && s.state);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   pingClick() {
     this.store.store.dispatch(this.duck.createActionPing());
   }
 
+  testException(): never {
+    throw new Error('test exception in lazy-epic module component');
+  }
 }

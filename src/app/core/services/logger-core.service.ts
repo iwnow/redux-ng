@@ -15,11 +15,9 @@ export class LoggerCoreService {
     warning: LogType.warning
   });
 
-  constructor(
-    private appSettings: AppSettingsCoreService
-  ) { }
+  constructor(private appSettings: AppSettingsCoreService) {}
 
-  createLogger(moduleName: string) {
+  createLogger(moduleName: string): ILog {
     return {
       log: (type: string, data) => {
         data = [`%c[LoggerService:${moduleName}]`, 'color:green;', data];
@@ -45,15 +43,12 @@ export class LoggerCoreService {
   }
 
   infoLog(...data) {
-    !this.appSettings.isProductionMode()
-      && console
-      && console.log(...data);
+    !this.appSettings.isProductionMode() && console && console.log(...data);
   }
 
   warnLog(...data) {
     console && console.warn(...data);
   }
-
 }
 
 export interface ILog {
