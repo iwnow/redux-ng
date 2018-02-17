@@ -1,17 +1,18 @@
 import { Epic } from 'redux-observable';
 import { Reducer, AnyAction } from 'redux';
 
-/**базовый класс для реализации в фича модулях
- * ядро предоставляет сервис для регистрации классов наследников
- * содержит описание фича модуля, предоставляет инфу о редюсерах и эпиках модуля
- * возможны расширения...
+import { ModuleStoreDefinitionBase } from './module-store-definition';
+
+/** Контракт для регистрации модулей подсистем
+ * содержит описание модуля, предоставляет информацию о конфигурации Store
+ * возможны расширения в дальнейшем...
  */
 export abstract class ModuleDefinitionBase {
-  abstract id: string;
-  abstract name: string;
-  abstract description?: string;
-  abstract version: string;
+  readonly id: Symbol = Symbol();
 
-  abstract get epic(): Epic<AnyAction, any, any>;
-  abstract get reducer(): Reducer<any>;
+  abstract get name(): string;
+  abstract get description(): string;
+  abstract get version(): string;
+
+  abstract get storeDefinition(): ModuleStoreDefinitionBase;
 }

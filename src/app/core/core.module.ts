@@ -30,6 +30,7 @@ import * as tokens from './core.di-tokens';
 import { AppSettingsCoreService } from './services/app-settings-core.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
+import { ModuleRegistrationCoreService } from './services/module-registration-core.service';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { ExceptionHandlerCoreService } from './services/exception-handler-core.s
     IsAuthenticatedGuard,
     LoggerCoreService,
     AppSettingsCoreService,
-    ExceptionHandlerCoreService
+    ExceptionHandlerCoreService,
+    ModuleRegistrationCoreService
   ]
 })
 export class CoreModule {
