@@ -31,6 +31,7 @@ import { AppSettingsCoreService } from './services/app-settings-core.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
 import { ModuleRegistrationCoreService } from './services/module-registration-core.service';
+import { ModuleStoreCoreService } from './services/module-store-core.service';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { ModuleRegistrationCoreService } from './services/module-registration-co
   providers: [
     { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },
     { provide: tokens.REDUX_LAZY_BASE_PATH, useValue: 'lazy' },
+    { provide: tokens.MODULE_STORE_BASE_PATH, useValue: 'subStoreModules' },
     {
       provide: ErrorHandler,
       useClass: ExceptionHandlerCoreService
@@ -68,7 +70,8 @@ import { ModuleRegistrationCoreService } from './services/module-registration-co
     LoggerCoreService,
     AppSettingsCoreService,
     ExceptionHandlerCoreService,
-    ModuleRegistrationCoreService
+    ModuleRegistrationCoreService,
+    ModuleStoreCoreService
   ]
 })
 export class CoreModule {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { AppSettingsCoreService } from './app-settings-core.service';
 
 export enum LogType {
@@ -36,6 +36,10 @@ export class LoggerCoreService {
         }
       }
     };
+  }
+
+  createLoggerForThis(that: any) {
+    return that && that.constructor && this.createLogger(that.constructor.name);
   }
 
   errorLog(...data) {
