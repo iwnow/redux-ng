@@ -53,7 +53,7 @@ export class ReduxCoreModule {
     private appUserDuckService: AppUserDuckCoreService,
     private loginFormDuckService: LoginFormDuckCoreService
   ) {
-    this.logger = loggerService.createLogger(ReduxCoreModule.name);
+    this.logger = loggerService.createLoggerForThis(this);
     if (parentModule) {
       const err = new Error('duplicate import of ReduxCoreModule!');
       this.logger.log(LogType.error, err);

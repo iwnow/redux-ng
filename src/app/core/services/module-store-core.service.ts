@@ -20,6 +20,9 @@ export class ModuleStoreCoreService {
     private rootEpic: ReduxEpicCoreService
   ) {}
 
+  /**register module store by definition
+   * only once call per module definition
+   */
   registerModuleStore(storeDef: ModuleStoreDefinitionBase) {
     if (!storeDef) return this;
     if (!storeDef.storeKey) throw new Error(`'storeKey' is not defined`);
@@ -35,6 +38,7 @@ export class ModuleStoreCoreService {
     return this;
   }
 
+  /**get module store by definition */
   getModuleStore<StoreType>(
     storeDef: ModuleStoreDefinitionBase
   ): ObservableStore<StoreType> {
