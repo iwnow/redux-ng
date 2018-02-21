@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { FacadeComponent } from './components/facade/facade.component';
-import { LoginComponent } from './components/login/login.component';
-import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { FacadeComponent, LoginComponent, FacadeAuthenticationGuard } from '../facade';
+import { DashboardComponent } from '../features/dashboard';
 
 const routes: Routes = [{
   path: '',
   component: FacadeComponent,
-  canActivate: [IsAuthenticatedGuard],
+  canActivate: [FacadeAuthenticationGuard],
   children: [{
     path: '',
     pathMatch: 'full',
@@ -37,4 +35,4 @@ const routes: Routes = [{
     RouterModule
   ]
 })
-export class CoreRouteModule { }
+export class RoutingModule { }

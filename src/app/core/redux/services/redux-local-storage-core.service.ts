@@ -15,23 +15,23 @@ export class ReduxLocalStorageCoreService {
     private loggerSrv: LoggerCoreService
   ) {
     this.logger = this.loggerSrv.createLogger(ReduxLocalStorageCoreService.name);
-    this.saveState$ = new BehaviorSubject(this.loadState());
+    this.saveState$ = new BehaviorSubject(this.getState());
     this.saveState$
       .debounceTime(1000)
       .subscribe(state => this.save(state));
   }
 
-  private save(state) {
+  protected save(state) {
     try {
       const serializedState = JSON.stringify(state);
       localStorage && localStorage.setItem(this.stateKey, serializedState);
       this.logger.log(LogType.info, 'saveState');
     } catch (err) {
-      this.logger.log(LogType.error, err);
+      this.logger.log(LogType.warning, err);
     }
   }
 
-  loadState() {
+  getState() {
     try {
       this.logger.log(LogType.info, 'loadState');
       const serializedState = localStorage && localStorage.getItem(this.stateKey);

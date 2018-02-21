@@ -1,11 +1,11 @@
 import { Component, Renderer2, OnInit, ElementRef, OnDestroy, HostBinding } from '@angular/core';
-import { AppSettingsCoreService } from './core';
+import { AppSettingsCoreService } from '../core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+  selector: 'vh-application-root',
+  templateUrl: './bootstrap.component.html'
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class BootstrapComponent implements OnInit, OnDestroy {
   subs: any[] = [];
 
   @HostBinding('class')

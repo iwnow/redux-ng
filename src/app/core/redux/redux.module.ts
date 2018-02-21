@@ -89,7 +89,7 @@ export class ReduxCoreModule {
 
     const initialStateWithLocalStorage = {
       ...initialState,
-      ...this.localStorage.loadState()
+      ...this.localStorage.getState()
     };
 
     this.store.configureStore(

@@ -1,10 +1,7 @@
 import { NgModule, SkipSelf, Optional, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './components/login/login.component';
-import { FacadeComponent } from './components/facade/facade.component';
 import { ReduxCoreModule } from './redux/redux.module';
-import { CoreRouteModule } from './core-route.module';
 
 import {
   MatCardModule,
@@ -28,7 +25,6 @@ import {
 
 import * as tokens from './core.di-tokens';
 import { AppSettingsCoreService } from './services/app-settings-core.service';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
 import { ModuleRegistrationCoreService } from './services/module-registration-core.service';
 import { ModuleStoreCoreService } from './services/module-store-core.service';
@@ -36,27 +32,24 @@ import { ModuleStoreCoreService } from './services/module-store-core.service';
 @NgModule({
   imports: [
     CommonModule,
-    CoreRouteModule,
+    // CoreRouteModule,
     ReduxCoreModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatMenuModule,
-    FlexLayoutModule,
-    MatSliderModule
+    // FormsModule,
+    // ReactiveFormsModule,
+    // MatCardModule,
+    // MatButtonModule,
+    // MatFormFieldModule,
+    // MatInputModule,
+    // MatCheckboxModule,
+    // MatIconModule,
+    // MatToolbarModule,
+    // MatSidenavModule,
+    // MatMenuModule,
+    // FlexLayoutModule,
+    // MatSliderModule
   ],
-  declarations: [LoginComponent, FacadeComponent, DashboardComponent],
   exports: [
-    CoreRouteModule,
-    ReduxCoreModule,
-    MatSliderModule // hack angular material in lazy module for animation slider
+    ReduxCoreModule
   ],
   providers: [
     { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },
