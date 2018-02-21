@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoggerCoreService, ILog, LogType } from '../../services/logger-core.service';
+import { LoggerService, ILog, LogType } from '../../diagnostics/logger';
 
 export type IActionFabric = (action: string) => string;
 
@@ -9,7 +9,7 @@ export class ReduxActionsCoreService {
   private readonly logger: ILog;
 
   constructor(
-    private loggerSrv: LoggerCoreService
+    private loggerSrv: LoggerService
   ) {
     this.logger = this.loggerSrv.createLogger(ReduxActionsCoreService.name);
   }

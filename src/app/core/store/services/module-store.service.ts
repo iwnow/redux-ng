@@ -1,24 +1,24 @@
 import { Injectable, Inject } from '@angular/core';
-import { ModuleStoreDefinitionBase } from '../base';
+import { ModuleStoreDefinitionBase } from '../contracts';
 import { NgRedux, ObservableStore } from '@angular-redux/store';
-import * as tok from '../core.di-tokens';
-import { ReduxEpicCoreService } from '../redux/services/redux-epic-core.service';
+import * as tok from '../di-tokens';
+import { StoreEpicService } from './store-epic.service';
 
 @Injectable()
-export class ModuleStoreCoreService {
+export class ModuleStoreService {
   protected moduleStoreDefs: Map<
     string,
     {
       storeDef: ModuleStoreDefinitionBase;
       store: ObservableStore<any>;
     }
-  > = new Map();
+    > = new Map();
 
   constructor(
     private rootStore: NgRedux<any>,
     @Inject(tok.MODULE_STORE_BASE_PATH) private storeBasePath: string,
-    private rootEpic: ReduxEpicCoreService
-  ) {}
+    private rootEpic: StoreEpicService
+  ) { }
 
   /**register module store by definition
    * only once call per module definition

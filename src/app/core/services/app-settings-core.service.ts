@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import env from '../env';
 import { REDUX_LAZY_BASE_PATH } from '../core.di-tokens';
 import { NgRedux } from '@angular-redux/store';
-import { IAppState } from '../index';
+import { IAppState } from '../redux';
 
 @Injectable()
 export class AppSettingsCoreService {
@@ -20,7 +20,7 @@ export class AppSettingsCoreService {
   ) { }
 
   isProductionMode() {
-    return environment.production;
+    return env.production;
   }
 
   getReduxLazyPath() {

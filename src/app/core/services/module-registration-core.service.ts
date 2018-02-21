@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ModuleDefinitionBase, ModuleStoreDefinitionBase } from '../base';
-import { ModuleStoreCoreService } from './module-store-core.service';
+import { ModuleDefinitionBase } from '../contracts';
+import { ModuleStoreService } from '../store/services';
 import {
-  LoggerCoreService,
+  LoggerService,
   LogType,
   ILog
-} from '../services/logger-core.service';
+} from '../diagnostics/logger';
 
 /**регистрирует модули, реализующие контракт ModuleDefinitionBase  */
 @Injectable()
@@ -14,8 +14,8 @@ export class ModuleRegistrationCoreService {
   protected logger: ILog;
 
   constructor(
-    private moduleStore: ModuleStoreCoreService,
-    logger: LoggerCoreService
+    private moduleStore: ModuleStoreService,
+    logger: LoggerService
   ) {
     this.logger = logger.createLoggerForThis(this);
   }

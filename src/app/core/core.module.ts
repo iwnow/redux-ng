@@ -17,23 +17,19 @@ import {
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
-import {
-  LoggerCoreService,
-  ILog,
-  LogType
-} from './services/logger-core.service';
 
 import * as tokens from './core.di-tokens';
 import { AppSettingsCoreService } from './services/app-settings-core.service';
 import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
 import { ModuleRegistrationCoreService } from './services/module-registration-core.service';
-import { ModuleStoreCoreService } from './services/module-store-core.service';
+import { LoggerService, ILog, LoggerModule, LogType } from './diagnostics/logger';
 
 @NgModule({
   imports: [
     CommonModule,
     // CoreRouteModule,
     ReduxCoreModule,
+    LoggerModule,
     // FormsModule,
     // ReactiveFormsModule,
     // MatCardModule,
@@ -60,11 +56,9 @@ import { ModuleStoreCoreService } from './services/module-store-core.service';
       useClass: ExceptionHandlerCoreService
     },
     IsAuthenticatedGuard,
-    LoggerCoreService,
     AppSettingsCoreService,
     ExceptionHandlerCoreService,
     ModuleRegistrationCoreService,
-    ModuleStoreCoreService
   ]
 })
 export class CoreModule {
@@ -75,7 +69,7 @@ export class CoreModule {
     @Optional()
     @SkipSelf()
     parentModule: CoreModule,
-    private loggerService: LoggerCoreService
+    private loggerService: LoggerService
   ) {
     this.logger = loggerService.createLogger(CoreModule.name);
     if (parentModule) {

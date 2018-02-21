@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LoggerCoreService, ILog, LogType } from '../../services/logger-core.service';
-
-import 'rxjs/add/operator/debounceTime';
+import { LoggerService, ILog, LogType } from '../../diagnostics/logger';
+import { debounceTime } from 'rxjs/operators';
 
 @Injectable()
-export class ReduxLocalStorageCoreService {
-  readonly stateKey = 'redux-state';
+export class StoreLocalStorageService {
+  readonly stateKey = 'StoreLocalStorageService';
   readonly saveState$: BehaviorSubject<any>;
 
   private readonly logger: ILog;
 
   constructor(
-    private loggerSrv: LoggerCoreService
+    private loggerSrv: LoggerService
   ) {
-    this.logger = this.loggerSrv.createLogger(ReduxLocalStorageCoreService.name);
+    this.logger = this.loggerSrv.createLoggerForThis(this);
     this.saveState$ = new BehaviorSubject(this.getState());
-    this.saveState$
-      .debounceTime(1000)
+    this.saveState$.pipe(debounceTime(1000))
       .subscribe(state => this.save(state));
   }
 
@@ -39,7 +37,7 @@ export class ReduxLocalStorageCoreService {
         return undefined;
       return JSON.parse(serializedState);
     } catch (err) {
-      this.logger.log(LogType.error, err);
+      this.logger.log(LogType.warning, err);
       return undefined;
     }
   }
