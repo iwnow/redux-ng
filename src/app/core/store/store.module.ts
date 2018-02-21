@@ -1,18 +1,35 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgReduxModule } from '@angular-redux/store';
+
 import { TOKEN_PROVIDERS_DEFAULT } from './di-tokens';
-import * as storeServices from './services';
+import {
+  StoreLocalStorageService,
+  ModuleStoreService,
+  StoreEpicService,
+  StoreConfigureService
+} from './services';
 
 @NgModule({
   imports: [
-    CommonModule
+    NgReduxModule
   ],
   declarations: [],
   providers: [
     ...TOKEN_PROVIDERS_DEFAULT,
-    storeServices.StoreLocalStorageService,
-    storeServices.ModuleStoreService,
-    storeServices.StoreEpicService
+    StoreLocalStorageService,
+    ModuleStoreService,
+    StoreEpicService,
+    StoreConfigureService
   ]
 })
-export class StoreModule { }
+export class StoreModule {
+
+  constructor(
+    // import StoreModule only once in application
+    @Optional() @SkipSelf() parentModule: StoreModule
+  ) {
+    if (parentModule)
+      throw new Error('duplicate import of StoreModule!');
+  }
+
+}
