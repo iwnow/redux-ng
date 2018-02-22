@@ -8,4 +8,5 @@ export interface RootStoreConfig<StateType> {
 	enchancers?: any[];
 	middlewares?: Middleware[];
 	devTools?: boolean;
+	routerStorePath?: string;
 }

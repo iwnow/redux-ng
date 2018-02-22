@@ -1,5 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { NgReduxModule } from '@angular-redux/store';
+import { NgReduxRouterModule } from '@angular-redux/router';
 
 import { TOKEN_PROVIDERS_DEFAULT } from './di-tokens';
 import {
@@ -11,7 +12,8 @@ import {
 
 @NgModule({
   imports: [
-    NgReduxModule
+    NgReduxModule,
+    NgReduxRouterModule.forRoot()
   ],
   declarations: [],
   providers: [
