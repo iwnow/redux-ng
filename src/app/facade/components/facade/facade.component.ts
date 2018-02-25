@@ -1,36 +1,32 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { select, NgRedux } from '@angular-redux/store';
-import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
-import { IAppState } from '../../redux/models/state';
-import { AppUserDuckCoreService } from '../../redux/services/app-user-duck-core.service';
-import { AppSettingsCoreService } from '../../services/app-settings-core.service';
+import { AppUserDuckService } from '../../store';
+import { FacadeModuleService } from '../../facade.service';
 
 @Component({
-  selector: 'app-facade',
+  selector: 'vh-facade',
   templateUrl: './facade.component.html',
   styleUrls: ['./facade.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacadeComponent implements OnInit {
-  @select(['core', 'appUser', 'name'])
-  appUserName$: Observable<string>;
+  appUserName$;
 
   constructor(
-    private store: NgRedux<IAppState>,
-    public router: Router,
-    private appUserDuck: AppUserDuckCoreService,
-    public appSettings: AppSettingsCoreService
-  ) { }
+    protected appUser: AppUserDuckService,
+    protected facade: FacadeModuleService
+  ) {}
 
   ngOnInit() {
+    this.appUserName$ = this.facade.store.select(
+      s => s && s.appUser && s.appUser.name
+    );
   }
 
   logoutUser() {
-    this.store.dispatch(this.appUserDuck.createActionAppUserLogout());
+    this.facade.store.dispatch(this.appUser.appUserLogout());
   }
 
-  setTheme(theme) {
-    this.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(theme));
-  }
+  // setTheme(theme) {
+  //   this.facade.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(theme));
+  // }
 }

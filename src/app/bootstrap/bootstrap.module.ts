@@ -14,16 +14,11 @@ const VENDOR_MODULES = [
   BrowserModule,
   BrowserAnimationsModule,
   MatSliderModule // need hack angular material in lazy module for animation slider
-]
+];
 
 @NgModule({
   declarations: [BootstrapComponent],
-  imports: [
-    ...VENDOR_MODULES,
-    RoutingModule,
-    CoreModule,
-    FacadeModule
-  ],
+  imports: [...VENDOR_MODULES, RoutingModule, CoreModule, FacadeModule],
   bootstrap: [BootstrapComponent]
 })
-export class BootstrapModule { }
+export class BootstrapModule {}

@@ -1,17 +1,12 @@
 import { Injectable, ErrorHandler, Inject } from '@angular/core';
-import {
-  LoggerCoreService,
-  ILog,
-  LogType
-} from '../services/logger-core.service';
-import { MODULE_NAME } from '../core.di-tokens';
+import { LoggerService, ILog, LogType } from '../diagnostics/logger';
 
 @Injectable()
 export class ExceptionHandlerCoreService implements ErrorHandler {
   protected logger: ILog;
 
-  constructor(logsrv: LoggerCoreService, @Inject(MODULE_NAME) moduleName) {
-    this.logger = logsrv.createLogger(`${moduleName}:Unhandled Exception`);
+  constructor(logsrv: LoggerService) {
+    this.logger = logsrv.createLogger(`core unhandled exception`);
   }
 
   handleError(error: any): void {

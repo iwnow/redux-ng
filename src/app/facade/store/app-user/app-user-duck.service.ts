@@ -4,33 +4,30 @@ import { Action } from 'redux';
 import { ActionsObservable, combineEpics } from 'redux-observable';
 import { ignoreElements, map } from 'rxjs/operators';
 
-import { IAppUserState } from './model/app-user';
-import { FacadeStoreService } from './facade-store.service';
-import { ActionFabric, AnyEpic } from '../../core/store/contracts';
+import { IAppUserState } from '../model/app-user';
+import { ActionFabric, AnyEpic } from '../../../core/store/contracts';
 
 export type IAppUserLoginAction = Action & {
   user: IAppUserState;
 };
 
 @Injectable()
-export class AppUserStoreService {
-  protected actionFabric: ActionFabric;
+export class AppUserDuckService {
   protected actions: {
     login;
     logout;
   };
 
-  constructor(protected router: Router, protected facade: FacadeStoreService) {
-    this.createActions();
+  constructor(protected router: Router) {
+    this.withActionScope();
   }
 
-  protected createActions() {
-    this.actionFabric = this.facade.createActionScopeFabric('app-user');
+  withActionScope(scoper: (action: string) => string = a => a) {
     this.actions = Object.freeze({
-      login: this.actionFabric('login'),
-      logout: this.actionFabric('logout')
+      login: scoper('login'),
+      logout: scoper('logout')
     });
-    this.facade.registerActions(...Object.values(this.actions));
+    return this;
   }
 
   appUserLogin(user: IAppUserState): IAppUserLoginAction {

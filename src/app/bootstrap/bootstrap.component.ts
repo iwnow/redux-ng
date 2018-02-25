@@ -1,5 +1,11 @@
-import { Component, Renderer2, OnInit, ElementRef, OnDestroy, HostBinding } from '@angular/core';
-import { AppSettingsCoreService } from '../core';
+import {
+  Component,
+  Renderer2,
+  OnInit,
+  ElementRef,
+  OnDestroy,
+  HostBinding
+} from '@angular/core';
 
 @Component({
   selector: 'vh-application-root',
@@ -8,19 +14,17 @@ import { AppSettingsCoreService } from '../core';
 export class BootstrapComponent implements OnInit, OnDestroy {
   subs: any[] = [];
 
-  @HostBinding('class')
-  currentTheme: string;
+  @HostBinding('class') currentTheme: string;
 
-  constructor(
-    private appSetting: AppSettingsCoreService
-  ) { }
+  // private appSetting: AppSettingsCoreService
+  constructor() {}
 
   ngOnInit() {
-    const sub = this.appSetting.selectAppTheme()
-      .subscribe(themeClass => {
-        this.currentTheme = themeClass || this.appSetting.themes.default;
-      });
-    this.subs.push(sub);
+    // const sub = this.appSetting.selectAppTheme()
+    //   .subscribe(themeClass => {
+    //     this.currentTheme = themeClass || this.appSetting.themes.default;
+    //   });
+    // this.subs.push(sub);
   }
 
   ngOnDestroy() {

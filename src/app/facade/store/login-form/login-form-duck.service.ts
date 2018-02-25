@@ -6,10 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { delay, map, catchError, mergeMap } from 'rxjs/operators';
 
-import { AppUserStoreService } from './app-user-store.service';
-import { ILoginFormState } from './model/login-form';
-import { ActionFabric, AnyEpic } from '../../core/store/contracts';
-import { FacadeStoreService } from './facade-store.service';
+import { AppUserDuckService } from '../app-user/app-user-duck.service';
+import { ILoginFormState } from '../model/login-form';
+import { ActionFabric, AnyEpic } from '../../../core/store/contracts';
 
 export interface ILoginFormRequestAction extends Action {
   login: string;
@@ -26,35 +25,30 @@ export interface ILoginFormRequestSuccessAction extends Action {
 }
 
 @Injectable()
-export class LoginFormStoreService {
+export class LoginFormDuckService {
   protected actionFabric: ActionFabric;
   private actions: {
-    beginRequest;
-    failRequest;
-    successRequest;
+    beginLoginRequest;
+    failLoginRequest;
+    successLoginRequest;
   };
 
-  constructor(
-    protected facade: FacadeStoreService,
-    protected appUser: AppUserStoreService,
-    protected router: Router
-  ) {
-    this.createActions();
+  constructor(protected appUser: AppUserDuckService, protected router: Router) {
+    this.withActionScope(a => `login-form/${a}`);
   }
 
-  protected createActions() {
-    this.actionFabric = this.facade.createActionScopeFabric('login-form');
+  withActionScope(scoper: (action: string) => string = a => a) {
     this.actions = Object.freeze({
-      beginRequest: this.actionFabric('beginRequest'),
-      failRequest: this.actionFabric('failRequest'),
-      successRequest: this.actionFabric('successRequest')
+      beginLoginRequest: scoper('beginLoginRequest'),
+      failLoginRequest: scoper('failLoginRequest'),
+      successLoginRequest: scoper('successLoginRequest')
     });
-    this.facade.registerActions(...Object.values(this.actions));
+    return this;
   }
 
   loginRequest({ login, password }): ILoginFormRequestAction {
     return {
-      type: this.actions.beginRequest,
+      type: this.actions.beginLoginRequest,
       login,
       password
     };
@@ -62,25 +56,17 @@ export class LoginFormStoreService {
 
   loginRequestFail(error: string): ILoginFormRequestFailAction {
     return {
-      type: this.actions.failRequest,
+      type: this.actions.failLoginRequest,
       loginError: error
     };
   }
 
   loginRequestSuccess({ login, name }): ILoginFormRequestSuccessAction {
     return {
-      type: this.actions.successRequest,
+      type: this.actions.successLoginRequest,
       login,
       name
     };
-  }
-
-  get store() {
-    return this.facade.store;
-  }
-
-  get state() {
-    return this.facade.store.getState().loginForm;
   }
 
   get epic() {
@@ -96,17 +82,17 @@ export class LoginFormStoreService {
       action
     ) => {
       switch (action.type) {
-        case this.actions.beginRequest:
+        case this.actions.beginLoginRequest:
           return {
             isLoginRequest: true,
             loginError: null
           };
-        case this.actions.failRequest:
+        case this.actions.failLoginRequest:
           return {
             loginError: action.loginError,
             isLoginRequest: false
           };
-        case this.actions.successRequest:
+        case this.actions.successLoginRequest:
           return {
             loginError: null,
             isLoginRequest: false
@@ -121,7 +107,7 @@ export class LoginFormStoreService {
   /**epics */
   protected loginRequestEpic: AnyEpic = action$ => {
     // имитируем запрос на бакенд
-    return action$.ofType(this.actions.beginRequest).pipe(
+    return action$.ofType(this.actions.beginLoginRequest).pipe(
       mergeMap(action =>
         of({ login: action.login, name: '1F' }).pipe(
           delay(1000),
@@ -136,7 +122,7 @@ export class LoginFormStoreService {
   };
 
   protected loginRequestSuccessEpic: AnyEpic = action$ => {
-    return action$.ofType(this.actions.successRequest).pipe(
+    return action$.ofType(this.actions.successLoginRequest).pipe(
       // переводим стрим
       map(action =>
         this.appUser.appUserLogin({

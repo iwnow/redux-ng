@@ -1,10 +1,5 @@
 import { NgModule, SkipSelf, Optional, ErrorHandler } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
-import * as tokens from './core.di-tokens';
-import { AppSettingsCoreService } from './services/app-settings-core.service';
 import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
 import { ModuleRegistrationCoreService } from './services/module-registration-core.service';
 import {
@@ -13,32 +8,16 @@ import {
   LoggerModule,
   LogType
 } from './diagnostics/logger';
+import { StoreModule } from './store';
 
 @NgModule({
-  imports: [
-    LoggerModule
-    // FormsModule,
-    // ReactiveFormsModule,
-    // MatCardModule,
-    // MatButtonModule,
-    // MatFormFieldModule,
-    // MatInputModule,
-    // MatCheckboxModule,
-    // MatIconModule,
-    // MatToolbarModule,
-    // MatSidenavModule,
-    // MatMenuModule,
-    // FlexLayoutModule,
-    // MatSliderModule
-  ],
+  imports: [LoggerModule, StoreModule],
   exports: [],
   providers: [
-    { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },
     {
       provide: ErrorHandler,
       useClass: ExceptionHandlerCoreService
     },
-    AppSettingsCoreService,
     ExceptionHandlerCoreService,
     ModuleRegistrationCoreService
   ]
@@ -47,7 +26,7 @@ export class CoreModule {
   private logger: ILog;
 
   constructor(
-    // import CoreModule only one time in app module
+    // import CoreModule only ones in app
     @Optional()
     @SkipSelf()
     parentModule: CoreModule,

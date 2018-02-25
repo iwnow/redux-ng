@@ -17,19 +17,29 @@ import {
 import { FacadeComponent } from './components/facade/facade.component';
 import { LoginComponent } from './components/login/login.component';
 import { FacadeAuthenticationGuard } from './guards/facade-authentication.guard';
-import { FacadeModuleDefinition } from './facade.definition';
+import { FacadeModuleService } from './facade.service';
 import { ModuleRegistrationCoreService } from '../core';
 import {
   FacadeModuleStoreDefinition,
-  FacadeStoreService,
-  AppUserStoreService,
-  LoginFormStoreService
+  AppUserDuckService,
+  LoginFormDuckService
 } from './store';
+import { RouterModule } from '@angular/router';
+import { DashboardModule } from '../features/dashboard';
+import { StoreConfigureService } from '../core/store/services';
+import { environment } from '../../environments/environment';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
+    // ANGULAR
     CommonModule,
+    RouterModule,
     ReactiveFormsModule,
+    // VALHALLA
+    DashboardModule,
+    // MATERIAL
+    FlexLayoutModule,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -45,18 +55,24 @@ import {
   exports: [FacadeComponent, LoginComponent],
   providers: [
     FacadeAuthenticationGuard,
-    FacadeModuleDefinition,
+    FacadeModuleService,
     FacadeModuleStoreDefinition,
-    FacadeStoreService,
-    AppUserStoreService,
-    LoginFormStoreService
+    AppUserDuckService,
+    LoginFormDuckService
   ]
 })
 export class FacadeModule {
   constructor(
     protected moduleReg: ModuleRegistrationCoreService,
-    protected def: FacadeModuleDefinition
+    protected def: FacadeModuleService,
+    protected storeRootConfiguration: StoreConfigureService
   ) {
+    storeRootConfiguration.configure({
+      devTools: !environment.production,
+      epic: null,
+      initialState: {},
+      reducers: {}
+    });
     moduleReg.registerModule(def);
   }
 }

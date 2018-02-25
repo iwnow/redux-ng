@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef,
+  NgZone
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ILoginFormState } from '../../store/model';
 import { Observable } from 'rxjs/Observable';
-import { LoginFormStoreService } from '../../store';
+import { LoginFormDuckService } from '../../store';
+import { FacadeModuleService } from '../../facade.service';
 
 @Component({
   selector: 'vh-login',
@@ -19,17 +26,21 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
   get state() {
-    return this.loginFormService.state;
+    const state = this.facade.state;
+    return state && state.loginForm;
   }
   get isRequesting$() {
-    return this.loginFormService.store.select(
-      s => s.loginForm && s.loginForm.isLoginRequest
+    return this.facade.store.select(
+      s => s && s.loginForm && s.loginForm.isLoginRequest
     );
   }
 
   constructor(
     private fb: FormBuilder,
-    private loginFormService: LoginFormStoreService
+    private loginFormDuck: LoginFormDuckService,
+    private facade: FacadeModuleService,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -43,10 +54,10 @@ export class LoginComponent implements OnInit {
   onLogin() {
     if (!this.loginForm.valid) return;
 
-    if (this.state.isLoginRequest) return;
+    if (this.state && this.state.isLoginRequest) return;
 
-    this.loginFormService.store.dispatch(
-      this.loginFormService.loginRequest({
+    this.facade.store.dispatch(
+      this.loginFormDuck.loginRequest({
         login: this.emailControl.value,
         password: this.passwordControl.value
       })

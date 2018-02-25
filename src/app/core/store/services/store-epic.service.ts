@@ -4,11 +4,7 @@ import { combineEpics, Epic } from 'redux-observable';
 import { mergeMap } from 'rxjs/operators';
 import { getStringHashCode } from '../../utils';
 
-import {
-  LoggerService,
-  ILog,
-  LogType
-} from '../../diagnostics/logger';
+import { LoggerService, ILog, LogType } from '../../diagnostics/logger';
 import { AnyAction } from 'redux';
 
 /**For Adding New Epics Asynchronously/Lazily
@@ -25,29 +21,29 @@ export class StoreEpicService {
     return this.rootEpicInternal;
   }
 
-  constructor(
-    private logSrv: LoggerService
-  ) {
+  constructor(private logSrv: LoggerService) {
     this.logger = this.logSrv.createLoggerForThis(this);
   }
 
   createRootEpic(...epics: Epic<AnyAction, any>[]) {
-    if (this.rootEpic)
-      throw new Error('duplicate creating root epic!');
+    if (this.rootEpic) throw new Error('duplicate creating root epic!');
 
-    epics = epics || [];
-    epics.forEach(e => this.epics[getStringHashCode(e.toString())])
+    epics = (epics || []).filter(e => !!e);
+    epics.forEach(e => this.epics[getStringHashCode(e.toString())]);
     this.epic$ = new BehaviorSubject(combineEpics(...epics));
     this.rootEpicInternal = (action$, store) =>
-      this.epic$.pipe(
-        mergeMap(ep => ep(action$, store))
-      );
+      this.epic$.pipe(mergeMap(ep => ep(action$, store)));
     this.logger.log(LogType.info, 'root epic created');
     return this.rootEpic;
   }
 
   registerEpic(epic: Epic<AnyAction, any>) {
     if (!epic) return;
+    if (!this.epic$)
+      throw new Error(
+        'Calling register epic before root epic is created. Root epic is not created yet!'
+      );
+
     const hash = getStringHashCode(epic.toString());
     if (this.epics[hash])
       throw new Error(`duplicate epic register, ${epic.name}`);

@@ -6,4 +6,8 @@ export abstract class ModuleStoreDefinitionBase {
   abstract get storeKey(): string;
   abstract get epic(): Epic<AnyAction, any, any>;
   abstract get reducer(): Reducer<any>;
+
+  createActionScope(scope: string) {
+    return (action: string) => `${this.storeKey}/${scope}/${action}`;
+  }
 }
