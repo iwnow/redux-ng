@@ -1,7 +1,7 @@
 import { Epic } from 'redux-observable';
 import { Reducer, AnyAction } from 'redux';
 
-import { ModuleStoreDefinitionBase } from './module-store-definition';
+import { ModuleStoreDefinitionBase } from '../store/contracts';
 
 /** Контракт для регистрации модулей подсистем
  * содержит описание модуля, предоставляет информацию о конфигурации Store

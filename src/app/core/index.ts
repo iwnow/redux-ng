@@ -1,4 +1,7 @@
 export { CoreModule } from './core.module';
+export {
+  ModuleRegistrationCoreService
+} from './services/module-registration-core.service';
 
 // export { AppSettingsCoreService } from './services/app-settings-core.service';
 // export { LoggerCoreService, ILog, LogType } from './services/logger-core.service';

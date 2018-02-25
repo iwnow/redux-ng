@@ -10,6 +10,7 @@ import { RootStoreConfig } from '../contracts';
 import { StoreEpicService } from './store-epic.service';
 import env from '../../env';
 import * as toks from '../di-tokens';
+import { StoreService } from './store.service';
 
 @Injectable()
 export class StoreConfigureService {
@@ -20,12 +21,11 @@ export class StoreConfigureService {
     protected loggerSrv: logger.LoggerService,
     protected epicSrv: StoreEpicService,
     protected devTools: DevToolsExtension,
-    @Inject(toks.MODULE_STORE_BASE_PATH)
-    protected moduleStoreBasePath: string,
+    @Inject(toks.MODULE_STORE_BASE_PATH) protected moduleStoreBasePath: string,
     protected reduxRouter: NgReduxRouter,
-    @Inject(toks.ROUTER_STORE_BASE_PATH)
-    protected routerSoreRootPath: string,
-    protected store: NgRedux<any>
+    @Inject(toks.ROUTER_STORE_BASE_PATH) protected routerSoreRootPath: string,
+    protected store: NgRedux<any>,
+    protected storeService: StoreService
   ) {
     this.logger = loggerSrv.createLoggerForThis(this);
   }
@@ -34,8 +34,7 @@ export class StoreConfigureService {
    * must call only once in application root */
   configure<StateType>(config: RootStoreConfig<StateType>) {
     try {
-      if (!config)
-        throw new Error('Config for root store not passed!');
+      if (!config) throw new Error('Config for root store not passed!');
       if (this.configured)
         throw new Error(`duplicate call 'StoreConfigureService.configure()'`);
 
@@ -51,16 +50,18 @@ export class StoreConfigureService {
 
       // ENCHANCERS
       let enchancers = config.enchancers || [];
-      if (!env.production
-        && config.devTools
-        && window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']) {
+      if (
+        !env.production &&
+        config.devTools &&
+        window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']
+      ) {
         enchancers = [...enchancers, this.devTools.enhancer()];
       }
 
       // ROOT REDUCER
       const routerPath = config.routerStorePath
-        ? config.routerStorePath
-        : this.routerSoreRootPath,
+          ? config.routerStorePath
+          : this.routerSoreRootPath,
         rootReducer = combineReducers<StateType>({
           ...config.reducers,
           [routerPath]: routerReducer,
@@ -79,7 +80,8 @@ export class StoreConfigureService {
       const routerSelector = state => state[routerPath];
       this.reduxRouter.initialize(routerSelector);
 
-      return this.store as NgRedux<StateType>;
+      // return this.store as NgRedux<StateType>;
+      return this.storeService;
       /*
 
       const coreReducer = combineReducers<ICoreState>({
@@ -115,7 +117,6 @@ export class StoreConfigureService {
       }));
 
       */
-
     } catch (e) {
       this.logger.log(logger.LogType.error, e);
     } finally {
@@ -123,5 +124,4 @@ export class StoreConfigureService {
       this.logger.log(logger.LogType.info, 'store is configured');
     }
   }
-
 }

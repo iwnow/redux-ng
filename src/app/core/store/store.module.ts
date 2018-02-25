@@ -9,6 +9,8 @@ import {
   StoreEpicService,
   StoreConfigureService
 } from './services';
+import { StoreService } from './services/store.service';
+import { ActionService } from './services/action.service';
 
 @NgModule({
   imports: [
@@ -21,7 +23,9 @@ import {
     StoreLocalStorageService,
     ModuleStoreService,
     StoreEpicService,
-    StoreConfigureService
+    StoreConfigureService,
+    StoreService,
+    ActionService
   ]
 })
 export class StoreModule {

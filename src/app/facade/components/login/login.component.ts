@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgRedux, select } from '@angular-redux/store';
-import { IAppState } from '../../redux/models/state';
-import { Router } from '@angular/router';
+import { ILoginFormState } from '../../store/model';
 import { Observable } from 'rxjs/Observable';
-import { LoginFormDuckCoreService } from '../../redux/services/login-form-duck-core.service';
+import { LoginFormStoreService } from '../../store';
 
 @Component({
-  selector: 'app-login',
+  selector: 'vh-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -21,17 +19,17 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
   get state() {
-    return this.store.getState().core.loginForm;
+    return this.loginFormService.state;
   }
-
-  @select(s => s.core.loginForm.isLoginRequest)
-  isRequesting$: Observable<boolean>;
+  get isRequesting$() {
+    return this.loginFormService.store.select(
+      s => s.loginForm && s.loginForm.isLoginRequest
+    );
+  }
 
   constructor(
     private fb: FormBuilder,
-    private store: NgRedux<IAppState>,
-    private router: Router,
-    private loginFormDuckService: LoginFormDuckCoreService
+    private loginFormService: LoginFormStoreService
   ) {}
 
   ngOnInit() {
@@ -47,8 +45,8 @@ export class LoginComponent implements OnInit {
 
     if (this.state.isLoginRequest) return;
 
-    this.store.dispatch(
-      this.loginFormDuckService.createActionLoginFormRequest({
+    this.loginFormService.store.dispatch(
+      this.loginFormService.loginRequest({
         login: this.emailControl.value,
         password: this.passwordControl.value
       })
