@@ -44,7 +44,7 @@ export class AppUserDuckService {
   }
 
   get epic() {
-    return combineEpics(this.logoutEpic);
+    return combineEpics(this.logoutEpic, this.loginEpic);
   }
 
   get reducer() {
@@ -66,6 +66,16 @@ export class AppUserDuckService {
     return action$.ofType(this.actions.logout).pipe(
       map(_ => {
         this.router.navigate(['/login']);
+        return _;
+      }),
+      ignoreElements()
+    );
+  };
+
+  protected loginEpic: AnyEpic = action$ => {
+    return action$.ofType(this.actions.login).pipe(
+      map(_ => {
+        this.router.navigateByUrl('/');
         return _;
       }),
       ignoreElements()

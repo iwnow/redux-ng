@@ -29,6 +29,7 @@ import { DashboardModule } from '../features/dashboard';
 import { StoreConfigureService } from '../core/store/services';
 import { environment } from '../../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CurrentAppUserService } from './services/current-user.service';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FacadeModuleService,
     FacadeModuleStoreDefinition,
     AppUserDuckService,
-    LoginFormDuckService
+    LoginFormDuckService,
+    CurrentAppUserService
   ]
 })
 export class FacadeModule {

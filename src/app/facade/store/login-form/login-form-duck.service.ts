@@ -9,6 +9,7 @@ import { delay, map, catchError, mergeMap } from 'rxjs/operators';
 import { AppUserDuckService } from '../app-user/app-user-duck.service';
 import { ILoginFormState } from '../model/login-form';
 import { ActionFabric, AnyEpic } from '../../../core/store/contracts';
+import { epicWrap } from '../../../core/store';
 
 export interface ILoginFormRequestAction extends Action {
   login: string;
@@ -70,7 +71,10 @@ export class LoginFormDuckService {
   }
 
   get epic() {
-    return combineEpics(this.loginRequestEpic, this.loginRequestSuccessEpic);
+    return combineEpics(
+      this.loginRequestEpic,
+      epicWrap(this.loginRequestSuccessEpic)
+    );
   }
 
   get reducer(): Reducer<ILoginFormState> {
@@ -112,8 +116,10 @@ export class LoginFormDuckService {
         of({ login: action.login, name: '1F' }).pipe(
           delay(1000),
           map(result => {
-            this.router.navigate(['/']);
-            return this.loginRequestSuccess(result);
+            return {
+              ...action,
+              ...this.loginRequestSuccess(result)
+            };
           }),
           catchError(error => of(this.loginRequestFail(error)))
         )
@@ -124,12 +130,12 @@ export class LoginFormDuckService {
   protected loginRequestSuccessEpic: AnyEpic = action$ => {
     return action$.ofType(this.actions.successLoginRequest).pipe(
       // переводим стрим
-      map(action =>
-        this.appUser.appUserLogin({
+      map(action => {
+        return this.appUser.appUserLogin({
           login: action.login,
           name: action.login
-        })
-      )
+        });
+      })
     );
   };
 }
