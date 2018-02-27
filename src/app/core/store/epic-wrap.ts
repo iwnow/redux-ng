@@ -8,37 +8,20 @@ import { Subject } from 'rxjs/Subject';
 export const epicWrap: <ActionType extends AnyAction>(
   epic: Epic<ActionType, any, any>
 ) => AnyEpic = epic => {
-  const subj = new Subject<Action>();
   return (actions$: ActionsObservable<any>, store, deps) => {
-    actions$.subscribe(act => subj.next(act));
-    return epic(actions$, store, deps).pipe(
-      switchMap(act => {
-        console.log('switch', act);
-        return subj.pipe(
-          map(a => {
-            console.log('spread', a);
-            return {
-              ...a,
-              ...(<{}>act)
+    return actions$.pipe(
+      mergeMap(actionIn => {
+        return epic(actions$, store, deps).pipe(
+          map(actionOut => {
+            const fullAct = {
+              ...actionIn, // for fractal store
+              ...(<{}>actionOut)
             };
+            console.log('spread', fullAct);
+            return fullAct;
           })
         );
       })
     );
   };
-  // epic(actions$, store, deps);
-  // actions$.pipe(
-  //   switchMap(action => {
-  //     return epic(actions$, store, deps).pipe(
-  //       map(act => {
-  //         const mapped = {
-  //           ...action,
-  //           ...(<{}>act)
-  //         };
-  //         console.log(action, 'to', mapped);
-  //         return mapped;
-  //       })
-  //     );
-  //   })
-  // );
 };
