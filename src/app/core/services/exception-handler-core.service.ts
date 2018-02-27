@@ -6,7 +6,7 @@ export class ExceptionHandlerCoreService implements ErrorHandler {
   protected logger: ILog;
 
   constructor(logsrv: LoggerService) {
-    this.logger = logsrv.createLogger(`core unhandled exception`);
+    this.logger = logsrv.createLoggerForThis(this);
   }
 
   handleError(error: any): void {

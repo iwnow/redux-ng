@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { combineEpics, Epic } from 'redux-observable';
-import { mergeMap } from 'rxjs/operators';
+import { combineEpics, Epic, ActionsObservable } from 'redux-observable';
+import { mergeMap, map, ignoreElements } from 'rxjs/operators';
 import { getStringHashCode } from '../../utils';
 
 import { LoggerService, ILog, LogType } from '../../diagnostics/logger';
 import { AnyAction } from 'redux';
+import { Subject } from 'rxjs/Subject';
 
 /**For Adding New Epics Asynchronously/Lazily
  * ReduxEpicService.registerEpic(newEpic1, newEpic2...)
@@ -31,8 +32,8 @@ export class StoreEpicService {
     epics = (epics || []).filter(e => !!e);
     epics.forEach(e => this.epics[getStringHashCode(e.toString())]);
     this.epic$ = new BehaviorSubject(combineEpics(...epics));
-    this.rootEpicInternal = (action$, store) =>
-      this.epic$.pipe(mergeMap(ep => ep(action$, store)));
+    this.rootEpicInternal = (action$, store, deps) =>
+      this.epic$.pipe(mergeMap(ep => ep(action$, store, deps)));
     this.logger.log(LogType.info, 'root epic created');
     return this.rootEpic;
   }

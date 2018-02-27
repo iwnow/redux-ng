@@ -34,6 +34,11 @@ export class LoginComponent implements OnInit {
       s => s && s.loginForm && s.loginForm.isLoginRequest
     );
   }
+  get loginError() {
+    return this.facade.store.select(
+      s => s && s.loginForm && s.loginForm.loginError
+    );
+  }
 
   constructor(
     private fb: FormBuilder,

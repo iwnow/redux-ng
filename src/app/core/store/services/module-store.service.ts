@@ -3,7 +3,6 @@ import { ModuleStoreDefinitionBase } from '../contracts';
 import { NgRedux, ObservableStore } from '@angular-redux/store';
 import * as tok from '../di-tokens';
 import { StoreEpicService } from './store-epic.service';
-import { epicWrap } from '../epic-wrap';
 
 @Injectable()
 export class ModuleStoreService {

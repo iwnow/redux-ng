@@ -1,15 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Action, Reducer } from 'redux';
+import { Action, Reducer, AnyAction } from 'redux';
 import { ActionsObservable, combineEpics } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { delay, map, catchError, mergeMap } from 'rxjs/operators';
+import { delay, map, catchError, mergeMap, tap } from 'rxjs/operators';
 
 import { AppUserDuckService } from '../app-user/app-user-duck.service';
 import { ILoginFormState } from '../model/login-form';
 import { ActionFabric, AnyEpic } from '../../../core/store/contracts';
-import { epicWrap } from '../../../core/store';
+import { epicMap } from '../../../core/store';
+import { UnaryFunction } from 'rxjs/interfaces';
 
 export interface ILoginFormRequestAction extends Action {
   login: string;
@@ -71,10 +72,7 @@ export class LoginFormDuckService {
   }
 
   get epic() {
-    return combineEpics(
-      this.loginRequestEpic,
-      epicWrap(this.loginRequestSuccessEpic)
-    );
+    return combineEpics(this.loginRequestEpic, this.loginRequestSuccessEpic);
   }
 
   get reducer(): Reducer<ILoginFormState> {
@@ -121,21 +119,81 @@ export class LoginFormDuckService {
               ...this.loginRequestSuccess(result)
             };
           }),
-          catchError(error => of(this.loginRequestFail(error)))
+          catchError(error =>
+            of({
+              ...action,
+              ...this.loginRequestFail(error.message)
+            })
+          )
         )
       )
     );
   };
 
   protected loginRequestSuccessEpic: AnyEpic = action$ => {
+    const multiPipe = (...operators) => <T>(source: Observable<T>) =>
+      new Observable<T>(observer =>
+        (<any>source).pipe(...operators).subscribe({
+          next(x) {
+            observer.next(x);
+          },
+          error(err) {
+            observer.error(err);
+          },
+          complete() {
+            observer.complete();
+          }
+        })
+      );
+
+    const epad: <T extends AnyAction>(
+      ...op: UnaryFunction<Observable<T>, Observable<T>>[]
+    ) => ((source: Observable<T>) => Observable<T>) = (...op) => source =>
+      new Observable(observer => {
+        let actionIn = null;
+        return source
+          .pipe(
+            tap(a => {
+              actionIn = a;
+            }),
+            multiPipe(...op),
+            // op,
+            map(a => ({
+              ...actionIn,
+              ...(<{}>a)
+            }))
+          )
+          .subscribe({
+            next(x) {
+              observer.next(x);
+            },
+            error(err) {
+              observer.error(err);
+            },
+            complete() {
+              observer.complete();
+            }
+          });
+      });
+
     return action$.ofType(this.actions.successLoginRequest).pipe(
       // переводим стрим
-      map(action => {
-        return this.appUser.appUserLogin({
-          login: action.login,
-          name: action.login
-        });
-      })
+      epad(
+        map(a => {
+          console.log(1);
+          return a;
+        }),
+        map(a => {
+          console.log(2);
+          return a;
+        }),
+        map(action => {
+          return this.appUser.appUserLogin({
+            login: action.login,
+            name: action.login
+          });
+        })
+      )
     );
   };
 }
