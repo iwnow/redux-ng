@@ -33,7 +33,6 @@
     </mat-card-content>
 
     <button mat-raised-button
-            [disabled]="loginForm.invalid"
             (click)="onLogin()"
             color="primary">
       <mat-icon *ngIf="!(isRequesting$ | async)">home</mat-icon>
