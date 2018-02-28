@@ -1,7 +1,7 @@
 <mat-toolbar color="primary"
              class="core-toolbar">
   <span style="cursor:pointer"
-        (click)="router.navigate(['/'])"> 1F Demo </span>
+        (click)="companyLogoClick()">1F Demo </span>
 
   <span fxFlex></span>
   {{appUserName$ | async}}
@@ -25,19 +25,19 @@
   <mat-menu #subMenu="matMenu">
     <button mat-menu-item
             type="button"
-            (click)="setTheme(appSettings.themes.default)">
+            (click)="setTheme('Theme 1')">
       <mat-icon>color_lens</mat-icon>
       <span>Theme 1</span>
     </button>
     <button mat-menu-item
             type="button"
-            (click)="setTheme(appSettings.themes.dark)">
+            (click)="setTheme('Theme 2')">
       <mat-icon>color_lens</mat-icon>
       <span>Theme 2</span>
     </button>
     <button mat-menu-item
             type="button"
-            (click)="setTheme(appSettings.themes.theme3)">
+            (click)="setTheme('Theme 3')">
       <mat-icon>color_lens</mat-icon>
       <span>Theme 3</span>
     </button>

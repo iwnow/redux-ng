@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AppUserDuckService } from '../../store';
 import { FacadeModuleService } from '../../facade.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vh-facade',
@@ -13,7 +14,8 @@ export class FacadeComponent implements OnInit {
 
   constructor(
     protected appUser: AppUserDuckService,
-    protected facade: FacadeModuleService
+    protected facade: FacadeModuleService,
+    protected router: Router
   ) {}
 
   ngOnInit() {
@@ -26,7 +28,10 @@ export class FacadeComponent implements OnInit {
     this.facade.store.dispatch(this.appUser.appUserLogout());
   }
 
-  // setTheme(theme) {
-  //   this.facade.store.dispatch(this.appUserDuck.createActionAppUserSetTheme(theme));
-  // }
+  companyLogoClick() {
+    this.router.navigateByUrl('/');
+  }
+
+  setTheme(theme) {
+  }
 }

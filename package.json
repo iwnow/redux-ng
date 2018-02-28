@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --aot",
     "preserve": "NODE_ENV=production yarn build-prod",
     "serve": "cd dist && live-server --port=8090",
     "build": "ng build",

@@ -5,21 +5,25 @@ import { ActionsObservable, combineEpics } from 'redux-observable';
 import { ignoreElements, map } from 'rxjs/operators';
 
 import { IAppUserState } from '../model/app-user';
-import { ActionFabric, AnyEpic } from '../../../core/store/contracts';
+import {
+  ActionFabric,
+  AnyEpic,
+  DuckServiceBase
+} from '@vh/core/store/contracts';
 
 export type IAppUserLoginAction = Action & {
   user: IAppUserState;
 };
 
 @Injectable()
-export class AppUserDuckService {
+export class AppUserDuckService extends DuckServiceBase {
   protected actions: {
     login;
     logout;
   };
 
   constructor(protected router: Router) {
-    this.withActionScope();
+    super();
   }
 
   withActionScope(scoper: (action: string) => string = a => a) {
@@ -65,7 +69,7 @@ export class AppUserDuckService {
   protected logoutEpic: AnyEpic = action$ => {
     return action$.ofType(this.actions.logout).pipe(
       map(_ => {
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('/login');
         return _;
       }),
       ignoreElements()

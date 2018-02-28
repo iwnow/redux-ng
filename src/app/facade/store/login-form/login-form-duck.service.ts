@@ -109,25 +109,17 @@ export class LoginFormDuckService {
   /**epics */
   protected loginRequestEpic: AnyEpic = action$ => {
     // имитируем запрос на бакенд
-    return action$.ofType(this.actions.beginLoginRequest).pipe(
-      mergeMap(action =>
-        of({ login: action.login, name: '1F' }).pipe(
-          delay(1000),
-          map(result => {
-            return {
-              ...action,
-              ...this.loginRequestSuccess(result)
-            };
-          }),
-          catchError(error =>
-            of({
-              ...action,
-              ...this.loginRequestFail(error.message)
-            })
+    return action$
+      .ofType(this.actions.beginLoginRequest)
+      .pipe(epad(
+        mergeMap(action =>
+          of({ login: action.login, name: '1F' }).pipe(
+            delay(1000),
+            map(result => this.loginRequestSuccess(result)),
+            catchError(error => of(this.loginRequestFail(error.message)))
           )
         )
-      )
-    );
+      ));
   };
 
   protected loginRequestSuccessEpic: AnyEpic = action$ => {

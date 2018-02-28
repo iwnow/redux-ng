@@ -15,4 +15,6 @@ export abstract class ModuleDefinitionBase {
   abstract get version(): string;
 
   abstract get storeDefinition(): ModuleStoreDefinitionBase;
+  abstract get store();
+  abstract get state();
 }
