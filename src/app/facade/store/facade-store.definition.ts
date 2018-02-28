@@ -4,7 +4,7 @@ import { Epic, combineEpics } from 'redux-observable';
 import { Injectable } from '@angular/core';
 import { AppUserDuckService } from './app-user/app-user-duck.service';
 import { IFacadeState } from './model';
-import { combiner } from '../../core/store';
+import { mergeReducers } from '../../core/store/utils';
 import { LoginFormDuckService } from './login-form/login-form-duck.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class FacadeModuleStoreDefinition extends ModuleStoreDefinitionBase {
   }
 
   get reducer(): (state: IFacadeState, action: AnyAction) => any {
-    return combiner<IFacadeState>({
+    return mergeReducers<IFacadeState>({
       appUser: this.appUserDuck.reducer,
       loginForm: this.loginFormDuck.reducer,
       styleTheme: null
