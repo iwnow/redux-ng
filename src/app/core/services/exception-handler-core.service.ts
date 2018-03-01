@@ -19,17 +19,12 @@ export class ExceptionHandlerCoreService implements ErrorHandler {
       url = this.location.path();
 
     StackTrace.fromError(error).then(stackframes => {
-      const stackString = stackframes
-        .splice(0, 20)
-        .map(function(sf) {
-          return sf.toString();
-        })
-        .join('\n');
+      const stackString = stackframes.splice(0, 20).join('\n');
       // log on the server
-      this.logger.log(LogType.warning, { message, url, stack: stackString });
+      this.logger.log(LogType.error, { message, url, stack: stackString });
     });
 
     // eat exception bad practice
-    // throw error;
+    // throw error;'
   }
 }
