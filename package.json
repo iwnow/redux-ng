@@ -9,16 +9,19 @@
     "serve": "cd dist && live-server --port=8090",
     "build": "ng build",
     "prebuild-prod": "ng -v",
-    "build-prod": "ng build --prod --aot",
-    "build-for-apache": "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
-    "start-c9": "NODE_ENV=production ng serve --host $IP --port $PORT --public $C9_HOSTNAME",
+    "build-prod": "ng build --prod --aot --vc",
+    "build-for-apache":
+      "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
+    "start-c9":
+      "NODE_ENV=production ng serve --host $IP --port $PORT --public $C9_HOSTNAME",
     "c9-apache-restart": "sudo /etc/init.d/apache2 restart",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-stat": "ng build --prod --aot --stats-json",
     "bundle-report": "webpack-bundle-analyzer dist/stats.json",
-    "analyze": "ng build --prod --aot --stats-json && webpack-bundle-analyzer dist/stats.json"
+    "analyze":
+      "ng build --prod --aot --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {
