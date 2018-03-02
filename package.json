@@ -9,7 +9,8 @@
     "serve": "cd dist && live-server --port=8090",
     "build": "ng build",
     "prebuild-prod": "ng -v",
-    "build-prod": "ng build --prod --aot --vc",
+    "build-prod":
+      "ng build --prod --aot --vc --base-href /spa --deploy-url /angular-deploy-path",
     "build-for-apache":
       "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
     "start-c9":
