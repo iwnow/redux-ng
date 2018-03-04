@@ -1,11 +1,16 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from '@vh/features/dashboard';
+import { AllComponent } from '@vh/features/bulma/components/all/all.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     component: DashboardComponent
+  },
+  {
+    path: 'bulma',
+    component: AllComponent
   }
   // , {
   //   path: 'counter',

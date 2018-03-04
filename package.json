@@ -10,20 +10,16 @@
     "serve": "cd dist && live-server --port=8090",
     "build": "ng build",
     "prebuild-prod": "ng -v",
-    "build-prod":
-      "ng build --prod --aot --vc --base-href /spa --deploy-url /angular-deploy-path",
-    "build-for-apache":
-      "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
-    "start-c9":
-      "NODE_ENV=production ng serve --host $IP --port $PORT --public $C9_HOSTNAME",
+    "build-prod": "ng build --prod --aot --vc --base-href /spa --deploy-url /angular-deploy-path",
+    "build-for-apache": "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
+    "start-c9": "NODE_ENV=production ng serve --host $IP --port $PORT --public $C9_HOSTNAME",
     "c9-apache-restart": "sudo /etc/init.d/apache2 restart",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-stat": "ng build --prod --aot --stats-json",
     "bundle-report": "webpack-bundle-analyzer dist/stats.json",
-    "analyze":
-      "ng build --prod --aot --stats-json && webpack-bundle-analyzer dist/stats.json"
+    "analyze": "ng build --prod --aot --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -42,7 +38,10 @@
     "@angular/platform-browser-dynamic": "5.2.6",
     "@angular/router": "5.2.6",
     "@angularclass/hmr": "^2.1.3",
+    "bulma": "^0.6.2",
+    "bulmaswatch": "^0.6.2",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "normalize.css": "^7.0.0",
     "redux": "^3.7.2",

@@ -9,6 +9,7 @@ import { FacadeModule } from '../facade';
 import { BootstrapComponent } from './bootstrap.component';
 import { CoreModule } from '../core';
 import { RoutingModule } from '../routing';
+import { BulmaModule } from '@vh/features/bulma/bulma.module';
 
 const VENDOR_MODULES = [
   BrowserModule,
@@ -18,7 +19,13 @@ const VENDOR_MODULES = [
 
 @NgModule({
   declarations: [BootstrapComponent],
-  imports: [...VENDOR_MODULES, RoutingModule, CoreModule, FacadeModule],
+  imports: [
+    ...VENDOR_MODULES,
+    RoutingModule,
+    CoreModule,
+    FacadeModule,
+    BulmaModule
+  ],
   bootstrap: [BootstrapComponent]
 })
 export class BootstrapModule {}
