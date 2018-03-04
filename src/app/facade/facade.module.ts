@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -26,7 +26,11 @@ import {
 } from './store';
 import { RouterModule } from '@angular/router';
 import { DashboardModule } from '../features/dashboard';
-import { StoreConfigureService } from '../core/store/services';
+import {
+  StoreConfigureService,
+  StoreLocalStorageService
+} from '@vh/core/store/services';
+import { MODULE_STORE_BASE_PATH } from '@vh/core/store';
 import { environment } from '../../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CurrentAppUserService } from './services/current-user.service';
@@ -66,15 +70,36 @@ import { CurrentAppUserService } from './services/current-user.service';
 export class FacadeModule {
   constructor(
     protected moduleReg: ModuleRegistrationCoreService,
-    protected def: FacadeModuleService,
-    protected storeRootConfiguration: StoreConfigureService
+    protected facadeModule: FacadeModuleService,
+    protected storeRootConfiguration: StoreConfigureService,
+    protected localStorage: StoreLocalStorageService,
+    @Inject(MODULE_STORE_BASE_PATH) protected dynamicStorePath: string
   ) {
-    storeRootConfiguration.configure({
+    this.configureStore();
+  }
+
+  configureStore() {
+    const facadeStoreKey = this.facadeModule.storeDefinition.storeKey;
+    const facadeInitialState = this.localStorage.getState(facadeStoreKey);
+    const rootStore = this.storeRootConfiguration.configure({
       devTools: !environment.production,
       epic: null,
-      initialState: {},
+      initialState: {
+        [this.dynamicStorePath]: {
+          [facadeStoreKey]: facadeInitialState
+        }
+      },
       reducers: {}
     });
-    moduleReg.registerModule(def);
+    rootStore
+      .select(
+        s =>
+          s[this.dynamicStorePath] && s[this.dynamicStorePath][facadeStoreKey]
+      )
+      .subscribe(facadestate =>
+        this.localStorage.saveState(facadestate, facadeStoreKey)
+      );
+
+    this.moduleReg.registerModule(this.facadeModule);
   }
 }

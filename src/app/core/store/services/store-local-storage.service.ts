@@ -1,40 +1,40 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LoggerService, ILog, LogType } from '../../diagnostics/logger';
 import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class StoreLocalStorageService {
   readonly stateKey = 'StoreLocalStorageService';
-  readonly saveState$: BehaviorSubject<any>;
+  readonly saveState$: Subject<any>;
 
   private readonly logger: ILog;
 
-  constructor(
-    private loggerSrv: LoggerService
-  ) {
+  constructor(private loggerSrv: LoggerService) {
     this.logger = this.loggerSrv.createLoggerForThis(this);
-    this.saveState$ = new BehaviorSubject(this.getState());
-    this.saveState$.pipe(debounceTime(1000))
-      .subscribe(state => this.save(state));
+    this.saveState$ = new Subject();
+    this.saveState$
+      .pipe(debounceTime(1000))
+      .subscribe(({ state, key }) => this.save(state, key));
   }
 
-  protected save(state) {
+  protected save(state, key) {
     try {
       const serializedState = JSON.stringify(state);
-      localStorage && localStorage.setItem(this.stateKey, serializedState);
+      localStorage &&
+        localStorage.setItem(`${this.stateKey}:${key}`, serializedState);
       this.logger.log(LogType.info, 'saveState');
     } catch (err) {
       this.logger.log(LogType.warning, err);
     }
   }
 
-  getState() {
+  getState(key) {
     try {
       this.logger.log(LogType.info, 'loadState');
-      const serializedState = localStorage && localStorage.getItem(this.stateKey);
-      if (!serializedState)
-        return undefined;
+      const serializedState =
+        localStorage && localStorage.getItem(`${this.stateKey}:${key}`);
+      if (!serializedState) return undefined;
       return JSON.parse(serializedState);
     } catch (err) {
       this.logger.log(LogType.warning, err);
@@ -42,8 +42,7 @@ export class StoreLocalStorageService {
     }
   }
 
-  saveState(state) {
-    this.saveState$.next(state);
+  saveState(state, key: string) {
+    this.saveState$.next({ state, key });
   }
-
 }
