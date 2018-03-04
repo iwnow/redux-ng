@@ -7,29 +7,14 @@ import {
   FacadeAuthenticationGuard
 } from '../facade';
 import { DashboardComponent } from '../features/dashboard';
+import childRoutes from './routes';
 
-const routes: Routes = [
+const rootRoutes: Routes = [
   {
     path: '',
     component: FacadeComponent,
     canActivate: [FacadeAuthenticationGuard],
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        component: DashboardComponent
-      }
-      // , {
-      //   path: 'counter',
-      //   loadChildren: 'app/features/counter/counter.module#CounterModule'
-      // }, {
-      //   path: 'lazy-epic',
-      //   loadChildren: 'app/features/lazy-epic/lazy-epic.module#LazyEpicModule'
-      // }, {
-      //   path: 'ngr-forms',
-      //   loadChildren: 'app/features/ngr-forms/ngr-forms.module#NgrFormsModule'
-      // }
-    ]
+    children: childRoutes
   },
   {
     path: 'login',
@@ -38,7 +23,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(rootRoutes)],
   exports: [RouterModule]
 })
 export class RoutingModule {}
