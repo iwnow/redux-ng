@@ -25,6 +25,6 @@ export class ExceptionHandlerCoreService implements ErrorHandler {
     });
 
     // eat exception bad practice
-    // throw error;'
+    // throw error;
   }
 }

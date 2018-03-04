@@ -7,14 +7,14 @@ import {
   FacadeAuthenticationGuard
 } from '../facade';
 import { DashboardComponent } from '../features/dashboard';
-import childRoutes from './routes';
+import { routes } from './routes';
 
 const rootRoutes: Routes = [
   {
     path: '',
     component: FacadeComponent,
     canActivate: [FacadeAuthenticationGuard],
-    children: childRoutes
+    children: routes
   },
   {
     path: 'login',
