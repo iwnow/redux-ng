@@ -6,7 +6,6 @@ import {
   LoginComponent,
   FacadeAuthenticationGuard
 } from '../facade';
-import { DashboardComponent } from '../features/dashboard';
 import { routes } from './routes';
 
 const rootRoutes: Routes = [

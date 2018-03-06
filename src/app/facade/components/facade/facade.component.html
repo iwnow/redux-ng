@@ -5,7 +5,8 @@
 
   <span fxFlex></span>
   {{appUserName$ | async}}
-  <mat-menu #rootMenu="matMenu">
+  <mat-menu #rootMenu="matMenu"
+            [overlapTrigger]="false">
     <button mat-menu-item
             disabled>
       <mat-icon>voicemail</mat-icon>
