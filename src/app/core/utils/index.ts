@@ -1,0 +1,1 @@
+export { getStringHashCode } from './hashCode';

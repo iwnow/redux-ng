@@ -1,88 +1,36 @@
 import { NgModule, SkipSelf, Optional, ErrorHandler } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './components/login/login.component';
-import { FacadeComponent } from './components/facade/facade.component';
-import { ReduxCoreModule } from './redux/redux.module';
-import { CoreRouteModule } from './core-route.module';
 
-import {
-  MatCardModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatCheckboxModule,
-  MatIconModule,
-  MatToolbarModule,
-  MatSidenavModule,
-  MatMenuModule,
-  MatSliderModule
-} from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
-import {
-  LoggerCoreService,
-  ILog,
-  LogType
-} from './services/logger-core.service';
-
-import * as tokens from './core.di-tokens';
-import { AppSettingsCoreService } from './services/app-settings-core.service';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ExceptionHandlerCoreService } from './services/exception-handler-core.service';
 import { ModuleRegistrationCoreService } from './services/module-registration-core.service';
-import { ModuleStoreCoreService } from './services/module-store-core.service';
+import {
+  LoggerService,
+  ILog,
+  LoggerModule,
+  LogType
+} from './diagnostics/logger';
+import { StoreModule } from './store';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreRouteModule,
-    ReduxCoreModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatMenuModule,
-    FlexLayoutModule,
-    MatSliderModule
-  ],
-  declarations: [LoginComponent, FacadeComponent, DashboardComponent],
-  exports: [
-    CoreRouteModule,
-    ReduxCoreModule,
-    MatSliderModule // hack angular material in lazy module for animation slider
-  ],
+  imports: [LoggerModule, StoreModule],
+  exports: [],
   providers: [
-    { provide: tokens.MODULE_NAME, useValue: 'CoreModule' },
-    { provide: tokens.REDUX_LAZY_BASE_PATH, useValue: 'lazy' },
-    { provide: tokens.MODULE_STORE_BASE_PATH, useValue: 'subStoreModules' },
     {
       provide: ErrorHandler,
       useClass: ExceptionHandlerCoreService
     },
-    IsAuthenticatedGuard,
-    LoggerCoreService,
-    AppSettingsCoreService,
     ExceptionHandlerCoreService,
-    ModuleRegistrationCoreService,
-    ModuleStoreCoreService
+    ModuleRegistrationCoreService
   ]
 })
 export class CoreModule {
   private logger: ILog;
 
   constructor(
-    // import CoreModule only one time in app module
+    // import CoreModule only ones in app
     @Optional()
     @SkipSelf()
     parentModule: CoreModule,
-    private loggerService: LoggerCoreService
+    private loggerService: LoggerService
   ) {
     this.logger = loggerService.createLogger(CoreModule.name);
     if (parentModule) {

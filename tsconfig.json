@@ -7,9 +7,14 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "baseUrl": "src",
     "target": "es5",
     "importHelpers": true,
+    // tsc 2.7 "esModuleInterop": true,
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"]
+    "lib": ["es2017", "dom"],
+    "paths": {
+      "@vh/*": ["app/*"]
+    }
   }
 }

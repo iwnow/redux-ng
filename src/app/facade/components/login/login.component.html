@@ -1,0 +1,46 @@
+<div class="login-container">
+
+  <mat-card layout-align="center center">
+    <mat-card-header>
+      <div mat-card-avatar
+           class="login-header-image"></div>
+      <mat-card-title>Первая Форма</mat-card-title>
+      <mat-card-subtitle>Вход</mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="loginForm"
+          (keyup.enter)="onLogin()"
+          novalidate>
+      <mat-form-field>
+        <input matInput
+               required
+               formControlName="email"
+               placeholder="Логин"
+               type="email">
+        <mat-error *ngIf="emailControl.invalid">Заполните логин!</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput
+               required
+               formControlName="password"
+               placeholder="Пароль"
+               type="password">
+        <mat-error *ngIf="passwordControl.invalid">Заполните пароль!</mat-error>
+      </mat-form-field>
+      <mat-checkbox formControlName="stay">Не выходить из системы</mat-checkbox>
+    </form>
+    <mat-card-content>
+
+    </mat-card-content>
+
+    <button mat-raised-button
+            (click)="onLogin()"
+            color="primary">
+      <mat-icon *ngIf="!(isRequesting$ | async)">home</mat-icon>
+      <i *ngIf="isRequesting$ | async"
+         class="fa fa-spinner fa-pulse"></i>
+      Войти
+    </button>
+    <mat-label>{{loginError | async}}</mat-label>
+  </mat-card>
+
+</div>

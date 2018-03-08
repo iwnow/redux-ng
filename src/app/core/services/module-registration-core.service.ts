@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ModuleDefinitionBase, ModuleStoreDefinitionBase } from '../base';
-import { ModuleStoreCoreService } from './module-store-core.service';
-import {
-  LoggerCoreService,
-  LogType,
-  ILog
-} from '../services/logger-core.service';
+import { ModuleDefinitionBase } from '../contracts';
+import { ModuleStoreService } from '../store/services';
+import { LoggerService, LogType, ILog } from '../diagnostics/logger';
+import { ModuleStoreDefinitionBase } from '@vh/core/store/contracts';
 
 /**регистрирует модули, реализующие контракт ModuleDefinitionBase  */
 @Injectable()
 export class ModuleRegistrationCoreService {
   protected moduleDefinitions: Map<Symbol, ModuleDefinitionBase> = new Map();
+  protected moduleStoreDefinitions: Map<
+    Symbol,
+    ModuleStoreDefinitionBase
+  > = new Map();
   protected logger: ILog;
 
-  constructor(
-    private moduleStore: ModuleStoreCoreService,
-    logger: LoggerCoreService
-  ) {
+  constructor(private moduleStore: ModuleStoreService, logger: LoggerService) {
     this.logger = logger.createLoggerForThis(this);
   }
 
@@ -38,15 +36,18 @@ export class ModuleRegistrationCoreService {
     this.moduleDefinitions.set(moduleDef.id, moduleDef);
 
     // registering module store by definition
-    this.moduleStore.registerModuleStore(moduleDef.storeDefinition);
+    const moduleStoreDef =
+      moduleDef.storeDefinitionFactory &&
+      moduleDef.storeDefinitionFactory.createModuleStoreDefinition();
+    if (moduleStoreDef) {
+      this.moduleStoreDefinitions.set(moduleDef.id, moduleStoreDef);
+      this.moduleStore.registerModuleStore(moduleStoreDef);
+    }
     return this;
   }
 
   getModuleStore<StoreType>(moduleDef: ModuleDefinitionBase) {
-    return (
-      moduleDef &&
-      moduleDef.storeDefinition &&
-      this.moduleStore.getModuleStore<StoreType>(moduleDef.storeDefinition)
-    );
+    const storeDef = moduleDef && this.moduleStoreDefinitions.get(moduleDef.id);
+    return storeDef && this.moduleStore.getModuleStore<StoreType>(storeDef);
   }
 }
