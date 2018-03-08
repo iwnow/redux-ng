@@ -1,11 +1,16 @@
-import { ModuleStoreDefinitionBase } from '../../core/store/contracts';
-import { AnyAction, combineReducers, ReducersMapObject } from 'redux';
-import { Epic, combineEpics } from 'redux-observable';
 import { Injectable } from '@angular/core';
-import { AppUserDuckService } from './app-user/app-user-duck.service';
-import { IFacadeState } from './model';
-import { mergeReducers } from '../../core/store/utils';
-import { LoginFormDuckService } from './login-form/login-form-duck.service';
+
+import {
+  ModuleStoreDefinitionBase,
+  AnyEpic,
+  AnyAction
+} from '@vh/core/store/contracts';
+import { mergeEpic, mergeReducers } from '@vh/core/store/utils';
+import {
+  IFacadeState,
+  AppUserDuckService,
+  LoginFormDuckService
+} from './store';
 
 @Injectable()
 export class FacadeModuleStoreDefinition extends ModuleStoreDefinitionBase {
@@ -13,8 +18,8 @@ export class FacadeModuleStoreDefinition extends ModuleStoreDefinitionBase {
     return 'facade';
   }
 
-  get epic(): Epic<AnyAction, any, any> {
-    return combineEpics(this.appUserDuck.epic, this.loginFormDuck.epic);
+  get epic(): AnyEpic {
+    return mergeEpic(this.appUserDuck.epic, this.loginFormDuck.epic);
   }
 
   get reducer(): (state: IFacadeState, action: AnyAction) => any {

@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ILoginFormState } from '../../store/model';
 import { Observable } from 'rxjs/Observable';
 import { LoginFormDuckService } from '../../store';
-import { FacadeModuleService } from '../../facade.service';
+import { FacadeStoreService } from '@vh/facade/services';
 
 @Component({
   selector: 'vh-login',
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginFormDuck: LoginFormDuckService,
-    private facade: FacadeModuleService,
+    private facade: FacadeStoreService,
     private cdr: ChangeDetectorRef,
     private zone: NgZone
   ) {}

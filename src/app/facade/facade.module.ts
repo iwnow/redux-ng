@@ -17,13 +17,8 @@ import {
 import { FacadeComponent } from './components/facade/facade.component';
 import { LoginComponent } from './components/login/login.component';
 import { FacadeAuthenticationGuard } from './guards/facade-authentication.guard';
-import { FacadeModuleService } from './facade.service';
 import { ModuleRegistrationCoreService } from '../core';
-import {
-  FacadeModuleStoreDefinition,
-  AppUserDuckService,
-  LoginFormDuckService
-} from './store';
+import { AppUserDuckService, LoginFormDuckService } from './store';
 import { RouterModule } from '@angular/router';
 import { DashboardModule } from '../features/dashboard';
 import {
@@ -34,6 +29,11 @@ import { MODULE_STORE_BASE_PATH } from '@vh/core/store';
 import { environment } from '../../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CurrentAppUserService } from './services/current-user.service';
+import { FacadeModuleDefinitionFactory } from './facade-module-definition-factory';
+import { FacadeModuleStoreDefinitionFactory } from './facade-module-store-definition-factory';
+import { FacadeModuleDefinition } from './facade-module-definition';
+import { FacadeModuleStoreDefinition } from './facade-module-store-definition';
+import { FacadeStoreService } from './services/facade-store.service';
 
 @NgModule({
   imports: [
@@ -59,18 +59,21 @@ import { CurrentAppUserService } from './services/current-user.service';
   declarations: [FacadeComponent, LoginComponent],
   exports: [FacadeComponent, LoginComponent],
   providers: [
-    FacadeAuthenticationGuard,
-    FacadeModuleService,
+    FacadeModuleDefinitionFactory,
+    FacadeModuleStoreDefinitionFactory,
+    FacadeModuleDefinition,
     FacadeModuleStoreDefinition,
+    FacadeAuthenticationGuard,
     AppUserDuckService,
     LoginFormDuckService,
-    CurrentAppUserService
+    CurrentAppUserService,
+    FacadeStoreService
   ]
 })
 export class FacadeModule {
   constructor(
     protected moduleReg: ModuleRegistrationCoreService,
-    protected facadeModule: FacadeModuleService,
+    protected facadeMdf: FacadeModuleDefinitionFactory,
     protected storeRootConfiguration: StoreConfigureService,
     protected localStorage: StoreLocalStorageService,
     @Inject(MODULE_STORE_BASE_PATH) protected dynamicStorePath: string
@@ -79,7 +82,9 @@ export class FacadeModule {
   }
 
   configureStore() {
-    const facadeStoreKey = this.facadeModule.storeDefinition.storeKey;
+    const facadeMd = this.facadeMdf.createModuleDefinition(),
+      facadeStoreMd = facadeMd.storeDefinitionFactory.createModuleStoreDefinition();
+    const facadeStoreKey = facadeStoreMd.storeKey;
     const facadeInitialState = this.localStorage.getState(facadeStoreKey);
     const rootStore = this.storeRootConfiguration.configure({
       devTools: !environment.production,
@@ -100,6 +105,6 @@ export class FacadeModule {
         this.localStorage.saveState(facadestate, facadeStoreKey)
       );
 
-    this.moduleReg.registerModule(this.facadeModule);
+    this.moduleReg.registerModule(facadeMd);
   }
 }

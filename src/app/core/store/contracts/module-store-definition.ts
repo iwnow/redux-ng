@@ -1,10 +1,10 @@
-import { Epic } from 'redux-observable';
 import { Reducer, AnyAction } from 'redux';
+import { AnyEpic } from '@vh/core/store/contracts';
 
 /**базовый класс для описания стора модуля */
 export abstract class ModuleStoreDefinitionBase {
   abstract get storeKey(): string;
-  abstract get epic(): Epic<AnyAction, any, any>;
+  abstract get epic(): AnyEpic;
   abstract get reducer(): Reducer<any>;
 
   createActionScope(scope: string) {

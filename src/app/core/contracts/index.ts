@@ -1,3 +1,2 @@
-import { ModuleDefinitionBase } from './module-definition';
-
-export { ModuleDefinitionBase };
+export { ModuleDefinitionBase } from './module-definition';
+export { ModuleDefinitionFactoryBase } from './module-definition-factory';

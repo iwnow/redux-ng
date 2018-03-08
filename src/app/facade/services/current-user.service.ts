@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FacadeModuleService } from '../facade.service';
+import { FacadeStoreService } from './facade-store.service';
 
 @Injectable()
 export class CurrentAppUserService {
-  constructor(protected facade: FacadeModuleService) {}
+  constructor(protected fss: FacadeStoreService) {}
 
   get isAuthenticated() {
-    return this.facade.store.select(s => !!(s && s.appUser));
+    return this.fss.store.select(s => !!(s && s.appUser));
   }
 }

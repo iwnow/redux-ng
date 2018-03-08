@@ -1,11 +1,9 @@
-import { FacadeModule } from './facade.module';
-import { FacadeComponent } from './components/facade/facade.component';
-import { LoginComponent } from './components/login/login.component'
-import { FacadeAuthenticationGuard } from './guards/facade-authentication.guard';
-
+export { FacadeModule } from './facade.module';
+export { FacadeComponent } from './components/facade/facade.component';
+export { LoginComponent } from './components/login/login.component';
 export {
-	FacadeModule,
-	FacadeComponent,
-	LoginComponent,
-	FacadeAuthenticationGuard
-}
+  FacadeAuthenticationGuard
+} from './guards/facade-authentication.guard';
+export {
+  FacadeModuleDefinitionFactory
+} from './facade-module-definition-factory';

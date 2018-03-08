@@ -1,7 +1,7 @@
 import { Epic } from 'redux-observable';
 import { Reducer, AnyAction } from 'redux';
 
-import { ModuleStoreDefinitionBase } from '../store/contracts';
+import { ModuleStoreDefinitionFactoryBase } from '../store/contracts';
 
 /** Контракт для регистрации модулей подсистем
  * содержит описание модуля, предоставляет информацию о конфигурации Store
@@ -14,7 +14,7 @@ export abstract class ModuleDefinitionBase {
   abstract get description(): string;
   abstract get version(): string;
 
-  abstract get storeDefinition(): ModuleStoreDefinitionBase;
-  abstract get store();
-  abstract get state();
+  abstract get storeDefinitionFactory(): ModuleStoreDefinitionFactoryBase;
+  // abstract get store();
+  // abstract get state();
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AppUserDuckService } from '../../store';
-import { FacadeModuleService } from '../../facade.service';
 import { Router } from '@angular/router';
+import { FacadeStoreService } from '@vh/facade/services';
 
 @Component({
   selector: 'vh-facade',
@@ -14,7 +14,7 @@ export class FacadeComponent implements OnInit {
 
   constructor(
     protected appUser: AppUserDuckService,
-    protected facade: FacadeModuleService,
+    protected facade: FacadeStoreService,
     protected router: Router
   ) {}
 
@@ -32,6 +32,5 @@ export class FacadeComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  setTheme(theme) {
-  }
+  setTheme(theme) {}
 }
