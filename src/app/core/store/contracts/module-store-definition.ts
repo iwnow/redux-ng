@@ -8,6 +8,12 @@ export abstract class ModuleStoreDefinitionBase {
   abstract get reducer(): Reducer<any>;
 
   createActionScope(scope: string) {
-    return (action: string) => `${this.storeKey}/${scope}/${action}`;
+    if (!this.storeKey) throw new Error(`'storeKey' is not defined!`);
+    if (!scope) throw new Error(`'scope' is not defined!`);
+
+    return (action: string) => {
+      if (!action) throw new Error(`'action' is not defined!`);
+      return `${this.storeKey}/${scope}/${action}`;
+    };
   }
 }
