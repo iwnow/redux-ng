@@ -17,6 +17,7 @@ export class ModuleStoreService {
   constructor(
     private rootStore: NgRedux<any>,
     @Inject(tok.MODULE_STORE_BASE_PATH) private storeBasePath: string,
+    @Inject(tok.MODULE_STORE_INIT_ACTION) private moduleStoreInitAction,
     private rootEpic: StoreEpicService
   ) {}
 
@@ -25,7 +26,9 @@ export class ModuleStoreService {
    */
   registerModuleStore(storeDef: ModuleStoreDefinitionBase) {
     if (!storeDef || !storeDef.storeKey)
-      throw new Error(`'storeKey' is not defined`);
+      throw new Error(
+        `Property 'storeKey' of ModuleStoreDefinition is not defined`
+      );
 
     if (this.moduleStoreDefs.has(storeDef.storeKey))
       throw new Error(`duplicate module store key '${storeDef.storeKey}'`);
@@ -35,6 +38,10 @@ export class ModuleStoreService {
 
     this.moduleStoreDefs.set(storeDef.storeKey, { storeDef, store });
 
+    // initalize event
+    store.dispatch({
+      type: this.moduleStoreInitAction
+    });
     return this;
   }
 

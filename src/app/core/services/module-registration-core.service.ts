@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ModuleDefinitionBase } from '../contracts';
+import {
+  ModuleDefinitionBase,
+  ModuleDefinitionFactoryBase
+} from '../contracts';
 import { ModuleStoreService } from '../store/services';
 import { LoggerService, LogType, ILog } from '../diagnostics/logger';
 import { ModuleStoreDefinitionBase } from '@vh/core/store/contracts';
@@ -14,6 +17,12 @@ export class ModuleRegistrationCoreService {
   > = new Map();
   protected logger: ILog;
 
+  get modules() {
+    return Array.from(this.moduleDefinitions.values()).map(
+      ({ name, description, version }) => ({ name, description, version })
+    );
+  }
+
   constructor(private moduleStore: ModuleStoreService, logger: LoggerService) {
     this.logger = logger.createLoggerForThis(this);
   }
@@ -21,17 +30,27 @@ export class ModuleRegistrationCoreService {
   /**регистрация модуля
    * вызывается один раз при загрузке модуля в приложение
    */
-  registerModule(moduleDef: ModuleDefinitionBase) {
+  registerModuleFactory(moduleDefFactory: ModuleDefinitionFactoryBase) {
+    if (!moduleDefFactory) {
+      this.logger.log(
+        LogType.warning,
+        'Передана пустая фабрика при регистрации модуля'
+      );
+      return this;
+    }
+    const moduleDef = moduleDefFactory.createModuleDefinition();
     if (!moduleDef || !moduleDef.id) {
       this.logger.log(
         LogType.warning,
-        new Error(`module is not registered, 'id' is not defined`)
+        new Error(
+          `Не корректное описание модуля (ModuleDefinitionBase), св-во 'id' должно быть задано`
+        )
       );
       return this;
     }
 
     if (this.moduleDefinitions.has(moduleDef.id))
-      throw new Error(`duplicate registering module '${moduleDef.name}'!`);
+      throw new Error(`Дублирование регистрации модуля '${moduleDef.name}'!`);
 
     this.moduleDefinitions.set(moduleDef.id, moduleDef);
 
@@ -44,10 +63,5 @@ export class ModuleRegistrationCoreService {
       this.moduleStore.registerModuleStore(moduleStoreDef);
     }
     return this;
-  }
-
-  getModuleStore<StoreType>(moduleDef: ModuleDefinitionBase) {
-    const storeDef = moduleDef && this.moduleStoreDefinitions.get(moduleDef.id);
-    return storeDef && this.moduleStore.getModuleStore<StoreType>(storeDef);
   }
 }

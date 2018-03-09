@@ -73,38 +73,8 @@ import { FacadeStoreService } from './services/facade-store.service';
 export class FacadeModule {
   constructor(
     protected moduleReg: ModuleRegistrationCoreService,
-    protected facadeMdf: FacadeModuleDefinitionFactory,
-    protected storeRootConfiguration: StoreConfigureService,
-    protected localStorage: StoreLocalStorageService,
-    @Inject(MODULE_STORE_BASE_PATH) protected dynamicStorePath: string
+    protected facadeMdf: FacadeModuleDefinitionFactory
   ) {
-    this.configureStore();
-  }
-
-  configureStore() {
-    const facadeMd = this.facadeMdf.createModuleDefinition(),
-      facadeStoreMd = facadeMd.storeDefinitionFactory.createModuleStoreDefinition();
-    const facadeStoreKey = facadeStoreMd.storeKey;
-    const facadeInitialState = this.localStorage.getState(facadeStoreKey);
-    const rootStore = this.storeRootConfiguration.configure({
-      devTools: !environment.production,
-      epic: null,
-      initialState: {
-        [this.dynamicStorePath]: {
-          [facadeStoreKey]: facadeInitialState
-        }
-      },
-      reducers: {}
-    });
-    rootStore
-      .select(
-        s =>
-          s[this.dynamicStorePath] && s[this.dynamicStorePath][facadeStoreKey]
-      )
-      .subscribe(facadestate =>
-        this.localStorage.saveState(facadestate, facadeStoreKey)
-      );
-
-    this.moduleReg.registerModule(facadeMd);
+    moduleReg.registerModuleFactory(facadeMdf);
   }
 }

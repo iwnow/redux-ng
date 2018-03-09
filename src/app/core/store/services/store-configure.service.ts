@@ -27,12 +27,12 @@ export class StoreConfigureService {
     protected store: NgRedux<any>,
     protected storeService: StoreService
   ) {
-    this.logger = loggerSrv.createLoggerForThis(this);
+    this.logger = loggerSrv.createLogger('StoreConfigureService');
   }
 
   /**configure application store,
    * must call only once in application root */
-  configure<StateType>(config: RootStoreConfig<StateType>) {
+  configure(config: RootStoreConfig) {
     try {
       if (!config) throw new Error('Config for root store not passed!');
       if (this.configured)
@@ -62,7 +62,7 @@ export class StoreConfigureService {
       const routerPath = config.routerStorePath
           ? config.routerStorePath
           : this.routerSoreRootPath,
-        rootReducer = combineReducers<StateType>({
+        rootReducer = combineReducers({
           ...config.reducers,
           [routerPath]: routerReducer,
           [this.moduleStoreBasePath]: (state = {}) => ({ ...state })
@@ -71,7 +71,11 @@ export class StoreConfigureService {
       // CONFIGURE STORE
       this.store.configureStore(
         rootReducer,
-        config.initialState,
+        {
+          ...config.initialState,
+          [routerPath]: '',
+          [this.moduleStoreBasePath]: {}
+        },
         middlewares,
         enchancers
       );

@@ -1,9 +1,13 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, Optional } from '@angular/core';
 
 export enum LogType {
   error = 'error',
   info = 'info',
   warning = 'warning'
+}
+
+export interface ILoggerServiceOptions {
+  name?: string;
 }
 
 @Injectable()
@@ -13,11 +17,29 @@ export class LoggerService {
     info: LogType.info,
     warning: LogType.warning
   });
+  protected options: ILoggerServiceOptions = {
+    name: ''
+  };
 
-  createLogger(moduleName: string): ILog {
+  setOptions(opts: ILoggerServiceOptions) {
+    if (opts)
+      this.options = {
+        ...this.options,
+        ...opts
+      };
+    return this;
+  }
+
+  createLogger(scope?: string): ILog {
+    const scopes = ['LoggerService'];
+    if (this.options.name) scopes.push(this.options.name);
+    if (scope) scopes.push(scope);
+
+    const prefix = scopes.map(s => `[${s}]`).join('');
+
     return {
       log: (type: string, data) => {
-        data = [`%c[LoggerService:${moduleName}]`, 'color:green;', data];
+        data = [`%c${prefix}`, 'color:green;', data];
         switch (type) {
           case this.loggerTypes.error:
             this.errorLog(...data);

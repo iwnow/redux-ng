@@ -11,12 +11,10 @@ import {
 } from './services';
 import { StoreService } from './services/store.service';
 import { ActionService } from './services/action.service';
+import environment from '@vh/core/env';
 
 @NgModule({
-  imports: [
-    NgReduxModule,
-    NgReduxRouterModule.forRoot()
-  ],
+  imports: [NgReduxModule, NgReduxRouterModule.forRoot()],
   declarations: [],
   providers: [
     ...TOKEN_PROVIDERS_DEFAULT,
@@ -29,13 +27,20 @@ import { ActionService } from './services/action.service';
   ]
 })
 export class StoreModule {
-
   constructor(
     // import StoreModule only once in application
-    @Optional() @SkipSelf() parentModule: StoreModule
+    @Optional()
+    @SkipSelf()
+    parentModule: StoreModule,
+    private storeConfiguration: StoreConfigureService
   ) {
-    if (parentModule)
-      throw new Error('duplicate import of StoreModule!');
+    if (parentModule) throw new Error('duplicate import of StoreModule!');
+    this.configureStore();
   }
 
+  configureStore() {
+    this.storeConfiguration.configure({
+      devTools: !environment.production
+    });
+  }
 }

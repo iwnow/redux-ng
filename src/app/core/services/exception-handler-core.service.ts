@@ -11,7 +11,7 @@ export class ExceptionHandlerCoreService implements ErrorHandler {
     private logsrv: LoggerService,
     private location: LocationStrategy
   ) {
-    this.logger = logsrv.createLoggerForThis(this);
+    this.logger = logsrv.createLogger('ExceptionHandlerCoreService');
   }
 
   handleError(error: any): void {

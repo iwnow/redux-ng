@@ -1,12 +1,13 @@
-import { AnyAction, ReducersMapObject, Middleware } from 'redux';
+import { AnyAction, Middleware } from 'redux';
 import { Epic } from 'redux-observable';
+import { ReducerMap } from './reducer-map';
 
-export interface RootStoreConfig<StateType> {
-	reducers: ReducersMapObject;
-	epic: Epic<AnyAction, any>;
-	initialState: StateType;
-	enchancers?: any[];
-	middlewares?: Middleware[];
-	devTools?: boolean;
-	routerStorePath?: string;
+export interface RootStoreConfig {
+  reducers?: ReducerMap<any>;
+  epic?: Epic<AnyAction, any>;
+  initialState?: any;
+  enchancers?: any[];
+  middlewares?: Middleware[];
+  devTools?: boolean;
+  routerStorePath?: string;
 }
