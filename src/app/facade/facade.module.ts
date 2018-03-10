@@ -73,16 +73,15 @@ import { FacadeStoreService } from './services/facade-store.service';
 })
 export class FacadeModule {
   constructor(
-    protected moduleReg: ModuleRegistrationCoreService,
-    protected facadeMdf: FacadeModuleDefinitionFactory,
-    storeSrv: ModuleStoreService,
+    moduleReg: ModuleRegistrationCoreService,
+    facadeMdf: FacadeModuleDefinitionFactory,
     facadeMsd: FacadeModuleStoreDefinition,
+    facadeMd: FacadeModuleDefinition,
     ls: StoreLocalStorageService
   ) {
-    const modDef = facadeMdf.createModuleDefinition(),
-      store = moduleReg
-        .registerModuleFactory(facadeMdf)
-        .getModuleStore(modDef.id);
+    const store = moduleReg
+      .registerModuleFactory(facadeMdf)
+      .getModuleStore(facadeMd.id);
 
     store.subscribe(() => {
       ls.saveState(store.getState(), facadeMsd.storeKey);
