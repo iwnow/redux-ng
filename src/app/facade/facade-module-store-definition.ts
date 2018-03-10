@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import {
   ModuleStoreDefinitionBase,
@@ -11,6 +11,9 @@ import {
   AppUserDuckService,
   LoginFormDuckService
 } from './store';
+import { MODULE_STORE_INIT_ACTION } from '@vh/core/store';
+import { StoreLocalStorageService } from '@vh/core/store/services';
+import { ignoreElements, tap } from 'rxjs/operators';
 
 @Injectable()
 export class FacadeModuleStoreDefinition extends ModuleStoreDefinitionBase {
@@ -23,16 +26,25 @@ export class FacadeModuleStoreDefinition extends ModuleStoreDefinitionBase {
   }
 
   get reducer(): (state: IFacadeState, action: AnyAction) => any {
-    return mergeReducers<IFacadeState>({
-      appUser: this.appUserDuck.reducer,
-      loginForm: this.loginFormDuck.reducer,
-      styleTheme: null
-    });
+    return (state, action) => {
+      switch (action.type) {
+        case this.moduleInitAction:
+          return this.localStorage.getState(this.storeKey);
+        default:
+          return mergeReducers<IFacadeState>({
+            appUser: this.appUserDuck.reducer,
+            loginForm: this.loginFormDuck.reducer,
+            styleTheme: null
+          })(state, action);
+      }
+    };
   }
 
   constructor(
     protected appUserDuck: AppUserDuckService,
-    protected loginFormDuck: LoginFormDuckService
+    protected loginFormDuck: LoginFormDuckService,
+    @Inject(MODULE_STORE_INIT_ACTION) protected moduleInitAction: string,
+    protected localStorage: StoreLocalStorageService
   ) {
     super();
     this.appUserDuck = this.appUserDuck.withActionScope(

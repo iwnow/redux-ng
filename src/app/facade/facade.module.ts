@@ -1,4 +1,4 @@
-import { NgModule, Inject } from '@angular/core';
+import { NgModule, Inject, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -23,7 +23,8 @@ import { RouterModule } from '@angular/router';
 import { DashboardModule } from '../features/dashboard';
 import {
   StoreConfigureService,
-  StoreLocalStorageService
+  StoreLocalStorageService,
+  ModuleStoreService
 } from '@vh/core/store/services';
 import { MODULE_STORE_BASE_PATH } from '@vh/core/store';
 import { environment } from '../../environments/environment';
@@ -73,8 +74,18 @@ import { FacadeStoreService } from './services/facade-store.service';
 export class FacadeModule {
   constructor(
     protected moduleReg: ModuleRegistrationCoreService,
-    protected facadeMdf: FacadeModuleDefinitionFactory
+    protected facadeMdf: FacadeModuleDefinitionFactory,
+    storeSrv: ModuleStoreService,
+    facadeMsd: FacadeModuleStoreDefinition,
+    ls: StoreLocalStorageService
   ) {
-    moduleReg.registerModuleFactory(facadeMdf);
+    const modDef = facadeMdf.createModuleDefinition(),
+      store = moduleReg
+        .registerModuleFactory(facadeMdf)
+        .getModuleStore(modDef.id);
+
+    store.subscribe(() => {
+      ls.saveState(store.getState(), facadeMsd.storeKey);
+    });
   }
 }

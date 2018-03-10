@@ -64,4 +64,12 @@ export class ModuleRegistrationCoreService {
     }
     return this;
   }
+
+  getModuleStore(moduleId: Symbol) {
+    return (
+      moduleId &&
+      this.moduleStoreDefinitions.get(moduleId) &&
+      this.moduleStore.getModuleStore(this.moduleStoreDefinitions.get(moduleId))
+    );
+  }
 }

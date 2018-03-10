@@ -1,4 +1,4 @@
 import { StoreModule } from './store.module';
-import { MODULE_STORE_BASE_PATH } from './di-tokens';
+import { MODULE_STORE_BASE_PATH, MODULE_STORE_INIT_ACTION } from './di-tokens';
 
-export { StoreModule, MODULE_STORE_BASE_PATH };
+export { StoreModule, MODULE_STORE_BASE_PATH, MODULE_STORE_INIT_ACTION };
