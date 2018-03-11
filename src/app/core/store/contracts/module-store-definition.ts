@@ -6,6 +6,7 @@ export abstract class ModuleStoreDefinitionBase {
   abstract get storeKey(): string;
   abstract get epic(): AnyEpic;
   abstract get reducer(): Reducer<any>;
+  abstract get initialState(): any;
 
   createActionScope(scope: string) {
     if (!this.storeKey) throw new Error(`'storeKey' is not defined!`);

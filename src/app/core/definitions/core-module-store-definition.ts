@@ -15,6 +15,10 @@ export class CoreModuleStoreDefinition extends ModuleStoreDefinitionBase {
     return null;
   }
 
+  get initialState() {
+    return null;
+  }
+
   constructor() {
     super();
   }

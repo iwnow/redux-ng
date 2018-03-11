@@ -64,7 +64,14 @@ export class ModuleStoreService {
 
     return this.rootStore.configureSubStore(
       [this.storeBasePath, storeDef.storeKey],
-      storeDef.reducer
+      (state, action) => {
+        switch (action.type) {
+          case this.moduleStoreInitAction:
+            return storeDef.initialState;
+          default:
+            return storeDef.reducer && storeDef.reducer(state, action);
+        }
+      }
     );
   }
 

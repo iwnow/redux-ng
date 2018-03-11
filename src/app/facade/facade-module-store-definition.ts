@@ -26,18 +26,15 @@ export class FacadeModuleStoreDefinition extends ModuleStoreDefinitionBase {
   }
 
   get reducer(): (state: IFacadeState, action: AnyAction) => any {
-    return (state, action) => {
-      switch (action.type) {
-        case this.moduleInitAction:
-          return this.localStorage.getState(this.storeKey);
-        default:
-          return mergeReducers<IFacadeState>({
-            appUser: this.appUserDuck.reducer,
-            loginForm: this.loginFormDuck.reducer,
-            styleTheme: null
-          })(state, action);
-      }
-    };
+    return mergeReducers<IFacadeState>({
+      appUser: this.appUserDuck.reducer,
+      loginForm: this.loginFormDuck.reducer,
+      styleTheme: null
+    });
+  }
+
+  get initialState() {
+    return this.localStorage.getState(this.storeKey);
   }
 
   constructor(
