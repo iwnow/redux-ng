@@ -1,7 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ViewChild,
+  TemplateRef,
+  ViewEncapsulation
+} from '@angular/core';
 import { AppUserDuckService } from '../../store';
 import { Router } from '@angular/router';
 import { FacadeStoreService } from '@vh/facade/services';
+import { InfoModalDialogService } from '@vh/core/modal/services';
+import { ModuleRegistrationCoreService } from '@vh/core';
 
 @Component({
   selector: 'vh-facade',
@@ -10,12 +19,20 @@ import { FacadeStoreService } from '@vh/facade/services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacadeComponent implements OnInit {
+  @ViewChild('infoTmpl') infoTmpl: TemplateRef<any>;
+
   appUserName$;
+
+  get modulesInfo() {
+    return this.moduleRegService.modules;
+  }
 
   constructor(
     protected appUser: AppUserDuckService,
     protected facade: FacadeStoreService,
-    protected router: Router
+    protected router: Router,
+    protected modalService: InfoModalDialogService,
+    protected moduleRegService: ModuleRegistrationCoreService
   ) {}
 
   ngOnInit() {
@@ -33,4 +50,10 @@ export class FacadeComponent implements OnInit {
   }
 
   setTheme(theme) {}
+
+  helpClick(helpBtn) {
+    this.modalService.open({
+      templateRef: this.infoTmpl
+    });
+  }
 }

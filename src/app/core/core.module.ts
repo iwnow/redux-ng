@@ -1,4 +1,5 @@
 import { NgModule, SkipSelf, Optional, ErrorHandler } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import {
   SERVICE_PROVIDERS,
@@ -11,9 +12,11 @@ import {
 } from './definitions';
 import { LoggerModule } from './diagnostics/logger';
 import { StoreModule } from './store';
+import { MatDialogModule } from '@angular/material';
+import { ModalDialogModule } from '@vh/core/modal';
 
 @NgModule({
-  imports: [LoggerModule, StoreModule],
+  imports: [LoggerModule, StoreModule, ModalDialogModule],
   exports: [],
   providers: [
     ...SERVICE_PROVIDERS,

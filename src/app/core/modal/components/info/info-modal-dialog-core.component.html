@@ -1,0 +1,11 @@
+<article class="message is-info">
+  <div class="message-header">
+    <p>{{dialogData.title || 'Информация'}}</p>
+    <button mat-dialog-close
+            class="delete"
+            type="button"></button>
+  </div>
+  <div class="message-body">
+    <ng-container *ngTemplateOutlet="dialogData.templateRef; context: dialogData.templateContext"></ng-container>
+  </div>
+</article>

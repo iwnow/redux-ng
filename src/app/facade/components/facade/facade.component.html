@@ -4,7 +4,7 @@
         (click)="companyLogoClick()">1F Demo </span>
 
   <span fxFlex></span>
-  {{appUserName$ | async}}
+
   <mat-menu #rootMenu="matMenu"
             [overlapTrigger]="false">
     <button mat-menu-item
@@ -43,9 +43,17 @@
       <span>Theme 3</span>
     </button>
   </mat-menu>
-  <button mat-icon-button
+  <button mat-button
+          type="button"
           [matMenuTriggerFor]="rootMenu">
-    <mat-icon>more_vert</mat-icon>
+    <mat-icon>account_box</mat-icon>
+    {{appUserName$ | async}}
+  </button>
+  <button #helpBtn
+          mat-icon-button
+          (click)="helpClick(helpBtn)"
+          type="button">
+    <mat-icon>help_outline</mat-icon>
   </button>
 </mat-toolbar>
 <mat-sidenav-container class="core-nav-container">
@@ -87,3 +95,23 @@
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<ng-template #infoTmpl>
+  <div class="title is-5">Текущий состав модулей системы</div>
+
+  <div *ngFor="let info of modulesInfo; last as last">
+    <div>
+      <strong>Модуль:&nbsp;</strong>
+      {{info.name}}
+    </div>
+    <div>
+      <strong>Версия:&nbsp;</strong>
+      {{info.version}}
+    </div>
+    <div>
+      <strong>Описание:&nbsp;</strong>
+      <em>{{info.description}}</em>
+    </div>
+    <mat-divider *ngIf="!last"></mat-divider>
+  </div>
+</ng-template>

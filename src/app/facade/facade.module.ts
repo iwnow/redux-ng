@@ -11,7 +11,8 @@ import {
   MatToolbarModule,
   MatSidenavModule,
   MatMenuModule,
-  MatSliderModule
+  MatSliderModule,
+  MatDividerModule
 } from '@angular/material';
 
 import { FacadeComponent } from './components/facade/facade.component';
@@ -55,7 +56,8 @@ import { FacadeStoreService } from './services/facade-store.service';
     MatToolbarModule,
     MatSidenavModule,
     MatMenuModule,
-    MatSliderModule
+    MatSliderModule,
+    MatDividerModule
   ],
   declarations: [FacadeComponent, LoginComponent],
   exports: [FacadeComponent, LoginComponent],

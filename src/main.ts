@@ -1,4 +1,4 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, ViewEncapsulation } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { BootstrapModule } from './app/bootstrap/bootstrap.module';
@@ -13,7 +13,9 @@ if (environment.production) {
 const bootstrap = () => {
   const bootStart = Date.now();
   return platformBrowserDynamic()
-    .bootstrapModule(BootstrapModule)
+    .bootstrapModule(BootstrapModule, {
+      defaultEncapsulation: ViewEncapsulation.None
+    })
     .then(appRef => {
       const bootSeconds = Number(((Date.now() - bootStart) / 1000).toFixed(3));
       console.log(`application booting in ${bootSeconds} seconds`);
