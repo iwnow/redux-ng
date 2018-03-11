@@ -97,21 +97,20 @@
 </mat-sidenav-container>
 
 <ng-template #infoTmpl>
-  <div class="title is-5">Текущий состав модулей системы</div>
-
-  <div *ngFor="let info of modulesInfo; last as last">
-    <div>
-      <strong>Модуль:&nbsp;</strong>
-      {{info.name}}
-    </div>
-    <div>
-      <strong>Версия:&nbsp;</strong>
-      {{info.version}}
-    </div>
-    <div>
-      <strong>Описание:&nbsp;</strong>
-      <em>{{info.description}}</em>
-    </div>
-    <mat-divider *ngIf="!last"></mat-divider>
-  </div>
+  <div>Версия клиента:&nbsp;{{version}}</div>
+  <div>Версии модулей:</div>
+  <ul>
+    <li *ngFor="let info of modulesInfo; last as last">
+      <div>
+        Модуль:&nbsp;{{info.name}}
+      </div>
+      <div>
+        Версия:&nbsp;{{info.version}}
+      </div>
+      <div>
+        Описание:&nbsp;
+        <em>{{info.description}}</em>
+      </div>
+    </li>
+  </ul>
 </ng-template>

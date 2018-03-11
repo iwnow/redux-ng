@@ -9,8 +9,9 @@ import {
 import { AppUserDuckService } from '../../store';
 import { Router } from '@angular/router';
 import { FacadeStoreService } from '@vh/facade/services';
-import { InfoModalDialogService } from '@vh/core/modal/services';
+import { BulmaModalDialogService, ModalType } from '@vh/core/modal';
 import { ModuleRegistrationCoreService } from '@vh/core';
+import env from '@vh/core/env';
 
 @Component({
   selector: 'vh-facade',
@@ -22,6 +23,7 @@ export class FacadeComponent implements OnInit {
   @ViewChild('infoTmpl') infoTmpl: TemplateRef<any>;
 
   appUserName$;
+  version = env.version;
 
   get modulesInfo() {
     return this.moduleRegService.modules;
@@ -31,7 +33,7 @@ export class FacadeComponent implements OnInit {
     protected appUser: AppUserDuckService,
     protected facade: FacadeStoreService,
     protected router: Router,
-    protected modalService: InfoModalDialogService,
+    protected modalService: BulmaModalDialogService,
     protected moduleRegService: ModuleRegistrationCoreService
   ) {}
 

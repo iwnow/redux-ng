@@ -14,7 +14,7 @@ const bootstrap = () => {
   const bootStart = Date.now();
   return platformBrowserDynamic()
     .bootstrapModule(BootstrapModule, {
-      defaultEncapsulation: ViewEncapsulation.None
+      // defaultEncapsulation: ViewEncapsulation.None
     })
     .then(appRef => {
       const bootSeconds = Number(((Date.now() - bootStart) / 1000).toFixed(3));
