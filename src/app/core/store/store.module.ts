@@ -12,6 +12,9 @@ import {
 import { StoreService } from './services/store.service';
 import { ActionService } from './services/action.service';
 import environment from '@vh/core/env';
+import { extendActionsObservable } from './contracts/any-epic';
+
+extendActionsObservable();
 
 @NgModule({
   imports: [NgReduxModule, NgReduxRouterModule.forRoot()],

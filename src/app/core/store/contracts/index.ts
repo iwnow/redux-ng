@@ -7,4 +7,4 @@ export { DuckServiceBase } from './duck-service';
 export {
   ModuleStoreDefinitionFactoryBase
 } from './module-store-definition-factory';
-export { AnyAction } from 'redux';
+export { AnyAction, Reducer } from 'redux';
