@@ -1,7 +1,7 @@
 import { enableProdMode, ViewEncapsulation } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { BootstrapModule } from './app/bootstrap/bootstrap.module';
+import { BootstrapModule } from '@vh/bootstrap/bootstrap.module';
 import { environment } from './environments/environment';
 
 import { hmrBootstrap } from './hmr';

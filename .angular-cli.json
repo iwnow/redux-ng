@@ -26,6 +26,11 @@
         "dev": "environments/environment.ts",
         "hmr": "environments/environment.hmr.ts",
         "prod": "environments/environment.prod.ts"
+      },
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "./", "./themes"
+        ]
       }
     }
   ],
