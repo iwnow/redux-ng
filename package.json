@@ -8,7 +8,7 @@
     "hmr": "ng serve --hmr -e=hmr",
     "preserve": "NODE_ENV=production yarn build-prod",
     "serve": "cd dist && live-server --port=8090",
-    "build": "ng build --sourcemaps",
+    "build": "ng build --aot --base-href /spa --deploy-url /angular-deploy-path",
     "prebuild-prod": "ng -v",
     "build-prod": "ng build --prod --sourcemaps --aot --vc --base-href /spa --deploy-url /angular-deploy-path",
     "build-for-apache": "NODE_ENV=production yarn build-prod && mv ./dist/ ../dist",
