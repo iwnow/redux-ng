@@ -9,12 +9,9 @@ import { ModuleStoreDefinitionBase } from '@vh/core/store/contracts';
 
 /**регистрирует модули, реализующие контракт ModuleDefinitionBase  */
 @Injectable()
-export class ModuleRegistrationCoreService {
+export class ModuleRegistrationService {
   protected moduleDefinitions: Map<Symbol, ModuleDefinitionBase> = new Map();
-  protected moduleStoreDefinitions: Map<
-    Symbol,
-    ModuleStoreDefinitionBase
-  > = new Map();
+  protected moduleStoreDefinitions: Map<Symbol, ModuleStoreDefinitionBase> = new Map();
   protected logger: ILog;
 
   get modules() {
@@ -24,7 +21,7 @@ export class ModuleRegistrationCoreService {
   }
 
   constructor(private moduleStore: ModuleStoreService, logger: LoggerService) {
-    this.logger = logger.createLoggerForThis(this);
+    this.logger = logger.createLogger('ModuleRegistrationService');
   }
 
   /**регистрация модуля

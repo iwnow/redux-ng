@@ -18,7 +18,7 @@ import {
 import { FacadeComponent } from './components/facade/facade.component';
 import { LoginComponent } from './components/login/login.component';
 import { FacadeAuthenticationGuard } from './guards/facade-authentication.guard';
-import { ModuleRegistrationCoreService } from '../core';
+import { ModuleRegistrationService } from '../core';
 import { AppUserDuckService, LoginFormDuckService } from './store';
 import { RouterModule } from '@angular/router';
 import { DashboardModule } from '../features/dashboard';
@@ -75,7 +75,7 @@ import { FacadeStoreService } from './services/facade-store.service';
 })
 export class FacadeModule {
   constructor(
-    moduleReg: ModuleRegistrationCoreService,
+    moduleReg: ModuleRegistrationService,
     facadeMdf: FacadeModuleDefinitionFactory,
     facadeMsd: FacadeModuleStoreDefinition,
     facadeMd: FacadeModuleDefinition,

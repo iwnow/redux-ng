@@ -10,7 +10,7 @@ import { AppUserDuckService } from '../../store';
 import { Router } from '@angular/router';
 import { FacadeStoreService } from '@vh/facade/services';
 import { BulmaModalDialogService, ModalType } from '@vh/core/modal';
-import { ModuleRegistrationCoreService } from '@vh/core';
+import { ModuleRegistrationService } from '@vh/core';
 import env from '@vh/core/env';
 
 @Component({
@@ -34,7 +34,7 @@ export class FacadeComponent implements OnInit {
     protected facade: FacadeStoreService,
     protected router: Router,
     protected modalService: BulmaModalDialogService,
-    protected moduleRegService: ModuleRegistrationCoreService
+    protected moduleRegService: ModuleRegistrationService
   ) {}
 
   ngOnInit() {

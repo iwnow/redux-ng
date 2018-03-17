@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import {
   SERVICE_PROVIDERS,
-  ExceptionHandlerCoreService,
-  ModuleRegistrationCoreService
+  ExceptionHandlerService,
+  ModuleRegistrationService
 } from './services';
 import {
   DEFINITION_PROVIDERS,
@@ -23,7 +23,7 @@ import { ModalDialogModule } from '@vh/core/modal';
     ...DEFINITION_PROVIDERS,
     {
       provide: ErrorHandler,
-      useClass: ExceptionHandlerCoreService
+      useClass: ExceptionHandlerService
     }
   ]
 })
@@ -34,7 +34,7 @@ export class CoreModule {
     @SkipSelf()
     parentModule: CoreModule,
     coreMdf: CoreModuleDefinitionFactory,
-    moduleReg: ModuleRegistrationCoreService
+    moduleReg: ModuleRegistrationService
   ) {
     if (parentModule) {
       throw new Error('duplicate import of CoreModule!');

@@ -1,13 +1,13 @@
-import { ExceptionHandlerCoreService } from './exception-handler-core.service';
-import { ModuleRegistrationCoreService } from './module-registration-core.service';
+import { ExceptionHandlerService } from './exception-handler.service';
+import { ModuleRegistrationService } from './module-registration.service';
 
 const SERVICE_PROVIDERS = [
-  ExceptionHandlerCoreService,
-  ModuleRegistrationCoreService
+  ExceptionHandlerService,
+  ModuleRegistrationService
 ];
 
 export {
   SERVICE_PROVIDERS,
-  ExceptionHandlerCoreService,
-  ModuleRegistrationCoreService
+  ExceptionHandlerService,
+  ModuleRegistrationService
 };

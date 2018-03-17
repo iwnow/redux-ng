@@ -4,14 +4,14 @@ import * as StackTrace from 'stacktrace-js';
 import { LocationStrategy } from '@angular/common';
 
 @Injectable()
-export class ExceptionHandlerCoreService implements ErrorHandler {
+export class ExceptionHandlerService implements ErrorHandler {
   protected logger: ILog;
 
   constructor(
     private logsrv: LoggerService,
     private location: LocationStrategy
   ) {
-    this.logger = logsrv.createLogger('ExceptionHandlerCoreService');
+    this.logger = logsrv.createLogger('ExceptionHandlerService');
   }
 
   handleError(error: any): void {
